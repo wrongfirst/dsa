@@ -3,10 +3,21 @@ import { basicSetup } from 'codemirror';
 import { EditorState, Compartment, Extension } from '@codemirror/state';
 import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { autocompletion, acceptCompletion } from '@codemirror/autocomplete';
+import { lintGutter, forEachDiagnostic } from '@codemirror/lint';
 import { vim } from '@replit/codemirror-vim';
 import { themeCompartment, getTheme } from '../ui/theme';
 import { showPopup } from '../ui/popup';
 import { store } from './store';
+
+export interface EditorDiagnostic {
+    message: string;
+    severity: 'error' | 'warning' | 'info' | 'hint';
+    from: number;
+    to: number;
+    line: number;
+    column: number;
+    source?: string;
+}
 
 let view: EditorView | null = null;
 let tabCount = 0;
@@ -23,10 +34,10 @@ let activeLanguageId: string | null = null;
 export const languageCompartment = new Compartment();
 export const vimCompartment = new Compartment();
 
-export function updateEditorLanguage(syntaxExtension?: Extension) {
+export function updateEditorLanguage(languageExtension?: Extension) {
     if (view) {
         view.dispatch({
-            effects: languageCompartment.reconfigure(syntaxExtension || [])
+            effects: languageCompartment.reconfigure(languageExtension || [])
         });
     }
 }
@@ -47,7 +58,7 @@ export function updateEditorTheme(isDark: boolean) {
     }
 }
 
-// Safely updates editor content without triggering auto-save
+//safely updates editor content without triggering auto-save
 function setDocText(code: string) {
     if (!view) return;
     if (autoSaveTimeout) {
@@ -73,6 +84,48 @@ export function setEditorCode(code: string) {
 
 export function getCode(): string {
     return view ? view.state.doc.toString() : "";
+}
+
+/**
+ * Returns all active diagnostics currently registered on the active CodeMirror editor state.
+ */
+export function getEditorDiagnostics(): EditorDiagnostic[] {
+    const editorView = view;
+    if (!editorView) return [];
+    const diagnostics: EditorDiagnostic[] = [];
+    try {
+        forEachDiagnostic(editorView.state, (diag, from, to) => {
+            const lineObj = editorView.state.doc.lineAt(from);
+            diagnostics.push({
+                message: diag.message,
+                severity: (diag.severity as any) || 'error',
+                from,
+                to,
+                line: lineObj.number,
+                column: from - lineObj.from + 1,
+                source: diag.source
+            });
+        });
+    } catch (err) {
+        console.warn('[Editor] Error reading diagnostics:', err);
+    }
+    return diagnostics;
+}
+
+/**
+ * Formats active editor diagnostics into a human-readable list for LLM context.
+ */
+export function getFormattedLintMessages(): string {
+    const diags = getEditorDiagnostics();
+    if (diags.length === 0) {
+        return '';
+    }
+    return diags
+        .map(d => {
+            const sourceStr = d.source ? ` (${d.source})` : '';
+            return `[${d.severity.toUpperCase()}] Line ${d.line}, Col ${d.column}: ${d.message}${sourceStr}`;
+        })
+        .join('\n');
 }
 
 // Immediately flushes pending edits to the store for the active exercise/language
@@ -106,7 +159,7 @@ export function loadExerciseCode(
     exerciseId: string,
     languageId: string,
     code: string,
-    syntaxExtension?: Extension,
+    languageExtension?: Extension,
     onSave?: () => void
 ) {
     onSaveCallback = onSave;
@@ -138,6 +191,7 @@ export function loadExerciseCode(
                 vimCompartment.of(isVim ? vim() : []),
                 basicSetup,
                 autocompletion(),
+                lintGutter(),
                 EditorView.updateListener.of((update) => {
                     if (update.docChanged && !isProgrammaticChange) {
                         scheduleAutoSave();
@@ -180,7 +234,7 @@ export function loadExerciseCode(
                         preventDefault: true
                     }
                 ]),
-                languageCompartment.of(syntaxExtension || []),
+                languageCompartment.of(languageExtension || []),
                 themeCompartment.of(getTheme(isDark)),
                 EditorView.lineWrapping,
                 EditorView.theme({
@@ -206,24 +260,9 @@ export function loadExerciseCode(
             parent: editorEl
         });
     } else {
-        updateEditorLanguage(syntaxExtension);
+        updateEditorLanguage(languageExtension);
         updateEditorVimMode(store.getState().vimMode);
         setDocText(code);
     }
-}
-
-// Backward-compatible alias for initEditor
-export function initEditor(
-    initialCode: string,
-    syntaxExtension?: Extension,
-    onSave?: () => void,
-    _forceCodeUpdate = true,
-    exerciseId?: string,
-    languageId?: string
-) {
-    const { currentExerciseId, currentLanguageId } = store.getState();
-    const exId = exerciseId || currentExerciseId;
-    const langId = languageId || currentLanguageId;
-    loadExerciseCode(exId, langId, initialCode, syntaxExtension, onSave);
 }
 

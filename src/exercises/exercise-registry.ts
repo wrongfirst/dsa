@@ -29,6 +29,11 @@ const validatorFiles = import.meta.glob<{ default?: (code: string, output: strin
   { eager: true }
 );
 
+const validatorRawFiles = import.meta.glob<string>(
+  './*/*/validator.ts',
+  { query: '?raw', import: 'default', eager: true }
+);
+
 function generateId(title: string): string {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 }
@@ -42,14 +47,12 @@ function formatTitle(folder: string): string {
 }
 
 const rawChapters: Array<{ title: string; id?: string; exercises?: string[] }> =
-  curriculumConfig?.chapters && typeof curriculumConfig.chapters === 'object' && !Array.isArray(curriculumConfig.chapters)
+  curriculumConfig?.chapters
     ? Object.entries(curriculumConfig.chapters).map(([title, exercises]) => ({
         title,
         exercises: Array.isArray(exercises) ? (exercises as string[]) : []
       }))
-    : Array.isArray(curriculumConfig)
-    ? curriculumConfig
-    : ((curriculumConfig as any)?.chapter || (curriculumConfig as any)?.chapters || []);
+    : [];
 
 export const curriculum: Chapter[] = rawChapters.map((ch, chapterIndex) => {
   const chapterId = ch.id || generateId(ch.title);
@@ -103,6 +106,9 @@ function attachDiscoveredVariants(chapterList: Chapter[]) {
     const validatorMod = validatorPathKey ? validatorFiles[validatorPathKey] : undefined;
     const validateFn = validatorMod?.validate || validatorMod?.default;
 
+    const validatorRawPathKey = Object.keys(validatorRawFiles).find(p => p === `./${folder}/${langId}/validator.ts`);
+    const validatorCode = validatorRawPathKey ? (validatorRawFiles[validatorRawPathKey] || '') : '';
+
     if (!discoveredMap[folder]) {
       discoveredMap[folder] = {};
     }
@@ -110,6 +116,7 @@ function attachDiscoveredVariants(chapterList: Chapter[]) {
       initialCode,
       testCode,
       ...(solutionCode ? { solutionCode } : {}),
+      ...(validatorCode ? { validatorCode } : {}),
       ...(validateFn ? { validate: validateFn } : {})
     };
   }

@@ -1,11 +1,13 @@
 // src/core/ai/client.ts
 import { store, ChatMessage } from '../store';
 import { buildSystemPrompt } from './context';
+import { decryptSecret } from '../crypto';
 
 export type StreamStatus = 'connecting' | 'thinking';
 
 export interface StreamOptions {
   userPrompt: string;
+  conversationId?: string;
   onChunk: (accumulatedContent: string) => void;
   onStatus?: (status: StreamStatus) => void;
   signal?: AbortSignal;
@@ -18,11 +20,11 @@ export interface StreamOptions {
  * Enforces maximum token ceilings and activity timeout to prevent token runaway and hangs.
  */
 export async function streamCompletion(options: StreamOptions): Promise<string> {
-  const { userPrompt, onChunk, onStatus, signal } = options;
+  const { userPrompt, conversationId, onChunk, onStatus, signal } = options;
   const timeoutMs = options.timeoutMs ?? 120000;
   const state = store.getState();
   const settings = state.chatSettings;
-  const { currentExerciseId, chatHistory } = state;
+  const { currentExerciseId } = state;
 
   if (!settings?.enabled) {
     throw new Error('Rubber Duck is currently disabled. Please enable it in Settings.');
@@ -40,8 +42,11 @@ export async function streamCompletion(options: StreamOptions): Promise<string> 
   const endpoint = resolveEndpoint(settings.baseUrl);
   const { systemPrompt } = buildSystemPrompt();
 
-  // Retrieve past messages for this exercise (excluding any system or empty messages)
-  const history = (chatHistory[currentExerciseId] || [])
+  // Retrieve past messages for the active conversation of this exercise
+  const convId = conversationId || state.activeConversationId[currentExerciseId];
+  const convs = state.chatConversations[currentExerciseId] || [];
+  const activeConv = convs.find(c => c.id === convId) || convs[0];
+  const history = (activeConv?.messages || [])
     .filter(m => m.role === 'user' || m.role === 'assistant')
     .map(m => ({ role: m.role, content: m.content }));
 
@@ -55,8 +60,11 @@ export async function streamCompletion(options: StreamOptions): Promise<string> 
     'Content-Type': 'application/json',
   };
 
-  if (settings.apiKey) {
-    headers['Authorization'] = `Bearer ${settings.apiKey.trim()}`;
+  const rawKey = settings.apiKey || '';
+  const resolvedKey = (await decryptSecret(rawKey)).trim();
+
+  if (resolvedKey) {
+    headers['Authorization'] = `Bearer ${resolvedKey}`;
   }
 
   if (settings.baseUrl.includes('anthropic.com')) {
