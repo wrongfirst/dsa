@@ -1,0 +1,7 @@
+m := Constructor()
+m.AddNum(1)
+Tests.EqualCheck("Median 1", 1.0, m.FindMedian())
+m.AddNum(2)
+Tests.EqualCheck("Median 2", 1.5, m.FindMedian())
+m.AddNum(3)
+Tests.EqualCheck("Median 3", 2.0, m.FindMedian())

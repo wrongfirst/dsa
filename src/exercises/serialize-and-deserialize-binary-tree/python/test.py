@@ -1,0 +1,5 @@
+codec = Codec()
+t1 = list_to_tree([1, 2, 3, None, None, 4, 5])
+Tests.equal_check("Example 1", tree_to_list(t1), tree_to_list(codec.deserialize(codec.serialize(t1))))
+t2 = list_to_tree([])
+Tests.equal_check("Example 2", [], tree_to_list(codec.deserialize(codec.serialize(t2))))

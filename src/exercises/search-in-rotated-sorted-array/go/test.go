@@ -1,0 +1,2 @@
+Tests.EqualCheck("Example 1", 4, search([]int{3, 4, 5, 6, 1, 2}, 1))
+Tests.EqualCheck("Example 2", -1, search([]int{3, 5, 6, 0, 1, 2}, 4))

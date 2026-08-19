@@ -1,0 +1,7 @@
+trie := Constructor()
+trie.Insert("apple")
+Tests.BoolCheck("search apple", trie.Search("apple") == true)
+Tests.BoolCheck("search app", trie.Search("app") == false)
+Tests.BoolCheck("startsWith app", trie.StartsWith("app") == true)
+trie.Insert("app")
+Tests.BoolCheck("search app 2", trie.Search("app") == true)

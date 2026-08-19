@@ -1,0 +1,7 @@
+m = MedianFinder()
+m.addNum(1)
+Tests.equal_check("Median 1", 1.0, m.findMedian())
+m.addNum(2)
+Tests.equal_check("Median 2", 1.5, m.findMedian())
+m.addNum(3)
+Tests.equal_check("Median 3", 2.0, m.findMedian())

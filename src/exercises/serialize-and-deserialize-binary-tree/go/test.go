@@ -1,0 +1,5 @@
+codec := Constructor()
+t1 := ListToTree([]*int{MakeInt(1), MakeInt(2), MakeInt(3), nil, nil, MakeInt(4), MakeInt(5)})
+Tests.EqualCheck("Example 1", TreeToList(t1), TreeToList(codec.deserialize(codec.serialize(t1))))
+t2 := ListToTree([]*int{})
+Tests.EqualCheck("Example 2", TreeToList(t2), TreeToList(codec.deserialize(codec.serialize(t2))))
