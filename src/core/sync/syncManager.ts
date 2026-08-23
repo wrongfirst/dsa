@@ -1,7 +1,10 @@
 // src/core/sync/syncManager.ts
-import { SITE_TITLE } from '../siteConfig';
-import { store, AppState, ChatConversation, ChatSettings } from '../store';
-import { createGist, fetchGist, updateGist, GistActionResult } from './gistClient';
+import { GITHUB_OAUTH_CLIENT_ID, GITHUB_OAUTH_WORKER_URL } from './oauthConfig';
+import { store, ensureSettingsDecrypted } from '../store';
+import { createGist, fetchGist, updateGist, exchangeOAuthCode, findSiteGist, GistActionResult } from './gistClient';
+import { buildGistFiles, parseAndMergeGistFiles, BACKUP_FILENAMES } from '../backup';
+import { SITE_SLUG, SITE_TITLE } from '../siteConfig';
+import { showPopup } from '../../ui/popup';
 
 export type SyncStatusType = 'idle' | 'syncing' | 'synced' | 'error' | 'offline';
 
@@ -19,6 +22,27 @@ let currentSyncState: SyncStateEvent = {
 const listeners = new Set<(event: SyncStateEvent) => void>();
 let autoPushTimeout: ReturnType<typeof setTimeout> | null = null;
 let isSyncInProgress = false;
+let lastFocusCheckAt = 0;
+const FOCUS_CHECK_COOLDOWN_MS = 15_000;
+let lastPushedPayloadString: string | null = null;
+
+/**
+ * Validates that remote Gist files belong to the current site instance and not a different template site.
+ */
+export function validateGistSiteMatch(files: Record<string, any>): { valid: boolean; error?: string } {
+  const expectedMeta = `_${SITE_SLUG}.json`;
+  const foreignMeta = Object.keys(files).find(
+    (fn) => fn.startsWith('_') && fn.endsWith('.json') && fn !== expectedMeta
+  );
+  if (foreignMeta) {
+    const foreignSlug = foreignMeta.slice(1, -5);
+    return {
+      valid: false,
+      error: `Gist belongs to a different site instance ('${foreignSlug}'). Current site is '${SITE_SLUG}'.`,
+    };
+  }
+  return { valid: true };
+}
 
 /**
  * Subscribes to reactive sync status updates.
@@ -52,110 +76,8 @@ function setSyncStatus(status: SyncStatusType, message?: string, lastSyncedAt?: 
 }
 
 /**
- * Builds a sanitized JSON backup payload suitable for Gist syncing.
- * Strictly strips LLM API keys and GitHub PATs.
- */
-export function buildSyncPayload(state: AppState): string {
-  const sanitizedChatSettings: ChatSettings = {
-    ...state.chatSettings,
-    apiKey: '', // Always stripped for cloud sync
-    endpoints: (state.chatSettings.endpoints || []).map((ep) => ({
-      ...ep,
-      apiKey: '',
-    })),
-  };
-
-  const payload = {
-    version: 1,
-    siteTitle: SITE_TITLE,
-    exportedAt: new Date().toISOString(),
-    updatedAt: Date.now(),
-    data: {
-      currentExerciseId: state.currentExerciseId,
-      currentLanguageId: state.currentLanguageId,
-      completedIds: state.completedIds,
-      userCode: state.userCode,
-      vimMode: state.vimMode,
-      chatSettings: sanitizedChatSettings,
-      chatConversations: state.chatConversations,
-      activeConversationId: state.activeConversationId,
-    },
-  };
-
-  return JSON.stringify(payload, null, 2);
-}
-
-/**
- * Parses and extracts data from a raw sync/backup payload.
- */
-export function parseSyncData(rawJson: string): { data: Partial<AppState>; siteTitle?: string; updatedAt?: number } | null {
-  try {
-    const parsed = JSON.parse(rawJson);
-    if (!parsed || typeof parsed !== 'object' || !parsed.data || typeof parsed.data !== 'object') {
-      return null;
-    }
-
-    return {
-      data: parsed.data,
-      siteTitle: parsed.siteTitle,
-      updatedAt: typeof parsed.updatedAt === 'number' ? parsed.updatedAt : undefined,
-    };
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Smartly merges remote Gist state with local state to prevent data loss.
- */
-export function mergeSyncState(local: AppState, remoteData: Partial<AppState>): Partial<AppState> {
-  // 1. Merge completed exercise IDs (union)
-  const localCompleted = Array.isArray(local.completedIds) ? local.completedIds : [];
-  const remoteCompleted = Array.isArray(remoteData.completedIds) ? remoteData.completedIds : [];
-  const mergedCompleted = Array.from(new Set([...localCompleted, ...remoteCompleted]));
-
-  // 2. Merge user code (keep local non-empty code, supplement missing keys from remote)
-  const mergedUserCode: Record<string, string> = {
-    ...(remoteData.userCode || {}),
-    ...(local.userCode || {}),
-  };
-
-  // 3. Merge chat conversations (combine conversations per exercise without duplicating)
-  const mergedConversations: Record<string, ChatConversation[]> = {
-    ...(remoteData.chatConversations || {}),
-  };
-
-  if (local.chatConversations) {
-    for (const [exId, convs] of Object.entries(local.chatConversations)) {
-      if (!mergedConversations[exId]) {
-        mergedConversations[exId] = convs;
-      } else {
-        const existingIds = new Set(mergedConversations[exId].map((c) => c.id));
-        const nonDuplicateLocal = convs.filter((c) => !existingIds.has(c.id));
-        mergedConversations[exId] = [...mergedConversations[exId], ...nonDuplicateLocal];
-      }
-    }
-  }
-
-  // 4. Merge active conversation pointers
-  const mergedActiveConv: Record<string, string> = {
-    ...(remoteData.activeConversationId || {}),
-    ...(local.activeConversationId || {}),
-  };
-
-  return {
-    completedIds: mergedCompleted,
-    userCode: mergedUserCode,
-    chatConversations: mergedConversations,
-    activeConversationId: mergedActiveConv,
-    vimMode: typeof remoteData.vimMode === 'boolean' ? remoteData.vimMode : local.vimMode,
-    currentExerciseId: local.currentExerciseId || remoteData.currentExerciseId,
-    currentLanguageId: local.currentLanguageId || remoteData.currentLanguageId,
-  };
-}
-
-/**
- * Pushes the current application state to the configured GitHub Gist.
+ * Pushes the current application state as multi-file backup to GitHub Gist.
+ * Includes CAS (Compare-And-Swap) conflict check: if remote was updated by another device, merges first.
  */
 export async function pushToGist(): Promise<GistActionResult> {
   if (typeof navigator !== 'undefined' && !navigator.onLine) {
@@ -163,9 +85,17 @@ export async function pushToGist(): Promise<GistActionResult> {
     return { success: false, error: 'Offline' };
   }
 
+  if (store.getState().gistSyncSettings?.token?.startsWith('enc:v1:')) {
+    await ensureSettingsDecrypted();
+  }
+
   const { gistSyncSettings } = store.getState();
   if (!gistSyncSettings?.enabled || !gistSyncSettings?.token || !gistSyncSettings?.gistId) {
     return { success: false, error: 'Gist sync is not configured or enabled.' };
+  }
+
+  if (gistSyncSettings.token.startsWith('enc:v1:')) {
+    return { success: false, error: 'GitHub credentials are not yet decrypted.' };
   }
 
   if (isSyncInProgress) {
@@ -176,10 +106,43 @@ export async function pushToGist(): Promise<GistActionResult> {
   setSyncStatus('syncing');
 
   try {
-    const payload = buildSyncPayload(store.getState());
-    const res = await updateGist(gistSyncSettings.gistId, gistSyncSettings.token, payload);
+    const pullRes = await pullAndMergeIfNeeded(
+      gistSyncSettings.gistId,
+      gistSyncSettings.token,
+      gistSyncSettings.lastSyncedAt
+    );
+    
+    if (pullRes.error) {
+      setSyncStatus('error', pullRes.error);
+      return { success: false, error: pullRes.error };
+    }
+
+    const newFiles = await buildGistFiles(store.getState());
+    
+    const currentPayloadString = JSON.stringify(newFiles);
+    if (!pullRes.merged && currentPayloadString === lastPushedPayloadString) {
+      const now = Date.now();
+      setSyncStatus('synced', 'Synced successfully.', now);
+      return { success: true };
+    }
+
+    const validFileSet = new Set(Object.values(BACKUP_FILENAMES));
+
+    const filesToUpdate: Record<string, string | null> = { ...newFiles };
+
+    // Mark any obsolete files currently on the Gist for permanent deletion
+    if (pullRes.files) {
+      for (const existingFilename of Object.keys(pullRes.files)) {
+        if (!validFileSet.has(existingFilename as any)) {
+          filesToUpdate[existingFilename] = null;
+        }
+      }
+    }
+
+    const res = await updateGist(gistSyncSettings.gistId, gistSyncSettings.token, filesToUpdate);
 
     if (res.success) {
+      lastPushedPayloadString = currentPayloadString;
       const now = Date.now();
       store.getState().setGistSyncSettings({ lastSyncedAt: now });
       setSyncStatus('synced', 'Synced successfully.', now);
@@ -198,12 +161,16 @@ export async function pushToGist(): Promise<GistActionResult> {
 }
 
 /**
- * Pulls backup data from the configured GitHub Gist and updates local state.
+ * Pulls multi-file backup data from GitHub Gist and updates local state.
  */
 export async function pullFromGist(options?: { smartMerge?: boolean }): Promise<GistActionResult> {
   if (typeof navigator !== 'undefined' && !navigator.onLine) {
     setSyncStatus('offline', 'Cannot sync while offline.');
     return { success: false, error: 'Offline' };
+  }
+
+  if (store.getState().gistSyncSettings?.token?.startsWith('enc:v1:')) {
+    await ensureSettingsDecrypted();
   }
 
   const { gistSyncSettings } = store.getState();
@@ -220,32 +187,29 @@ export async function pullFromGist(options?: { smartMerge?: boolean }): Promise<
 
   try {
     const res = await fetchGist(gistSyncSettings.gistId, gistSyncSettings.token);
-    if (!res.success || !res.content) {
+    if (!res.success || !res.files) {
       setSyncStatus('error', res.error || 'Failed to fetch Gist content.');
       return res;
     }
 
-    const parsed = parseSyncData(res.content);
-    if (!parsed || !parsed.data) {
-      const errorMsg = 'Gist content is not a valid Codebook backup format.';
-      setSyncStatus('error', errorMsg);
-      return { success: false, error: errorMsg };
-    }
-
-    const currentSite = SITE_TITLE;
-    if (parsed.siteTitle && parsed.siteTitle !== currentSite) {
-      console.warn(`[sync] Gist siteTitle "${parsed.siteTitle}" differs from current "${currentSite}".`);
+    // Pre-flight check: ensure remote Gist belongs to this site
+    const siteMatch = validateGistSiteMatch(res.files);
+    if (!siteMatch.valid) {
+      setSyncStatus('error', siteMatch.error);
+      return { success: false, error: siteMatch.error };
     }
 
     const smartMerge = options?.smartMerge !== false;
     const currentState = store.getState();
+    const parsed = parseAndMergeGistFiles(res.files, currentState, smartMerge);
 
-    if (smartMerge) {
-      const merged = mergeSyncState(currentState, parsed.data);
-      store.getState().restoreBackup(merged);
-    } else {
-      store.getState().restoreBackup(parsed.data);
+    if (!parsed || !parsed.data) {
+      const errorMsg = 'Gist content does not contain valid backup files.';
+      setSyncStatus('error', errorMsg);
+      return { success: false, error: errorMsg };
     }
+
+    store.setState(parsed.data);
 
     const now = Date.now();
     store.getState().setGistSyncSettings({ lastSyncedAt: now, enabled: true });
@@ -261,7 +225,7 @@ export async function pullFromGist(options?: { smartMerge?: boolean }): Promise<
 }
 
 /**
- * Creates a new secret Gist with current state and links it to settings.
+ * Creates a new secret Gist with multi-file state and links it to settings.
  */
 export async function createAndLinkGist(token: string): Promise<GistActionResult> {
   if (!token || !token.trim()) {
@@ -271,8 +235,8 @@ export async function createAndLinkGist(token: string): Promise<GistActionResult
   setSyncStatus('syncing');
 
   try {
-    const payload = buildSyncPayload(store.getState());
-    const res = await createGist(token, payload);
+    const files = await buildGistFiles(store.getState());
+    const res = await createGist(token, files);
 
     if (res.success && res.gistId) {
       const now = Date.now();
@@ -299,7 +263,7 @@ export async function createAndLinkGist(token: string): Promise<GistActionResult
 /**
  * Schedules a debounced auto-push if auto-sync is enabled.
  */
-export function scheduleAutoPush(delayMs = 3000): void {
+export function scheduleAutoPush(delayMs = 5000): void {
   const { gistSyncSettings } = store.getState();
   if (!gistSyncSettings?.enabled || !gistSyncSettings?.autoSync || !gistSyncSettings?.token || !gistSyncSettings?.gistId) {
     return;
@@ -330,15 +294,158 @@ export function triggerImmediatePush(): void {
 }
 
 /**
- * Checks for remote Gist updates on startup.
+ * Initiates the GitHub OAuth authorization flow by redirecting to GitHub.
  */
-export async function initStartupSync(): Promise<void> {
-  const { gistSyncSettings } = store.getState();
-  if (!gistSyncSettings?.enabled || !gistSyncSettings?.gistId) {
-    return;
+export function initiateOAuthLogin(): void {
+  if (typeof window === 'undefined') return;
+
+  const csrf = crypto.randomUUID();
+  sessionStorage.setItem('codebook_gh_oauth_state', csrf);
+
+  // Package CSRF token and return URL into state
+  const statePayload = btoa(
+    JSON.stringify({
+      csrf,
+      returnUrl: window.location.origin + window.location.pathname,
+    })
+  );
+
+  const authUrl = `https://github.com/login/oauth/authorize?client_id=${encodeURIComponent(
+    GITHUB_OAUTH_CLIENT_ID
+  )}&scope=gist&state=${encodeURIComponent(statePayload)}`;
+
+  window.location.href = authUrl;
+}
+
+/**
+ * Handles incoming GitHub OAuth redirect callback (?code=...&state=...) on application startup.
+ */
+export async function handleOAuthCallback(): Promise<boolean> {
+  if (typeof window === 'undefined' || !window.location.search) {
+    return false;
   }
 
-  // Network listener
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+  const rawState = urlParams.get('state');
+
+  if (!code) return false;
+
+  // Extract CSRF from state payload
+  let incomingCsrf = rawState;
+  if (rawState) {
+    try {
+      const parsed = JSON.parse(atob(rawState));
+      if (parsed.csrf) incomingCsrf = parsed.csrf;
+    } catch {}
+  }
+
+  // CSRF validation
+  const savedState = sessionStorage.getItem('codebook_gh_oauth_state');
+  sessionStorage.removeItem('codebook_gh_oauth_state');
+
+  if (savedState && incomingCsrf && incomingCsrf !== savedState) {
+    console.error('[sync] OAuth state mismatch (possible CSRF attack).');
+    setSyncStatus('error', 'OAuth security verification failed.');
+    return false;
+  }
+
+  // Remove OAuth query parameters from URL bar without reloading
+  urlParams.delete('code');
+  urlParams.delete('state');
+  const remainingQuery = urlParams.toString();
+  const cleanUrl =
+    window.location.pathname +
+    (remainingQuery ? `?${remainingQuery}` : '') +
+    window.location.hash;
+  window.history.replaceState({}, document.title, cleanUrl);
+
+  setSyncStatus('syncing', 'Signing in with GitHub...');
+  showPopup('Syncing from GitHub...');
+
+  try {
+    const exchangeRes = await exchangeOAuthCode(GITHUB_OAUTH_WORKER_URL, code);
+    if (!exchangeRes.success || !exchangeRes.token) {
+      setSyncStatus('error', exchangeRes.error || 'Failed to exchange authorization code.');
+      return false;
+    }
+
+    const token = exchangeRes.token;
+
+    setSyncStatus('syncing', 'Locating your Codebook backup...');
+    const discoveryRes = await findSiteGist(token);
+
+    if (discoveryRes.success && discoveryRes.gist?.gistId) {
+      // Existing backup found for this site instance
+      const now = Date.now();
+      store.getState().setGistSyncSettings({
+        enabled: true,
+        token,
+        gistId: discoveryRes.gist.gistId,
+        autoSync: true,
+        lastSyncedAt: now,
+      });
+
+      await pullFromGist({ smartMerge: true });
+      setSyncStatus('synced', 'Connected to GitHub and synced successfully!', now);
+      showPopup('Connected to GitHub!');
+      return true;
+    } else {
+      // No existing backup found; create a new one
+      const createRes = await createAndLinkGist(token);
+      if (createRes.success) {
+        setSyncStatus('synced', 'Created new Codebook backup on GitHub Gist.');
+        showPopup('Connected to GitHub!');
+        return true;
+      } else {
+        setSyncStatus('error', createRes.error || 'Failed to initialize Gist backup.');
+        return false;
+      }
+    }
+  } catch (err: any) {
+    const errorMsg = err?.message || 'Error during GitHub sign in.';
+    setSyncStatus('error', errorMsg);
+    return false;
+  }
+}
+
+/**
+ * Checks if remote Gist has newer changes when app regains focus or visibility.
+ * Throttled to at most once per FOCUS_CHECK_COOLDOWN_MS (15s) and uses conditional If-Modified-Since.
+ */
+export async function checkAndPullOnFocus(): Promise<void> {
+  if (typeof navigator !== 'undefined' && !navigator.onLine) return;
+
+  if (store.getState().gistSyncSettings?.token?.startsWith('enc:v1:')) {
+    await ensureSettingsDecrypted();
+  }
+
+  const { gistSyncSettings } = store.getState();
+  if (!gistSyncSettings?.enabled || !gistSyncSettings?.token || !gistSyncSettings?.gistId || gistSyncSettings.token.startsWith('enc:v1:')) return;
+
+  // Guard: Do not pull if a sync is already in progress or user is actively typing
+  if (isSyncInProgress || autoPushTimeout !== null) return;
+
+  const now = Date.now();
+  if (now - lastFocusCheckAt < FOCUS_CHECK_COOLDOWN_MS) return;
+  lastFocusCheckAt = now;
+
+  try {
+    await pullAndMergeIfNeeded(
+      gistSyncSettings.gistId,
+      gistSyncSettings.token,
+      gistSyncSettings.lastSyncedAt
+    );
+  } catch (err) {
+    console.warn('[sync] Focus check failed:', err);
+  }
+}
+
+/**
+ * Checks for OAuth callbacks and remote Gist updates on startup.
+ */
+export async function initStartupSync(): Promise<void> {
+  // Setup network and visibility status listeners
   if (typeof window !== 'undefined') {
     window.addEventListener('online', () => {
       setSyncStatus('idle');
@@ -347,12 +454,76 @@ export async function initStartupSync(): Promise<void> {
     window.addEventListener('offline', () => {
       setSyncStatus('offline', 'Offline');
     });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        checkAndPullOnFocus().catch(() => {});
+      }
+    });
   }
 
-  // Non-blocking background pull & merge
-  try {
-    await pullFromGist({ smartMerge: true });
-  } catch (err) {
-    console.warn('[sync] Startup sync failed:', err);
+  // Handle any OAuth redirect callback first
+  const handledAuth = await handleOAuthCallback();
+
+  if (store.getState().gistSyncSettings?.token?.startsWith('enc:v1:')) {
+    await ensureSettingsDecrypted();
   }
+
+  const { gistSyncSettings } = store.getState();
+  if (!gistSyncSettings?.enabled || !gistSyncSettings?.gistId) {
+    return;
+  }
+
+  // If we didn't just perform an OAuth pull, perform startup sync
+  if (!handledAuth) {
+    try {
+      if (gistSyncSettings.token && gistSyncSettings.lastSyncedAt) {
+        await pullAndMergeIfNeeded(
+          gistSyncSettings.gistId,
+          gistSyncSettings.token,
+          gistSyncSettings.lastSyncedAt
+        );
+      } else {
+        await pullFromGist({ smartMerge: true });
+      }
+    } catch (err) {
+      console.warn('[sync] Startup sync failed:', err);
+    }
+  }
+}
+
+/**
+ * Fetches remote state and merges into local if newer.
+ * Returns whether a merge occurred.
+ */
+export async function pullAndMergeIfNeeded(
+  gistId: string,
+  token: string,
+  lastSyncedAt?: number
+): Promise<{ merged: boolean; error?: string; files?: Record<string, any> }> {
+  const lastSyncedIso = lastSyncedAt
+    ? new Date(lastSyncedAt).toUTCString()
+    : undefined;
+
+  const res = await fetchGist(gistId, token, { ifModifiedSince: lastSyncedIso });
+
+  if (res.notModified) return { merged: false };
+  if (!res.success || !res.files) return { merged: false, error: res.error };
+
+  const siteMatch = validateGistSiteMatch(res.files);
+  if (!siteMatch.valid) return { merged: false, error: siteMatch.error };
+
+  const remoteUpdatedAt = res.updatedAt ? new Date(res.updatedAt).getTime() : 0;
+  if (remoteUpdatedAt > (lastSyncedAt || 0)) {
+    const currentState = store.getState();
+    const parsed = parseAndMergeGistFiles(res.files, currentState, true);
+    if (parsed && parsed.data) {
+      store.setState(parsed.data);
+      const syncNow = Date.now();
+      store.getState().setGistSyncSettings({ lastSyncedAt: syncNow });
+      setSyncStatus('synced', 'Synced with cloud.', syncNow);
+      return { merged: true, files: res.files };
+    }
+  }
+
+  return { merged: false, files: res.files };
 }

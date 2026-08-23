@@ -20,7 +20,7 @@ export const DEFAULT_QUICK_CHIPS: QuickStart[] = [
 ];
 
 export interface ActiveStreamSession {
-  exerciseId: string;
+  lessonSlug: string;
   conversationId: string;
   abortController: AbortController;
   status: StreamStatus;
@@ -76,7 +76,7 @@ export function initChatPanel() {
     isSyncingStore = true;
     try {
       const state = store.getState();
-      const currentExId = state.currentExerciseId;
+      const currentExId = state.activeLessonSlug;
       const currentLangId = state.currentLanguageId;
       const cs = state.chatSettings;
       const chatEnabled = !!cs?.enabled;
@@ -87,13 +87,7 @@ export function initChatPanel() {
         syncPanelVisibility();
       }
 
-      // Auto-switch conversation if language changed
-      if (lastRenderedLanguageId !== null && currentLangId !== lastRenderedLanguageId) {
-        lastRenderedLanguageId = currentLangId;
-        handleLanguageSwitch(currentExId, currentLangId);
-      } else {
-        lastRenderedLanguageId = currentLangId;
-      }
+      lastRenderedLanguageId = currentLangId;
 
       ensureActiveConversation();
 
@@ -148,44 +142,13 @@ export function initChatPanel() {
 
 function ensureActiveConversation() {
   const state = store.getState();
-  const currentExId = state.currentExerciseId;
+  const currentExId = state.activeLessonSlug;
   const convs = state.chatConversations[currentExId] || [];
 
   if (convs.length > 0) {
     const activeId = state.activeConversationId[currentExId];
     if (!activeId || !convs.some(c => c.id === activeId)) {
       store.getState().setActiveConversation(currentExId, convs[0].id);
-    }
-  }
-}
-
-/**
- * Automatically branches / routes to a new conversation when user switches languages
- */
-function handleLanguageSwitch(exerciseId: string, newLanguageId: string) {
-  const state = store.getState();
-  const convs = state.chatConversations[exerciseId] || [];
-  const activeConv = state.getActiveConversation(exerciseId);
-
-  if (!activeConv) return;
-
-  // If current conversation is completely empty, simply update its language tag
-  if (activeConv.messages.length === 0) {
-    if (activeConv.languageId !== newLanguageId) {
-      store.getState().updateConversationLanguage(exerciseId, activeConv.id, newLanguageId);
-    }
-    return;
-  }
-
-  // If current conversation belongs to a different language and has messages:
-  if (activeConv.languageId !== newLanguageId) {
-    // Check if there is already an existing conversation for this new language
-    const existingLangConv = convs.slice().reverse().find(c => c.languageId === newLanguageId);
-    if (existingLangConv) {
-      store.getState().setActiveConversation(exerciseId, existingLangConv.id);
-    } else {
-      // Create a new clean conversation tagged with the new language
-      store.getState().createConversation(exerciseId, newLanguageId, 'Chat');
     }
   }
 }
@@ -228,7 +191,7 @@ export function renderConversationTabs() {
   if (!container) return;
 
   const state = store.getState();
-  const currentExId = state.currentExerciseId;
+  const currentExId = state.activeLessonSlug;
   const convs: ChatConversation[] = state.chatConversations[currentExId] || [];
   lastRenderedConvs = convs;
   const activeId = state.activeConversationId[currentExId] || (convs[0]?.id ?? '');
@@ -322,7 +285,7 @@ export function renderQuickChips(chips: QuickStart[] = DEFAULT_QUICK_CHIPS) {
 }
 
 function handleQuickChipClick(chip: QuickStart) {
-  const currentExId = store.getState().currentExerciseId;
+  const currentExId = store.getState().activeLessonSlug;
   const currentLangId = store.getState().currentLanguageId;
   const activeConv = store.getState().getActiveConversation(currentExId);
   if (activeConv && activeStreams.has(activeConv.id)) return;
@@ -351,7 +314,7 @@ export function renderChatMessages() {
   const container = elements.chat.messages;
   if (!container) return;
 
-  const currentExId = store.getState().currentExerciseId;
+  const currentExId = store.getState().activeLessonSlug;
   const activeConv = store.getState().getActiveConversation(currentExId);
   const messages: ChatMessage[] = activeConv?.messages || [];
   lastRenderedExerciseId = currentExId;
@@ -369,7 +332,7 @@ export function renderChatMessages() {
 
     if (isUser) {
       return `
-        <div class="space-y-1">
+        <div class="space-y-1" data-message-id="${msg.id}">
           <div class="flex items-center gap-2 text-[10px] text-fg-muted">
             <span class="font-bold text-brand uppercase tracking-wider">You</span>
             <span>•</span>
@@ -380,10 +343,29 @@ export function renderChatMessages() {
           </div>
         </div>
       `;
+    } else if (msg.isError) {
+      return `
+        <div class="space-y-1" data-message-id="${msg.id}">
+          <div class="flex items-center gap-2 text-[10px] text-fg-muted">
+            <span class="font-bold text-fg-muted uppercase tracking-wider">Rubber Duck</span>
+            <span>•</span>
+            <span>${timeStr}</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 text-xs text-fg-muted leading-relaxed pl-2.5 border-l-2 border-border-default">
+            <span>${escapeHtml(msg.content).replace(/\n/g, '<br>')}</span>
+            <button type="button"
+              data-retry-error-id="${msg.id}"
+              class="chat-retry-btn shrink-0 inline-flex items-center gap-1 text-xs text-brand hover:underline transition-colors cursor-pointer">
+              ${ICONS.RETRY}
+              <span>Try again</span>
+            </button>
+          </div>
+        </div>
+      `;
     } else {
       const parsedHtml = parseChatMarkdown(msg.content);
       return `
-        <div class="space-y-1">
+        <div class="space-y-1" data-message-id="${msg.id}">
           <div class="flex items-center gap-2 text-[10px] text-fg-muted">
             <span class="font-bold text-fg-muted uppercase tracking-wider">Rubber Duck</span>
             <span>•</span>
@@ -486,14 +468,14 @@ function bindPanelEvents() {
   // New conversation tab button
   elements.chat.newTabBtn?.addEventListener('click', () => {
     const state = store.getState();
-    const currentExId = state.currentExerciseId;
+    const currentExId = state.activeLessonSlug;
     const currentLangId = state.currentLanguageId;
     store.getState().createConversation(currentExId, currentLangId, 'Chat');
   });
 
   // Clear chat messages button
   elements.chat.clearBtn?.addEventListener('click', () => {
-    const currentExId = store.getState().currentExerciseId;
+    const currentExId = store.getState().activeLessonSlug;
     const activeConv = store.getState().getActiveConversation(currentExId);
     if (activeConv) {
       abortCurrentGeneration(activeConv.id);
@@ -521,6 +503,17 @@ function bindPanelEvents() {
     }
   });
 
+  // Delegated retry handler for failed chat responses
+  elements.chat.messages?.addEventListener('click', (e) => {
+    const retryBtn = (e.target as HTMLElement).closest('.chat-retry-btn') as HTMLButtonElement | null;
+    if (!retryBtn) return;
+
+    const errorMsgId = retryBtn.getAttribute('data-retry-error-id');
+    if (!errorMsgId) return;
+
+    handleRetryFailedMessage(errorMsgId);
+  });
+
   // Chat input focus, resize & submit listeners
   const input = elements.chat.input;
   const sendBtn = elements.chat.sendBtn;
@@ -529,7 +522,7 @@ function bindPanelEvents() {
     input.addEventListener('input', handleInputResize);
 
     input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
+      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
         e.preventDefault();
         submitUserMessage();
       }
@@ -537,7 +530,7 @@ function bindPanelEvents() {
   }
 
   sendBtn?.addEventListener('click', () => {
-    const currentExId = store.getState().currentExerciseId;
+    const currentExId = store.getState().activeLessonSlug;
     const activeConv = store.getState().getActiveConversation(currentExId);
     if (activeConv && activeStreams.has(activeConv.id)) {
       abortCurrentGeneration(activeConv.id);
@@ -563,7 +556,7 @@ function updateSendButtonState() {
   const input = elements.chat.input;
   if (!sendBtn) return;
 
-  const currentExId = store.getState().currentExerciseId;
+  const currentExId = store.getState().activeLessonSlug;
   const activeConv = store.getState().getActiveConversation(currentExId);
   const isStreaming = activeConv ? activeStreams.has(activeConv.id) : false;
 
@@ -583,7 +576,7 @@ function updateSendButtonState() {
 }
 
 function abortCurrentGeneration(conversationId?: string) {
-  const currentExId = store.getState().currentExerciseId;
+  const currentExId = store.getState().activeLessonSlug;
   const targetConvId = conversationId || store.getState().getActiveConversation(currentExId)?.id;
   if (!targetConvId) return;
 
@@ -595,38 +588,85 @@ function abortCurrentGeneration(conversationId?: string) {
   }
 }
 
-async function submitUserMessage() {
+function handleRetryFailedMessage(errorMsgId: string) {
   const state = store.getState();
-  const currentExId = store.getState().currentExerciseId;
+  const currentExId = state.activeLessonSlug;
+  const activeConv = state.getActiveConversation(currentExId);
+  if (!activeConv) return;
+
+  const errorMsgIndex = activeConv.messages.findIndex(m => m.id === errorMsgId);
+  if (errorMsgIndex === -1) return;
+
+  const errorMsg = activeConv.messages[errorMsgIndex];
+
+  // Find associated user prompt to restore
+  let promptToRestore = errorMsg.failedPrompt || '';
+  const messageIdsToRemove = [errorMsg.id];
+
+  if (errorMsg.userMsgId) {
+    messageIdsToRemove.push(errorMsg.userMsgId);
+    if (!promptToRestore) {
+      const matchingUserMsg = activeConv.messages.find(m => m.id === errorMsg.userMsgId);
+      if (matchingUserMsg) {
+        promptToRestore = matchingUserMsg.content;
+      }
+    }
+  } else {
+    // If userMsgId wasn't set, find the preceding user message
+    for (let i = errorMsgIndex - 1; i >= 0; i--) {
+      if (activeConv.messages[i].role === 'user') {
+        messageIdsToRemove.push(activeConv.messages[i].id);
+        if (!promptToRestore) {
+          promptToRestore = activeConv.messages[i].content;
+        }
+        break;
+      }
+    }
+  }
+
+  // Roll back the messages from store
+  store.getState().removeChatMessages(currentExId, messageIdsToRemove, activeConv.id);
+
+  // Restore prompt to chat input textarea & focus
+  if (elements.chat.input) {
+    elements.chat.input.value = promptToRestore;
+    handleInputResize();
+    elements.chat.input.focus();
+    const len = promptToRestore.length;
+    elements.chat.input.setSelectionRange(len, len);
+  }
+
+  updateSendButtonState();
+  renderChatMessages();
+  scrollToBottom(true);
+}
+
+async function submitUserMessage() {
+  const input = elements.chat.input;
+  if (!input) return;
+
+  const content = input.value.trim();
+  if (!content) return;
+
+  const state = store.getState();
+  const currentExId = state.activeLessonSlug;
   const currentLangId = state.currentLanguageId;
 
   ensureActiveConversation();
-  let activeConv = store.getState().getActiveConversation(currentExId);
-  if (!activeConv) return;
+  let activeConv = state.getActiveConversation(currentExId);
 
-  // Language auto-switch check before sending:
-  // If active conversation has messages and belongs to a different language, automatically branch to new language
-  if (activeConv.messages.length > 0 && activeConv.languageId !== currentLangId) {
-    const convs = store.getState().chatConversations[currentExId] || [];
-    const existingLangConv = convs.slice().reverse().find(c => c.languageId === currentLangId);
-    if (existingLangConv) {
-      store.getState().setActiveConversation(currentExId, existingLangConv.id);
-      activeConv = existingLangConv;
-    } else {
-      const newConvId = store.getState().createConversation(currentExId, currentLangId, 'Chat');
-      activeConv = store.getState().getActiveConversation(currentExId) || {
-        id: newConvId,
-        exerciseId: currentExId,
-        languageId: currentLangId,
-        title: 'Chat',
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-        messages: [],
-      };
-    }
-  } else if (activeConv.messages.length === 0 && activeConv.languageId !== currentLangId) {
-    store.getState().updateConversationLanguage(currentExId, activeConv.id, currentLangId);
-    activeConv.languageId = currentLangId;
+  // If no conversation exists yet for this exercise, create one lazily
+  if (!activeConv) {
+    const newConvId = store.getState().createConversation(currentExId, currentLangId, 'Chat');
+    activeConv = store.getState().getActiveConversation(currentExId) || {
+      id: newConvId,
+      lessonSlug: currentExId,
+      languageId: currentLangId,
+      title: 'Chat',
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      messages: [],
+    };
   }
 
   const convId = activeConv.id;
@@ -635,12 +675,6 @@ async function submitUserMessage() {
     abortCurrentGeneration(convId);
     return;
   }
-
-  const input = elements.chat.input;
-  if (!input) return;
-
-  const content = input.value.trim();
-  if (!content) return;
 
   // Flush any pending auto-save from the active editor so store is 100% up to date
   flushAutoSave();
@@ -664,7 +698,7 @@ async function submitUserMessage() {
   // Create stream session for this conversation
   const abortController = new AbortController();
   const session: ActiveStreamSession = {
-    exerciseId: currentExId,
+    lessonSlug: currentExId,
     conversationId: convId,
     abortController,
     status: 'connecting',
@@ -681,7 +715,7 @@ async function submitUserMessage() {
     conversationId: convId,
     onStatus: (status: StreamStatus) => {
       session.status = status;
-      const currentActiveConv = store.getState().getActiveConversation(store.getState().currentExerciseId);
+      const currentActiveConv = store.getState().getActiveConversation(store.getState().activeLessonSlug);
       if (currentActiveConv?.id === convId) {
         updateStreamingStatus(status === 'connecting' ? 'Connecting...' : 'Thinking...');
       }
@@ -695,7 +729,7 @@ async function submitUserMessage() {
           store.getState().updateConversationTitle(currentExId, convId, title);
         }
       }
-      const currentActiveConv = store.getState().getActiveConversation(store.getState().currentExerciseId);
+      const currentActiveConv = store.getState().getActiveConversation(store.getState().activeLessonSlug);
       if (currentActiveConv?.id === convId) {
         appendStreamingToken(text);
       }
@@ -736,15 +770,18 @@ async function submitUserMessage() {
         const errorMsg: ChatMessage = {
           id: `err-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
           role: 'assistant',
-          content: `⚠️ **Unable to get response**\n\n${err?.message || 'Unknown network error. Please check your API settings.'}`,
+          content: err?.message || 'Failed to get response. Please check your API settings.',
           timestamp: Date.now(),
+          isError: true,
+          failedPrompt: content,
+          userMsgId: userMsg.id,
         };
         store.getState().addChatMessage(currentExId, errorMsg, convId);
       }
     })
     .finally(() => {
       activeStreams.delete(convId);
-      const currentActiveConv = store.getState().getActiveConversation(store.getState().currentExerciseId);
+      const currentActiveConv = store.getState().getActiveConversation(store.getState().activeLessonSlug);
       if (currentActiveConv?.id === convId) {
         updateSendButtonState();
         renderChatMessages();
