@@ -1,3 +1,2 @@
-class Solution:
-    def isAnagram(self, s: str, t: str) -> bool:
-        pass
+def isAnagram(s: str, t: str) -> bool:
+    pass

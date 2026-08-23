@@ -4,6 +4,5 @@
 #         self.val = val
 #         self.next = next
 
-class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
-        pass
+def hasCycle(head: Optional[ListNode]) -> bool:
+    pass

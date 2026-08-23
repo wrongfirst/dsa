@@ -1,3 +1,2 @@
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        pass
+def maxProduct(nums: List[int]) -> int:
+    pass

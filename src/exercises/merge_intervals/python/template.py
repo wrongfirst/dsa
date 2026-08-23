@@ -1,3 +1,2 @@
-class Solution:
-    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        pass
+def merge(intervals: List[List[int]]) -> List[List[int]]:
+    pass

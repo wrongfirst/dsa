@@ -1,3 +1,2 @@
-class Solution:
-    def maxArea(self, heights: List[int]) -> int:
-        pass
+def maxArea(heights: List[int]) -> int:
+    pass

@@ -1,3 +1,2 @@
-class Solution:
-    def foreignDictionary(self, words: List[str]) -> str:
-        pass
+def foreignDictionary(words: List[str]) -> str:
+    pass

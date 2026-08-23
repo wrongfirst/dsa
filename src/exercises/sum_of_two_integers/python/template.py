@@ -1,3 +1,2 @@
-class Solution:
-    def getSum(self, a: int, b: int) -> int:
-        pass
+def getSum(a: int, b: int) -> int:
+    pass

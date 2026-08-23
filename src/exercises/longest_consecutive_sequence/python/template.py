@@ -1,3 +1,2 @@
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
-        pass
+def longestConsecutive(nums: List[int]) -> int:
+    pass

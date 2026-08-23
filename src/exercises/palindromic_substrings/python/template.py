@@ -1,3 +1,2 @@
-class Solution:
-    def countSubstrings(self, s: str) -> int:
-        pass
+def countSubstrings(s: str) -> int:
+    pass

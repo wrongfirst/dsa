@@ -1,3 +1,2 @@
-class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        pass
+def threeSum(nums: List[int]) -> List[List[int]]:
+    pass

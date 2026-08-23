@@ -1,5 +1,4 @@
-s = Solution()
 g1 = [["0", "1", "1", "1", "0"], ["0", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]
-Tests.equal_check("Example 1", 1, s.numIslands(g1))
+Tests.equal_check("Example 1", 1, numIslands(g1))
 g2 = [["1", "1", "0", "0", "1"], ["1", "1", "0", "0", "1"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]
-Tests.equal_check("Example 2", 4, s.numIslands(g2))
+Tests.equal_check("Example 2", 4, numIslands(g2))

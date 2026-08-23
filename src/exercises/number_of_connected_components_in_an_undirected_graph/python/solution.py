@@ -13,9 +13,8 @@ class UnionFind:
 
         self.f[self.findParent(x)] = self.findParent(y)
 
-class Solution:
-    def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        dsu = UnionFind()
-        for a, b in edges:
-            dsu.union(a, b)
-        return len(set(dsu.findParent(x) for x in range(n)))
+def countComponents(n: int, edges: List[List[int]]) -> int:
+    dsu = UnionFind()
+    for a, b in edges:
+        dsu.union(a, b)
+    return len(set(dsu.findParent(x) for x in range(n)))

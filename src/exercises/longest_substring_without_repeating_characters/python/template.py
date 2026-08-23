@@ -1,3 +1,2 @@
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        pass
+def lengthOfLongestSubstring(s: str) -> int:
+    pass

@@ -1,3 +1,2 @@
-class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        pass
+def productExceptSelf(nums: List[int]) -> List[int]:
+    pass

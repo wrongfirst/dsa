@@ -1,3 +1,2 @@
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        pass
+def lengthOfLIS(nums: List[int]) -> int:
+    pass

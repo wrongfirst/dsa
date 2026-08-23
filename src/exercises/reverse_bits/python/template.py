@@ -1,3 +1,2 @@
-class Solution:
-    def reverseBits(self, n: int) -> int:
-        pass
+def reverseBits(n: int) -> int:
+    pass

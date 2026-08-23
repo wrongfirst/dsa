@@ -1,3 +1,2 @@
-class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        pass
+def groupAnagrams(strs: List[str]) -> List[List[str]]:
+    pass

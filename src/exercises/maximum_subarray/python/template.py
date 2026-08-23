@@ -1,3 +1,2 @@
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        pass
+def maxSubArray(nums: List[int]) -> int:
+    pass

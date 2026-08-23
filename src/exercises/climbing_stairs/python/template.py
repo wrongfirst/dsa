@@ -1,3 +1,2 @@
-class Solution:
-    def climbStairs(self, n: int) -> int:
-        pass
+def climbStairs(n: int) -> int:
+    pass

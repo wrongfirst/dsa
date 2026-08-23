@@ -1,3 +1,2 @@
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        pass
+def maxProfit(prices: List[int]) -> int:
+    pass

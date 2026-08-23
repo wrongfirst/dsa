@@ -1,3 +1,2 @@
-class Solution:
-    def rotate(self, matrix: List[List[int]]) -> None:
-        pass
+def rotate(matrix: List[List[int]]) -> None:
+    pass

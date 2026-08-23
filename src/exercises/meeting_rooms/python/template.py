@@ -6,6 +6,5 @@ class Interval(object):
         self.end = end
 """
 
-class Solution:
-    def canAttendMeetings(self, intervals: List[Interval]) -> bool:
-        pass
+def canAttendMeetings(intervals: List[Interval]) -> bool:
+    pass

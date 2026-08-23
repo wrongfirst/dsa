@@ -6,6 +6,5 @@ class Interval(object):
         self.end = end
 """
 
-class Solution:
-    def minMeetingRooms(self, intervals: List[Interval]) -> int:
-        pass
+def minMeetingRooms(intervals: List[Interval]) -> int:
+    pass

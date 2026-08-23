@@ -5,6 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-class Solution:
-    def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        pass
+def isValidBST(root: Optional[TreeNode]) -> bool:
+    pass

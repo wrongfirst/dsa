@@ -1,3 +1,2 @@
-class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        pass
+def topKFrequent(nums: List[int], k: int) -> List[int]:
+    pass

@@ -5,6 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-class Solution:
-    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        pass
+def isSubtree(root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+    pass

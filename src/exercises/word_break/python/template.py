@@ -1,3 +1,2 @@
-class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        pass
+def wordBreak(s: str, wordDict: List[str]) -> bool:
+    pass

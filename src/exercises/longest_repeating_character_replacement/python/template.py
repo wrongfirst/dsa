@@ -1,3 +1,2 @@
-class Solution:
-    def characterReplacement(self, s: str, k: int) -> int:
-        pass
+def characterReplacement(s: str, k: int) -> int:
+    pass

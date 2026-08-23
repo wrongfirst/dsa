@@ -1,3 +1,2 @@
-class Solution:
-    def longestPalindrome(self, s: str) -> str:
-        pass
+def longestPalindrome(s: str) -> str:
+    pass

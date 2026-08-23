@@ -6,17 +6,16 @@
 #         self.right = right
 
 # RECURSIVE DFS
-class Solution:
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
+def maxDepth(root: Optional[TreeNode]) -> int:
+    if not root:
+        return 0
 
-        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+    return 1 + max(maxDepth(root.left), maxDepth(root.right))
 
 
 # ITERATIVE DFS
 # class Solution:
-#     def maxDepth(self, root: Optional[TreeNode]) -> int:
+#     def maxDepth(root: Optional[TreeNode]) -> int:
 #         stack = [[root, 1]]
 #         res = 0
 
@@ -32,7 +31,7 @@ class Solution:
 
 # BFS
 # class Solution:
-#     def maxDepth(self, root: Optional[TreeNode]) -> int:
+#     def maxDepth(root: Optional[TreeNode]) -> int:
 #         q = deque()
 #         if root:
 #             q.append(root)

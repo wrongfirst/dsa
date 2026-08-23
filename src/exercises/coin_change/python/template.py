@@ -1,3 +1,2 @@
-class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
-        pass
+def coinChange(coins: List[int], amount: int) -> int:
+    pass

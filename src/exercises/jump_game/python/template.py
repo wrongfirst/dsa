@@ -1,3 +1,2 @@
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        pass
+def canJump(nums: List[int]) -> bool:
+    pass

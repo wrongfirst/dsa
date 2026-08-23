@@ -1,3 +1,2 @@
-class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        pass
+def isPalindrome(s: str) -> bool:
+    pass

@@ -1,3 +1,2 @@
-class Solution:
-    def missingNumber(self, nums: List[int]) -> int:
-        pass
+def missingNumber(nums: List[int]) -> int:
+    pass

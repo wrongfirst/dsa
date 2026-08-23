@@ -1,3 +1,2 @@
-class Solution:
-    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        pass
+def eraseOverlapIntervals(intervals: List[List[int]]) -> int:
+    pass

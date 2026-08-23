@@ -1,3 +1,2 @@
-class Solution:
-    def isValid(self, s: str) -> bool:
-        pass
+def isValid(s: str) -> bool:
+    pass

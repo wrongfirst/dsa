@@ -1,3 +1,2 @@
-class Solution:
-    def findMin(self, nums: List[int]) -> int:
-        pass
+def findMin(nums: List[int]) -> int:
+    pass

@@ -1,3 +1,2 @@
-class Solution:
-    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        pass
+def spiralOrder(matrix: List[List[int]]) -> List[int]:
+    pass

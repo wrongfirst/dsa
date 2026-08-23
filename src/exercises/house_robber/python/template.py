@@ -1,3 +1,2 @@
-class Solution:
-    def rob(self, nums: List[int]) -> int:
-        pass
+def rob(nums: List[int]) -> int:
+    pass

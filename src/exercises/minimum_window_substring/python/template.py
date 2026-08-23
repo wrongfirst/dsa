@@ -1,3 +1,2 @@
-class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        pass
+def minWindow(s: str, t: str) -> str:
+    pass

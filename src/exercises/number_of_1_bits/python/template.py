@@ -1,3 +1,2 @@
-class Solution:
-    def hammingWeight(self, n: int) -> int:
-        pass
+def hammingWeight(n: int) -> int:
+    pass
