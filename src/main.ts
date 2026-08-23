@@ -1,7 +1,7 @@
 import './input.css';
-import { store, decryptStoredSettings } from './core/store';
+import { store, ensureSettingsDecrypted } from './core/store';
 import { initStartupSync } from './core/sync/syncManager';
-import { exercises, curriculum } from './exercises/exercise-registry';
+import { exercises, curriculum, getExerciseDisplayNumber } from './exercises/exercise-registry';
 import { getExerciseVariant } from './core/types';
 import { loadExerciseCode, setEditorCode, updateEditorTheme } from './core/editor';
 import { parseMarkdown, highlightStaticBlocks, escapeHtml } from './core/markdown';
@@ -12,6 +12,7 @@ import { runner } from './core/runner';
 
 //ui
 import { ICONS } from './ui/icons';
+import { status } from './ui/status';
 import { showPopup } from './ui/popup';
 import { initBranding } from './ui/branding';
 import { renderSidebar, initSidebarToggle } from './ui/sidebar';
@@ -70,45 +71,51 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 let lastRenderedExerciseId: string | null = null;
 let lastRenderedLanguageId: string | null = null;
 let lastRenderedCompletedIds: string[] = [];
+let lastRenderedUserCode: string | null = null;
 
 function render() {
-    const { currentExerciseId, currentLanguageId, completedIds } = store.getState();
+    const { activeLessonSlug, currentLanguageId, completedSlugs } = store.getState();
 
     const prevExerciseId = lastRenderedExerciseId;
     const prevLanguageId = lastRenderedLanguageId;
+    const prevUserCode = lastRenderedUserCode;
 
-    const isInitial = prevExerciseId === null || prevLanguageId === null;
-    const isExerciseChanged = prevExerciseId !== null && currentExerciseId !== prevExerciseId;
-    const isLanguageChanged = prevLanguageId !== null && currentLanguageId !== prevLanguageId;
-    const isCompletedChanged = completedIds.length !== lastRenderedCompletedIds.length ||
-        completedIds.some((id, idx) => id !== lastRenderedCompletedIds[idx]);
-
-    //render only on key changes and not when say chat responses are streaming in
-    if (!isInitial && !isExerciseChanged && !isLanguageChanged && !isCompletedChanged) {
-        return;
-    }
-
-    lastRenderedExerciseId = currentExerciseId;
-    lastRenderedLanguageId = currentLanguageId;
-    lastRenderedCompletedIds = [...completedIds];
-
-    const currentEx = exercises.find(e => e.id === currentExerciseId);
-
+    const currentEx = exercises.find(e => e.id === activeLessonSlug);
     if (!currentEx) return;
 
     const exerciseVariant = getExerciseVariant(currentEx, currentLanguageId);
+    const currentUserCode = store.getState().getUserCode(activeLessonSlug, currentLanguageId) || exerciseVariant.initialCode;
+
+    const isInitial = prevExerciseId === null || prevLanguageId === null;
+    const isExerciseChanged = prevExerciseId !== null && activeLessonSlug !== prevExerciseId;
+    const isLanguageChanged = prevLanguageId !== null && currentLanguageId !== prevLanguageId;
+    const isCompletedChanged = completedSlugs.length !== lastRenderedCompletedIds.length ||
+        completedSlugs.some((id, idx) => id !== lastRenderedCompletedIds[idx]);
+    const isUserCodeChanged = prevUserCode !== null && currentUserCode !== prevUserCode;
+
+    //render only on key changes and not when say chat responses are streaming in
+    if (!isInitial && !isExerciseChanged && !isLanguageChanged && !isCompletedChanged && !isUserCodeChanged) {
+        return;
+    }
+
+    lastRenderedExerciseId = activeLessonSlug;
+    lastRenderedLanguageId = currentLanguageId;
+    lastRenderedCompletedIds = [...completedSlugs];
+    lastRenderedUserCode = currentUserCode;
 
     // If exercise or language changed (or initial load), update problem statement, language selector and editor
     if (isInitial || isExerciseChanged || isLanguageChanged) {
         //render description
         const descHtml = parseMarkdown(currentEx.description);
-        const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${escapeHtml(currentEx.id)} ${escapeHtml(currentEx.title)}</h1>`;
+        const displayNum = getExerciseDisplayNumber(currentEx.id);
+        const headerTitle = displayNum ? `${displayNum} ${currentEx.title}` : currentEx.title;
+        const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${escapeHtml(headerTitle)}</h1>`;
         const fullContent = titleHtml + descHtml;
 
         if (elements.description.desktop) elements.description.desktop.innerHTML = fullContent;
 
         //update nav
-        if (navActions) navActions.updateNavState(currentExerciseId);
+        if (navActions) navActions.updateNavState(activeLessonSlug);
 
         //highlight static blocks
         highlightStaticBlocks();
@@ -118,20 +125,23 @@ function render() {
         const languageExtension = getLanguageExtension(currentLanguageId);
 
         //initialize editor with user code (loadExerciseCode automatically saves prior context)
-        const editorText = store.getState().getUserCode(currentExerciseId, currentLanguageId) || exerciseVariant.initialCode;
-        loadExerciseCode(currentExerciseId, currentLanguageId, editorText, languageExtension, () => {
+        loadExerciseCode(activeLessonSlug, currentLanguageId, currentUserCode, languageExtension, () => {
             showPopup('Saved!');
         });
 
-        //reset console on exercise or language switch
+        //reset console and status on exercise or language switch
         if (isExerciseChanged || isLanguageChanged) {
             elements.console.textContent = "// Ready...";
+            status.setReady();
         }
+    } else if (isUserCodeChanged) {
+        // In-place update of editor code when store changes externally (e.g. backup restore or Gist pull)
+        setEditorCode(currentUserCode);
     }
 
     //sidebar & progress (updates on exercise switch or completion changes)
-    renderSidebar(elements.sidebar.list, curriculum, currentExerciseId, completedIds);
-    renderProgressBar(elements.progressContainer, curriculum, currentExerciseId, completedIds);
+    renderSidebar(elements.sidebar.list, curriculum, activeLessonSlug, completedSlugs);
+    renderProgressBar(elements.progressContainer, curriculum, activeLessonSlug, completedSlugs);
 }
 
 
@@ -144,12 +154,12 @@ elements.runBtn.addEventListener('click', () => runner.run());
 //reset button
 if (elements.resetBtn) {
     resetEditorText(elements.resetBtn, ICONS.TRASH, () => {
-        const { currentExerciseId, currentLanguageId } = store.getState();
-        const currentEx = exercises.find(e => e.id === currentExerciseId);
+        const { activeLessonSlug, currentLanguageId } = store.getState();
+        const currentEx = exercises.find(e => e.id === activeLessonSlug);
         if (!currentEx) return;
         const exerciseVariant = getExerciseVariant(currentEx, currentLanguageId);
         setEditorCode(exerciseVariant.initialCode);
-        store.getState().saveUserCode(currentExerciseId, currentLanguageId, exerciseVariant.initialCode);
+        store.getState().saveUserCode(activeLessonSlug, currentLanguageId, exerciseVariant.initialCode);
         showPopup('Reset to starter code');
     });
 }
@@ -193,7 +203,7 @@ runner.init();
 
 //setup initial state
 const hashId = window.location.hash.slice(1);
-const storedExerciseId = store.getState().currentExerciseId;
+const storedExerciseId = store.getState().activeLessonSlug;
 
 if (hashId && exercises.some(e => e.id === hashId)) {
     store.getState().setCurrent(hashId);
@@ -208,7 +218,7 @@ if (hashId && exercises.some(e => e.id === hashId)) {
 render();
 
 //kick off background credential decryption and startup sync (non-blocking)
-decryptStoredSettings(store)
+ensureSettingsDecrypted(store)
     .then(() => initStartupSync())
     .catch((err) => {
         console.warn('[main] Startup decryption or sync check failed:', err);
@@ -217,21 +227,29 @@ decryptStoredSettings(store)
 //immediately boot the active language runner
 const activeLangId = store.getState().currentLanguageId;
 if (activeLangId) {
-    loadLanguageRunner(activeLangId).catch((err) => {
-        console.error(`[main] Failed to load active language runner '${activeLangId}':`, err);
-    });
-}
+    loadLanguageRunner(activeLangId)
+        .then(async (activeRunnerInstance) => {
+            // Stage 1: Wait until the active runner is 100% ready before pre-warming other languages
+            if (activeRunnerInstance.whenReady) {
+                await activeRunnerInstance.whenReady();
+            } else {
+                await activeRunnerInstance.isReady();
+            }
 
-//pre-warm remaining enabled languages in browser idle time
-const scheduleBackgroundPrewarm = () => {
-    const currentLang = store.getState().currentLanguageId;
-    prewarmBackgroundLanguages(currentLang).catch(() => { });
-};
+            // Stage 2: Pre-warm remaining enabled languages sequentially in browser idle time
+            const scheduleBackgroundPrewarm = () => {
+                const currentLang = store.getState().currentLanguageId;
+                prewarmBackgroundLanguages(currentLang).catch(() => { });
+            };
 
-if ('requestIdleCallback' in window) {
-    (window as any).requestIdleCallback(scheduleBackgroundPrewarm, { timeout: 4000 });
-} else {
-    //for broswers that dont support requestIdleCallback
-    setTimeout(scheduleBackgroundPrewarm, 1200);
+            if ('requestIdleCallback' in window) {
+                (window as any).requestIdleCallback(scheduleBackgroundPrewarm, { timeout: 8000 });
+            } else {
+                setTimeout(scheduleBackgroundPrewarm, 2000);
+            }
+        })
+        .catch((err) => {
+            console.error(`[main] Failed to load active language runner '${activeLangId}':`, err);
+        });
 }
 

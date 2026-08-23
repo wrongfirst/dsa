@@ -24,7 +24,7 @@ export async function streamCompletion(options: StreamOptions): Promise<string> 
   const timeoutMs = options.timeoutMs ?? 120000;
   const state = store.getState();
   const settings = state.chatSettings;
-  const { currentExerciseId } = state;
+  const { activeLessonSlug } = state;
 
   if (!settings?.enabled) {
     throw new Error('Rubber Duck is currently disabled. Please enable it in Settings.');
@@ -43,17 +43,21 @@ export async function streamCompletion(options: StreamOptions): Promise<string> 
   const { systemPrompt } = buildSystemPrompt();
 
   // Retrieve past messages for the active conversation of this exercise
-  const convId = conversationId || state.activeConversationId[currentExerciseId];
-  const convs = state.chatConversations[currentExerciseId] || [];
+  const convId = conversationId || state.activeConversationId[activeLessonSlug];
+  const convs = state.chatConversations[activeLessonSlug] || [];
   const activeConv = convs.find(c => c.id === convId) || convs[0];
   const history = (activeConv?.messages || [])
     .filter(m => m.role === 'user' || m.role === 'assistant')
     .map(m => ({ role: m.role, content: m.content }));
 
+  // Check if the current user prompt is already recorded in history
+  const lastMsg = history[history.length - 1];
+  const isAlreadyInHistory = lastMsg && lastMsg.role === 'user' && lastMsg.content === userPrompt;
+
   const messages = [
     { role: 'system', content: systemPrompt },
     ...history,
-    { role: 'user', content: userPrompt },
+    ...(isAlreadyInHistory ? [] : [{ role: 'user', content: userPrompt }]),
   ];
 
   const headers: Record<string, string> = {
