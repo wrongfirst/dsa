@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"reflect"
+	"sort"
 )
 
 type ListNode struct {
@@ -23,10 +24,9 @@ type Node struct {
 }
 
 type Interval struct {
-	start int
-	end   int
+	Start int
+	End   int
 }
-
 
 func MakeInt(v int) *int {
 	return &v
@@ -58,6 +58,30 @@ func LinkedListToList(head *ListNode) []int {
 		curr = curr.Next
 	}
 	return res
+}
+
+func MakeCycle(arr []int, pos int) *ListNode {
+	head := ListToLinkedList(arr)
+	if pos == -1 || head == nil {
+		return head
+	}
+	tail := head
+	var target *ListNode
+	idx := 0
+	for tail != nil {
+		if idx == pos {
+			target = tail
+		}
+		if tail.Next == nil {
+			break
+		}
+		tail = tail.Next
+		idx++
+	}
+	if tail != nil && target != nil {
+		tail.Next = target
+	}
+	return head
 }
 
 func IntsToTree(vals ...int) *TreeNode {
@@ -98,9 +122,6 @@ func TreeToInts(root *TreeNode) []int {
 			queue = append(queue, node.Left)
 			queue = append(queue, node.Right)
 		}
-	}
-	for len(res) > 0 && res[len(res)-1] == 0 && len(res) > 1 {
-		// trim trailing zeroes if needed or handle simple trees
 	}
 	return res
 }
@@ -153,6 +174,107 @@ func TreeToList(root *TreeNode) []*int {
 	return res
 }
 
+func BuildGraph(adj [][]int) *Node {
+	if len(adj) == 0 {
+		return nil
+	}
+	nodes := make([]*Node, len(adj))
+	for i := range adj {
+		nodes[i] = &Node{Val: i + 1}
+	}
+	for i, neighbors := range adj {
+		for _, nei := range neighbors {
+			nodes[i].Neighbors = append(nodes[i].Neighbors, nodes[nei-1])
+		}
+	}
+	return nodes[0]
+}
+
+func GraphToAdj(node *Node) [][]int {
+	if node == nil {
+		return [][]int{}
+	}
+	visited := make(map[int]*Node)
+	var dfs func(n *Node)
+	dfs = func(n *Node) {
+		if _, ok := visited[n.Val]; ok {
+			return
+		}
+		visited[n.Val] = n
+		for _, nei := range n.Neighbors {
+			dfs(nei)
+		}
+	}
+	dfs(node)
+	adj := make([][]int, len(visited))
+	for i := 1; i <= len(visited); i++ {
+		if n, ok := visited[i]; ok {
+			row := []int{}
+			for _, nei := range n.Neighbors {
+				row = append(row, nei.Val)
+			}
+			adj[i-1] = row
+		} else {
+			adj[i-1] = []int{}
+		}
+	}
+	return adj
+}
+
+func NormalizeNested(groups [][]int) [][]int {
+	res := make([][]int, len(groups))
+	for i, g := range groups {
+		cp := append([]int{}, g...)
+		sort.Ints(cp)
+		res[i] = cp
+	}
+	sort.Slice(res, func(i, j int) bool {
+		if len(res[i]) != len(res[j]) {
+			return len(res[i]) < len(res[j])
+		}
+		for k := 0; k < len(res[i]); k++ {
+			if res[i][k] != res[j][k] {
+				return res[i][k] < res[j][k]
+			}
+		}
+		return false
+	})
+	return res
+}
+
+func NormalizeNestedStrings(groups [][]string) [][]string {
+	res := make([][]string, len(groups))
+	for i, g := range groups {
+		cp := append([]string{}, g...)
+		sort.Strings(cp)
+		res[i] = cp
+	}
+	sort.Slice(res, func(i, j int) bool {
+		if len(res[i]) != len(res[j]) {
+			return len(res[i]) < len(res[j])
+		}
+		for k := 0; k < len(res[i]); k++ {
+			if res[i][k] != res[j][k] {
+				return res[i][k] < res[j][k]
+			}
+		}
+		return false
+	})
+	return res
+}
+
+func SortStrings(words []string) []string {
+	cp := append([]string{}, words...)
+	sort.Strings(cp)
+	return cp
+}
+
+func SortInts(arr []int) []int {
+	cp := append([]int{}, arr...)
+	sort.Ints(cp)
+	return cp
+}
+
 type TestHarness struct{}
 
 var Tests TestHarness
@@ -174,4 +296,21 @@ func (t TestHarness) EqualCheck(msg string, expected, actual interface{}) {
 		os.Exit(1)
 	}
 }
+
+func (t TestHarness) UnorderedEqualCheck(msg string, expected, actual interface{}) {
+	switch exp := expected.(type) {
+	case [][]int:
+		if act, ok := actual.([][]int); ok {
+			t.EqualCheck(msg, NormalizeNested(exp), NormalizeNested(act))
+			return
+		}
+	case [][]string:
+		if act, ok := actual.([][]string); ok {
+			t.EqualCheck(msg, NormalizeNestedStrings(exp), NormalizeNestedStrings(act))
+			return
+		}
+	}
+	t.EqualCheck(msg, expected, actual)
+}
+
 
