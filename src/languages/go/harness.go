@@ -1,10 +1,13 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
-	"os"
+	"math"
 	"reflect"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 type ListNode struct {
@@ -275,6 +278,26 @@ func SortInts(arr []int) []int {
 	return cp
 }
 
+func min(a int, rest ...int) int {
+	m := a
+	for _, v := range rest {
+		if v < m {
+			m = v
+		}
+	}
+	return m
+}
+
+func max(a int, rest ...int) int {
+	m := a
+	for _, v := range rest {
+		if v > m {
+			m = v
+		}
+	}
+	return m
+}
+
 type TestHarness struct{}
 
 var Tests TestHarness
@@ -284,7 +307,7 @@ func (t TestHarness) BoolCheck(msg string, b bool) {
 		fmt.Printf("Test passed: %s\n", msg)
 	} else {
 		fmt.Printf("Test failed: %s\n", msg)
-		os.Exit(1)
+		panic(fmt.Sprintf("Test failed: %s", msg))
 	}
 }
 
@@ -293,7 +316,7 @@ func (t TestHarness) EqualCheck(msg string, expected, actual interface{}) {
 		fmt.Printf("Test passed: %s\n", msg)
 	} else {
 		fmt.Printf("Test failed: %s\nExpected: %#v\nActual:   %#v\n", msg, expected, actual)
-		os.Exit(1)
+		panic(fmt.Sprintf("Test failed: %s", msg))
 	}
 }
 
