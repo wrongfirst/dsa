@@ -26,13 +26,11 @@ func dfs(board [][]byte, word string, index, i, j, m, n int) bool {
     temp := board[i][j]
     board[i][j] = '#'
 
-    if dfs(board, word, index+1, i-1, j, m, n) ||
+    res := dfs(board, word, index+1, i-1, j, m, n) ||
         dfs(board, word, index+1, i+1, j, m, n) ||
         dfs(board, word, index+1, i, j-1, m, n) ||
-        dfs(board, word, index+1, i, j+1, m, n) {
-        return true
-    }
+        dfs(board, word, index+1, i, j+1, m, n)
 
     board[i][j] = temp
-    return false
+    return res
 }

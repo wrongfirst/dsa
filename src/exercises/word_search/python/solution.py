@@ -19,11 +19,10 @@ def dfs(board: List[List[str]], word: str, index: int, i: int, j: int, m: int, n
     
     board[i][j] = '#'
     
-    if (dfs(board, word, index + 1, i - 1, j, m, n)
+    res = (dfs(board, word, index + 1, i - 1, j, m, n)
         or dfs(board, word, index + 1, i + 1, j, m, n)
         or dfs(board, word, index + 1, i, j - 1, m, n)
-        or dfs(board, word, index + 1, i, j + 1, m, n)):
-        return True
+        or dfs(board, word, index + 1, i, j + 1, m, n))
     
     board[i][j] = word[index]
-    return False
+    return res

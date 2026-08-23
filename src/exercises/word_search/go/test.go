@@ -1,8 +1,13 @@
-board := [][]byte{
-	{'A', 'B', 'C', 'E'},
-	{'S', 'F', 'C', 'S'},
-	{'A', 'D', 'E', 'E'},
+board1 := [][]byte{
+	{'A', 'B', 'C', 'D'},
+	{'S', 'A', 'A', 'T'},
+	{'A', 'C', 'A', 'E'},
 }
-Tests.BoolCheck("Example 1", exist(board, "ABCCED") == true)
-Tests.BoolCheck("Example 2", exist(board, "SEE") == true)
-Tests.BoolCheck("Example 3", exist(board, "ABCB") == false)
+Tests.BoolCheck("Example 1", exist(board1, "CAT") == true)
+
+board2 := [][]byte{
+	{'A', 'B', 'C', 'D'},
+	{'S', 'A', 'A', 'T'},
+	{'A', 'C', 'A', 'E'},
+}
+Tests.BoolCheck("Example 2", exist(board2, "BAT") == false)
