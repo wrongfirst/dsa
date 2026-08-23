@@ -1,15 +1,15 @@
 /**
  * Definition of Interval:
  * type Interval struct {
- *    start int
- *    end   int
+ *    Start int
+ *    End   int
  * }
  */
 
 func minMeetingRooms(intervals []Interval) int {
     time := [][]int{}
     for _, i := range intervals {
-        start, end := i.start, i.end
+        start, end := i.Start, i.End
         time = append(time, []int{start, 1})
         time = append(time, []int{end, -1})
     }

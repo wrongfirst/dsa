@@ -1,8 +1,8 @@
 /**
  * Definition of Interval:
  * type Interval struct {
- *    start int
- *    end   int
+ *    Start int
+ *    End   int
  * }
  */
 

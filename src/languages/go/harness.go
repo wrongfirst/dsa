@@ -298,6 +298,80 @@ func max(a int, rest ...int) int {
 	return m
 }
 
+func deepEqual(expected, actual interface{}) bool {
+	if reflect.DeepEqual(expected, actual) {
+		return true
+	}
+
+	v1 := reflect.ValueOf(expected)
+	v2 := reflect.ValueOf(actual)
+
+	if !v1.IsValid() && !v2.IsValid() {
+		return true
+	}
+	if !v1.IsValid() || !v2.IsValid() {
+		return false
+	}
+
+	// Compare slices / arrays (treating nil slice and empty slice as equal)
+	if (v1.Kind() == reflect.Slice || v1.Kind() == reflect.Array) &&
+		(v2.Kind() == reflect.Slice || v2.Kind() == reflect.Array) {
+		if v1.Len() == 0 && v2.Len() == 0 {
+			return true
+		}
+		if v1.Len() != v2.Len() {
+			return false
+		}
+		for i := 0; i < v1.Len(); i++ {
+			if !deepEqual(v1.Index(i).Interface(), v2.Index(i).Interface()) {
+				return false
+			}
+		}
+		return true
+	}
+
+	// Compare maps (treating nil map and empty map as equal)
+	if v1.Kind() == reflect.Map && v2.Kind() == reflect.Map {
+		if v1.Len() == 0 && v2.Len() == 0 {
+			return true
+		}
+		if v1.Len() != v2.Len() {
+			return false
+		}
+		for _, key := range v1.MapKeys() {
+			val1 := v1.MapIndex(key)
+			val2 := v2.MapIndex(key)
+			if !val2.IsValid() || !deepEqual(val1.Interface(), val2.Interface()) {
+				return false
+			}
+		}
+		return true
+	}
+
+	// Compare pointers
+	if v1.Kind() == reflect.Ptr && v2.Kind() == reflect.Ptr {
+		if v1.IsNil() && v2.IsNil() {
+			return true
+		}
+		if v1.IsNil() || v2.IsNil() {
+			return false
+		}
+		return deepEqual(v1.Elem().Interface(), v2.Elem().Interface())
+	}
+
+	// Compare structs of matching type
+	if v1.Kind() == reflect.Struct && v2.Kind() == reflect.Struct && v1.Type() == v2.Type() {
+		for i := 0; i < v1.NumField(); i++ {
+			if !deepEqual(v1.Field(i).Interface(), v2.Field(i).Interface()) {
+				return false
+			}
+		}
+		return true
+	}
+
+	return false
+}
+
 type TestHarness struct{}
 
 var Tests TestHarness
@@ -312,7 +386,7 @@ func (t TestHarness) BoolCheck(msg string, b bool) {
 }
 
 func (t TestHarness) EqualCheck(msg string, expected, actual interface{}) {
-	if reflect.DeepEqual(expected, actual) {
+	if deepEqual(expected, actual) {
 		fmt.Printf("Test passed: %s\n", msg)
 	} else {
 		fmt.Printf("Test failed: %s\nExpected: %#v\nActual:   %#v\n", msg, expected, actual)

@@ -16,13 +16,6 @@ func maxDepth(root *TreeNode) int {
     return 1 + max(maxDepth(root.Left), maxDepth(root.Right))
 }
 
-func max(a, b int) int {
-    if a > b {
-        return a
-    }
-    return b
-}
-
 // ITERATIVE DFS
 // func maxDepth(root *TreeNode) int {
 //     type NodeDepth struct {
