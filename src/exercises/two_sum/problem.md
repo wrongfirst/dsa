@@ -38,4 +38,3 @@ Output: [0,1]
 * **Only one valid answer exists.**
 
 
-<br>

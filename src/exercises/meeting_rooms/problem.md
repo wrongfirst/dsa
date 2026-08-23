@@ -28,4 +28,3 @@ Output: true
 * `0 <= intervals[i].start < intervals[i].end <= 1,000,000`
 
 
-<br>

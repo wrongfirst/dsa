@@ -50,7 +50,6 @@ String encoded_string = solution.encode(strs);
 List<String> decoded_strs = solution.decode(encoded_string);
 ```
 
-<br>
 
 **Example 2:**
 ```java
@@ -59,16 +58,13 @@ Input: strs = [""]
 Output: [""]
 ```
 
-<br>
 
 **Constraints:**
 * `0 <= strs.length < 100`
 * `0 <= strs[i].length < 200`
 * `strs[i]` contains any possible characters out of `256` valid ASCII characters.
 
-<br>
 
 **Follow up:** Could you write a generalized algorithm to work on any possible set of characters?
 
 
-<br>

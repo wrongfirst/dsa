@@ -37,4 +37,3 @@ Output: 0
 * `text1` and `text2` consist of only lowercase English characters.
 
 
-<br>

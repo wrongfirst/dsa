@@ -43,4 +43,3 @@ Output: []
 * All strings within `words` are distinct.
 
 
-<br>

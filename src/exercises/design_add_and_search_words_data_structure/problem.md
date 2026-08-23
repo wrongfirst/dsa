@@ -34,4 +34,3 @@ wordDictionary.search("b.."); // return true
 * At most `10,000` calls will be made to `addWord` and `search`.
 
 
-<br>

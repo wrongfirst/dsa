@@ -8,7 +8,6 @@ Input: nums = [1, 2, 3, 3]
 Output: true
 ```
 
-<br>
 
 **Example 2:**
 
@@ -23,4 +22,3 @@ Output: false
 * `-10^9 <= nums[i] <= 10^9`
 
 
-<br>

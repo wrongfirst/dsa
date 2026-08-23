@@ -10,7 +10,6 @@ A string `a` is lexicographically smaller than a string `b` if either of the fol
 * The first letter where they differ is smaller in `a` than in `b`.
 * `a` is a prefix of `b` *and* `a.length < b.length`.
 
-<br>
 
 **Example 1:**
 
@@ -23,7 +22,6 @@ Output: "zo"
 Explanation:
 From `"z"` and `"o"`, we know `'z' < 'o'`, so return `"zo"`.
 
-<br>
 
 **Example 2:**
 
@@ -40,7 +38,6 @@ Explanation:
 * from `"enn"` and `"rfnn"` we know `'e' < 'r'`
 * so one possible solution is `"hernf"`
 
-<br>
 
 **Example 3:**
 
@@ -53,7 +50,6 @@ Output: ""
 Explanation:
 The second word is a prefix of the first word, but the first word appears before the second. This is impossible in a valid lexicographical ordering, so return `""`.
 
-<br>
 
 **Constraints:**
 * `1 <= words.length <= 100`
@@ -61,4 +57,3 @@ The second word is a prefix of the first word, but the first word appears before
 * `words[i]` consists of only lowercase English letters.
 
 
-<br>

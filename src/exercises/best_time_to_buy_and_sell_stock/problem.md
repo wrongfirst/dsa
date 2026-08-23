@@ -28,4 +28,3 @@ Explanation: No profitable transactions can be made, thus the max profit is 0.
 * `0 <= prices[i] <= 100`
 
 
-<br>

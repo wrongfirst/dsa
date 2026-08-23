@@ -37,4 +37,3 @@ Output: false
 * `s` and `wordDict[i]` consist of only lowercase English letters.
 
 
-<br>

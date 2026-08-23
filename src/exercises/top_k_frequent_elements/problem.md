@@ -26,4 +26,3 @@ Output: [7]
 * `1 <= k <= number of distinct elements in nums`.
 
 
-<br>

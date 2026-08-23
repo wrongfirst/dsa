@@ -33,4 +33,3 @@ Output: -1
 * `nums` is an ascending array that is possibly rotated.
 
 
-<br>

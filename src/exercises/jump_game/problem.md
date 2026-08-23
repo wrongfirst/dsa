@@ -25,4 +25,3 @@ Output: false
 * `0 <= nums[i] <= 1000`
 
 
-<br>

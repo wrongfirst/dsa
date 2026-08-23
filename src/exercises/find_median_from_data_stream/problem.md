@@ -35,4 +35,3 @@ medianFinder.findMedian(); // return 2.0
 * `findMedian` will only be called after adding at least one integer to the data structure.
 
 
-<br>

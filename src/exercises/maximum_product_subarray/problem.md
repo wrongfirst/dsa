@@ -16,7 +16,6 @@ Output: 8
 
 Explanation: `[2,4]` has the largest product `8`.
 
-<br>
 
 **Example 2:**
 
@@ -28,7 +27,6 @@ Output: 0
 
 Explanation: The result cannot be `6`, because `[-3,-2]` is not a subarray.
 
-<br>
 
 **Constraints:**
 * `1 <= nums.length <= 20,000`
@@ -36,4 +34,3 @@ Explanation: The result cannot be `6`, because `[-3,-2]` is not a subarray.
 * The product of any subarray of `nums` is **guaranteed** to fit in a **32-bit** integer.
 
 
-<br>

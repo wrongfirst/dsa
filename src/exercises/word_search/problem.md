@@ -40,4 +40,3 @@ Output: false
 * `board` and `word` consists of only lowercase and uppercase English letters.
 
 
-<br>

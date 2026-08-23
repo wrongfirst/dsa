@@ -34,4 +34,3 @@ Output: false
 * `index` is `-1` or a valid index in the linked list.
 
 
-<br>

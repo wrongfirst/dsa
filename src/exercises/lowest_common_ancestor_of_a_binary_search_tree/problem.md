@@ -32,4 +32,3 @@ Explanation: The LCA of nodes 3 and 4 is 3, since a node can be a descendant of 
 * `p` and `q` will both exist in the BST.
 
 
-<br>

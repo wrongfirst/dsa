@@ -29,4 +29,3 @@ Explanation: `nums[0] + nums[2] + nums[4] = 2 + 8 + 6 = 16`.
 * `0 <= nums[i] <= 100`
 
 
-<br>

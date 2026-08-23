@@ -6,7 +6,6 @@ There are a total of `numCourses` courses you are required to take, labeled from
 
 Return `true` if it is possible to finish all courses, otherwise return `false`.
 
-<br>
 
 **Example 1:**
 
@@ -18,7 +17,6 @@ Output: true
 
 Explanation: First take course `1` (no prerequisites) and then take course `0`.
 
-<br>
 
 **Example 2:**
 
@@ -30,7 +28,6 @@ Output: false
 
 Explanation: In order to take course `1` you must take course `0`, and to take course `0` you must take course `1`. So it is impossible.
 
-<br>
 
 **Constraints:**
 * `1 <= numCourses <= 1000`
@@ -40,4 +37,3 @@ Explanation: In order to take course `1` you must take course `0`, and to take c
 * All `prerequisite` pairs are **unique**.
 
 
-<br>

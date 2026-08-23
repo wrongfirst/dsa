@@ -29,4 +29,3 @@ Explanation: "tabacat" is not a palindrome.
 * `s` is made up of only printable ASCII characters.
 
 
-<br>

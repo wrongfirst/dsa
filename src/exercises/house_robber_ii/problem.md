@@ -30,4 +30,3 @@ Explanation: You cannot rob `nums[0] + nums[2] + nums[4] = 16` because `nums[0]`
 * `0 <= nums[i] <= 200`
 
 
-<br>

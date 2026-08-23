@@ -24,4 +24,3 @@ Output: 1
 * `1 <= nums.length <= 1000`
 
 
-<br>

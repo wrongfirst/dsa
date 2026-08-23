@@ -34,4 +34,3 @@ Output: []
 * The sum of `lists[i].length` will not exceed `10000`.
 
 
-<br>

@@ -30,4 +30,3 @@ prefixTree.search("do");     // return true
 * `word` and `prefix` are made up of lowercase English letters.
 
 
-<br>

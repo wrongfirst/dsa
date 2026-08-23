@@ -34,4 +34,3 @@ Explanation: `[6,7]` does not overlap with any existing interval, so it is simpl
 * `0 <= start <= end <= 100000`
 
 
-<br>

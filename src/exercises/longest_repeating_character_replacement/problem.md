@@ -26,4 +26,3 @@ Output: 5
 * `s` consists of only uppercase english characters.
 
 
-<br>

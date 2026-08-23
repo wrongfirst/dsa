@@ -32,4 +32,3 @@ Explanation: The root node's value is 1 but its left child's value is 2 which is
 * `-1000000000 <= Node.val <= 1000000000`
 
 
-<br>

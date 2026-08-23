@@ -32,4 +32,3 @@ Output: 4
 * `grid[i][j]` is `'0'` or `'1'`.
 
 
-<br>
