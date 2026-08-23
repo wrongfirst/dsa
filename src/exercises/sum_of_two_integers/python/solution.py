@@ -1,5 +1,5 @@
 def getSum(a: int, b: int) -> int:
-    def add(a, b):
+    def add(a: int, b: int) -> int:
         if not a or not b:
             return a or b
         return add(a ^ b, (a & b) << 1)

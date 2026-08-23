@@ -11,7 +11,7 @@ def isPalindrome(s: str) -> bool:
         l, r = l + 1, r - 1
     return True
 
-def alphaNum(c):
+def alphaNum(c: str) -> bool:
     return (ord('A') <= ord(c) <= ord('Z') or 
             ord('a') <= ord(c) <= ord('z') or 
             ord('0') <= ord(c) <= ord('9'))

@@ -12,25 +12,29 @@ class PrefixTree:
         curr = self.root
         for c in word:
             i = ord(c) - ord("a")
-            if curr.children[i] == None:
+            if curr.children[i] is None:
                 curr.children[i] = PrefixTreeNode()
-            curr = curr.children[i]
+            child = curr.children[i]
+            assert child is not None
+            curr = child
         curr.end = True
 
     def search(self, word: str) -> bool:
         curr = self.root
         for c in word:
             i = ord(c) - ord("a")
-            if curr.children[i] == None:
+            child = curr.children[i]
+            if child is None:
                 return False
-            curr = curr.children[i]
+            curr = child
         return curr.end
 
     def startsWith(self, prefix: str) -> bool:
         curr = self.root
         for c in prefix:
             i = ord(c) - ord("a")
-            if curr.children[i] == None:
+            child = curr.children[i]
+            if child is None:
                 return False
-            curr = curr.children[i]
+            curr = child
         return True

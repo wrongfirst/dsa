@@ -2,7 +2,7 @@
 def rob(nums: List[int]) -> int:
     return max(nums[0], helper(nums[1:]), helper(nums[:-1]))
 
-def helper(nums):
+def helper(nums: List[int]) -> int:
     rob1, rob2 = 0, 0
 
     for n in nums:

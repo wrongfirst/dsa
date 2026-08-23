@@ -7,7 +7,7 @@ class Interval(object):
 """
 
 def minMeetingRooms(intervals: List[Interval]) -> int:
-    time = []
+    time: List[Tuple[int, int]] = []
     for i in intervals:
         start, end = i.start, i.end
         time.append((start, 1))

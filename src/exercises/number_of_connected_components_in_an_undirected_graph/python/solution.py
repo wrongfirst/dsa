@@ -1,7 +1,7 @@
 class UnionFind:
 
     def __init__(self):
-        self.f = {}
+        self.f: Dict[int, int] = {}
 
     def findParent(self, x: int) -> int:
         y = self.f.get(x, x)
@@ -9,7 +9,7 @@ class UnionFind:
             y = self.f[x] = self.findParent(y)
         return y
 
-    def union(self, x: int, y: int):
+    def union(self, x: int, y: int) -> None:
 
         self.f[self.findParent(x)] = self.findParent(y)
 

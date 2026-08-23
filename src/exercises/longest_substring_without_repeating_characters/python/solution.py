@@ -1,5 +1,5 @@
 def lengthOfLongestSubstring(s: str) -> int:
-    charSet = set()
+    charSet: Set[str] = set()
     l = 0
     res = 0
 

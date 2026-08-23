@@ -7,15 +7,15 @@ class Node:
 """
 
 def cloneGraph(node: Optional['Node']) -> Optional['Node']:
-    oldToNew = {}
+    oldToNew: Dict[Node, Node] = {}
 
-    def dfs(node):
-        if node in oldToNew:
-            return oldToNew[node]
+    def dfs(curr_node: Node) -> Node:
+        if curr_node in oldToNew:
+            return oldToNew[curr_node]
 
-        copy = Node(node.val)
-        oldToNew[node] = copy
-        for nei in node.neighbors:
+        copy = Node(curr_node.val)
+        oldToNew[curr_node] = copy
+        for nei in (curr_node.neighbors or []):
             copy.neighbors.append(dfs(nei))
         return copy
 

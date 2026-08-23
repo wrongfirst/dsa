@@ -1,10 +1,10 @@
 class TrieNode:
     def __init__(self):
-        self.children = {}
+        self.children: Dict[str, TrieNode] = {}
         self.isWord = False
         self.refs = 0
 
-    def addWord(self, word):
+    def addWord(self, word: str) -> None:
         cur = self
         cur.refs += 1
         for c in word:
@@ -14,7 +14,7 @@ class TrieNode:
             cur.refs += 1
         cur.isWord = True
 
-    def removeWord(self, word):
+    def removeWord(self, word: str) -> None:
         cur = self
         cur.refs -= 1
         for c in word:
@@ -28,9 +28,10 @@ def findWords(board: List[List[str]], words: List[str]) -> List[str]:
         root.addWord(w)
 
     ROWS, COLS = len(board), len(board[0])
-    res, visit = set(), set()
+    res: Set[str] = set()
+    visit: Set[Tuple[int, int]] = set()
 
-    def dfs(r, c, node, word):
+    def dfs(r: int, c: int, node: TrieNode, word: str) -> None:
         if (
             r not in range(ROWS) 
             or c not in range(COLS)

@@ -11,7 +11,7 @@ def exist(board: List[List[str]], word: str) -> bool:
     
     return False
 
-def dfs(board: List[List[str]], word: str, index: int, i: int, j: int, m: int, n: int):
+def dfs(board: List[List[str]], word: str, index: int, i: int, j: int, m: int, n: int) -> bool:
     if i < 0 or i >= m or j < 0 or j >= n or board[i][j] != word[index]:
         return False
     if index == len(word) - 1:

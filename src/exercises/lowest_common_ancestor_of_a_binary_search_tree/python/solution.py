@@ -6,10 +6,12 @@
 #         self.right = right
 
 def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-    while True:
-        if root.val < p.val and root.val < q.val:
-            root = root.right
-        elif root.val > p.val and root.val > q.val:
-            root = root.left
+    curr: Optional[TreeNode] = root
+    while curr:
+        if curr.val < p.val and curr.val < q.val:
+            curr = curr.right
+        elif curr.val > p.val and curr.val > q.val:
+            curr = curr.left
         else:
-            return root
+            return curr
+    return root

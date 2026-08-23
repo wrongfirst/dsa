@@ -1,6 +1,6 @@
 class TrieNode:
     def __init__(self):
-        self.children = {}  # a : TrieNode
+        self.children: Dict[str, TrieNode] = {}  # a : TrieNode
         self.word = False
 
 
@@ -17,7 +17,7 @@ class WordDictionary:
         cur.word = True
 
     def search(self, word: str) -> bool:
-        def dfs(j, root):
+        def dfs(j: int, root: TrieNode) -> bool:
             cur = root
 
             for i in range(j, len(word)):

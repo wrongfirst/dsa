@@ -6,13 +6,13 @@
 #         self.right = right
 
 def levelOrder(root: Optional[TreeNode]) -> List[List[int]]:
-    res = []
-    q = deque()
+    res: List[List[int]] = []
+    q: deque[TreeNode] = deque()
     if root:
         q.append(root)
 
     while q:
-        val = []
+        val: List[int] = []
 
         for i in range(len(q)):
             node = q.popleft()

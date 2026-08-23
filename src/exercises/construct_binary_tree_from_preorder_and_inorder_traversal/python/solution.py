@@ -6,10 +6,10 @@
 #         self.right = right
 
 def buildTree(preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-    indices = {val: idx for idx, val in enumerate(inorder)}
+    indices: Dict[int, int] = {val: idx for idx, val in enumerate(inorder)}
 
     pre_idx = 0
-    def dfs(l, r):
+    def dfs(l: int, r: int) -> Optional[TreeNode]:
         nonlocal pre_idx
         if l > r:
             return None

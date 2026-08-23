@@ -5,11 +5,14 @@
 #         self.next = next
 
 def hasCycle(head: Optional[ListNode]) -> bool:
-    slow, fast = head, head
+    slow: Optional[ListNode] = head
+    fast: Optional[ListNode] = head
 
-    while fast and fast.next:
+    while fast and fast.next and slow:
         slow = slow.next
-        fast = fast.next.next
+        fast = fast.next
+        if fast:
+            fast = fast.next
         if slow == fast:
             return True
     return False

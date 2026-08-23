@@ -3,10 +3,10 @@ def numIslands(grid: List[List[str]]) -> int:
         return 0
 
     islands = 0
-    visit = set()
+    visit: Set[Tuple[int, int]] = set()
     rows, cols = len(grid), len(grid[0])
 
-    def dfs(r, c):
+    def dfs(r: int, c: int) -> None:
         if (
             r not in range(rows)
             or c not in range(cols)

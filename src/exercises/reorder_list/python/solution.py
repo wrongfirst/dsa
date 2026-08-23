@@ -5,22 +5,34 @@
 #         self.next = next
 
 def reorderList(head: Optional[ListNode]) -> None:
-    slow, fast = head, head.next
-    while fast and fast.next:
-        slow = slow.next
-        fast = fast.next.next
+    if not head or not head.next:
+        return
 
+    slow: Optional[ListNode] = head
+    fast: Optional[ListNode] = head.next
+    while fast and fast.next and slow:
+        slow = slow.next
+        fast = fast.next
+        if fast:
+            fast = fast.next
+
+    if not slow:
+        return
     second = slow.next
-    prev = slow.next = None
+    slow.next = None
+    prev: Optional[ListNode] = None
     while second:
         tmp = second.next
         second.next = prev
         prev = second
         second = tmp
 
-    first, second = head, prev
-    while second:
-        tmp1, tmp2 = first.next, second.next
+    first: Optional[ListNode] = head
+    second = prev
+    while first and second:
+        tmp1 = first.next
+        tmp2 = second.next
         first.next = second
         second.next = tmp1
-        first, second = tmp1, tmp2
+        first = tmp1
+        second = tmp2

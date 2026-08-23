@@ -4,8 +4,9 @@
 #         self.val = val
 #         self.next = next
 
-def reverseList(head: ListNode) -> ListNode:
-    prev, curr = None, head
+def reverseList(head: Optional[ListNode]) -> Optional[ListNode]:
+    prev: Optional[ListNode] = None
+    curr: Optional[ListNode] = head
 
     while curr:
         temp = curr.next

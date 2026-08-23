@@ -2,7 +2,8 @@ def isAnagram(s: str, t: str) -> bool:
     if len(s) != len(t):
         return False
 
-    countS, countT = {}, {}
+    countS: Dict[str, int] = {}
+    countT: Dict[str, int] = {}
 
     for i in range(len(s)):
         countS[s[i]] = 1 + countS.get(s[i], 0)

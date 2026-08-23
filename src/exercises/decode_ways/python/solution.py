@@ -1,8 +1,8 @@
 # Memoization solution 
 def numDecodings(s: str) -> int:
-    dp = {len(s): 1}
+    dp: Dict[int, int] = {len(s): 1}
 
-    def dfs(i):
+    def dfs(i: int) -> int:
         if i in dp:
             return dp[i]
         if s[i] == "0":

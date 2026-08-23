@@ -7,7 +7,7 @@ def countSubstrings(s: str) -> int:
         res += countPali(s, i, i + 1)
     return res
 
-def countPali(s, l, r):
+def countPali(s: str, l: int, r: int) -> int:
     res = 0
     while l >= 0 and r < len(s) and s[l] == s[r]:
         res += 1

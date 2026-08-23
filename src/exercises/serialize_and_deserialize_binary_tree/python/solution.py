@@ -9,9 +9,9 @@ class Codec:
     
     # Encodes a tree to a single string.
     def serialize(self, root: Optional[TreeNode]) -> str:
-        res = []
+        res: List[str] = []
 
-        def dfs(node):
+        def dfs(node: Optional[TreeNode]):
             if not node:
                 res.append("N")
                 return
@@ -25,7 +25,7 @@ class Codec:
     # Decodes your encoded data to tree.
     def deserialize(self, data: str) -> Optional[TreeNode]:
         vals = data.split(",")
-        self.i = 0
+        self.i: int = 0
 
         def dfs():
             if vals[self.i] == "N":
