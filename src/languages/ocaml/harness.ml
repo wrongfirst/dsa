@@ -116,10 +116,59 @@ let tree_to_list (root : tree_node option) : int option list =
       in
       trim_trailing_nones [] (List.rev l)
 
+let ints_to_tree (arr : int list) : tree_node option =
+  list_to_tree (List.map (fun v -> Some v) arr)
+
+let tree_to_ints (root : tree_node option) : int list =
+  let raw = tree_to_list root in
+  let rec extract = function
+    | [] -> []
+    | Some v :: rest -> v :: extract rest
+    | None :: rest -> extract rest
+  in
+  extract raw
+
 type graph_node = {
   mutable val_ : int;
   mutable neighbors : graph_node list;
 }
+
+let create_graph_node v = { val_ = v; neighbors = [] }
+
+let build_graph (adj : int list list) : graph_node option =
+  match adj with
+  | [] -> None
+  | _ ->
+      let n = List.length adj in
+      let nodes = Array.init n (fun i -> { val_ = i + 1; neighbors = [] }) in
+      let adj_arr = Array.of_list adj in
+      Array.iteri (fun i neighbors ->
+        nodes.(i).neighbors <- List.map (fun nei -> nodes.(nei - 1)) neighbors
+      ) adj_arr;
+      Some nodes.(0)
+
+let graph_to_adj (node : graph_node option) : int list list =
+  match node with
+  | None -> []
+  | Some root ->
+      let visited = Hashtbl.create 16 in
+      let rec dfs n =
+        if not (Hashtbl.mem visited n.val_) then begin
+          Hashtbl.add visited n.val_ n;
+          List.iter dfs n.neighbors
+        end
+      in
+      dfs root;
+      let n = Hashtbl.length visited in
+      let res = ref [] in
+      for i = 1 to n do
+        if Hashtbl.mem visited i then
+          let gn = Hashtbl.find visited i in
+          res := (List.map (fun (nei : graph_node) -> nei.val_) gn.neighbors) :: !res
+        else
+          res := [] :: !res
+      done;
+      List.rev !res
 
 type interval = {
   start : int;
@@ -128,6 +177,12 @@ type interval = {
 
 let normalize_nested (groups : 'a list list) : 'a list list =
   List.sort compare (List.map (List.sort compare) groups)
+
+let sort_strings (words : string list) : string list =
+  List.sort String.compare words
+
+let sort_ints (arr : int list) : int list =
+  List.sort compare arr
 
 module Tests = struct
   let bool_check msg b =
