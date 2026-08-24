@@ -7,10 +7,10 @@ import { createSettingsSlice } from './store/slices/settingsSlice';
 import { createSyncSlice } from './store/slices/syncSlice';
 import { getInitialProgressState, sanitizeBackupData } from './store/backup';
 import { syncStateStorage } from './store/storage/encryptedStorage';
-import { decryptStoredSettings, ensureSettingsDecrypted } from './store/storage/decryptSettings';
+import { decryptStoredSettings, ensureSettingsDecrypted, registerDecryptionStore } from './store/storage/decryptSettings';
 import { SITE_SLUG } from './siteConfig';
 
-export const STORAGE_KEY = `${SITE_SLUG}_storage`;
+const STORAGE_KEY = `${SITE_SLUG}_storage`;
 
 export const store = createStore<AppState>()(
   persist(
@@ -41,6 +41,8 @@ export const store = createStore<AppState>()(
     }
   )
 );
+
+registerDecryptionStore(store);
 
 export * from './types';
 export { decryptStoredSettings, ensureSettingsDecrypted };
