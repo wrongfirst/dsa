@@ -1,4 +1,4 @@
-def canJump(nums: List[int]) -> bool:
+def canJump(nums: list[int]) -> bool:
     goal = len(nums) - 1
 
     for i in range(len(nums) - 2, -1, -1):

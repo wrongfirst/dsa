@@ -1,2 +1,2 @@
-def missingNumber(nums: List[int]) -> int:
+def missingNumber(nums: list[int]) -> int:
     pass

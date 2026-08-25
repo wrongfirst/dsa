@@ -1,2 +1,2 @@
-def exist(board: List[List[str]], word: str) -> bool:
+def exist(board: list[list[str]], word: str) -> bool:
     pass

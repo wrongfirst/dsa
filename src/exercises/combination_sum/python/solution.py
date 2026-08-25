@@ -1,7 +1,7 @@
-def combinationSum(nums: List[int], target: int) -> List[List[int]]:
-    res: List[List[int]] = []
+def combinationSum(nums: list[int], target: int) -> list[list[int]]:
+    res: list[list[int]] = []
 
-    def dfs(i: int, cur: List[int], total: int) -> None:
+    def dfs(i: int, cur: list[int], total: int) -> None:
         if total == target:
             res.append(cur.copy())
             return

@@ -1,14 +1,14 @@
 
-def encode(strs: List[str]) -> str:
-    res: List[str] = []
+def encode(strs: list[str]) -> str:
+    res: list[str] = []
     for s in strs:
         res.append(str(len(s)))
         res.append("#")
         res.append(s)
     return "".join(res)
 
-def decode(s: str) -> List[str]:
-    res: List[str] = []
+def decode(s: str) -> list[str]:
+    res: list[str] = []
     i = 0
     
     while i < len(s):

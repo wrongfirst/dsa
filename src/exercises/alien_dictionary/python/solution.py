@@ -1,5 +1,5 @@
-def foreignDictionary(words: List[str]) -> str:
-    adj: Dict[str, Set[str]] = {char: set() for word in words for char in word}
+def foreignDictionary(words: list[str]) -> str:
+    adj: dict[str, set[str]] = {char: set() for word in words for char in word}
 
     for i in range(len(words) - 1):
         w1, w2 = words[i], words[i + 1]
@@ -11,8 +11,8 @@ def foreignDictionary(words: List[str]) -> str:
                 adj[w1[j]].add(w2[j])
                 break
 
-    visited: Dict[str, bool] = {}  # {char: bool} False visited, True current path
-    res: List[str] = []
+    visited: dict[str, bool] = {}  # {char: bool} False visited, True current path
+    res: list[str] = []
 
     def dfs(char: str) -> bool:
         if char in visited:

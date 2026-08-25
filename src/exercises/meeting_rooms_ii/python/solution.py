@@ -6,8 +6,8 @@ class Interval(object):
         self.end = end
 """
 
-def minMeetingRooms(intervals: List[Interval]) -> int:
-    time: List[Tuple[int, int]] = []
+def minMeetingRooms(intervals: list[Interval]) -> int:
+    time: list[tuple[int, int]] = []
     for i in intervals:
         start, end = i.start, i.end
         time.append((start, 1))

@@ -1,2 +1,2 @@
-def productExceptSelf(nums: List[int]) -> List[int]:
+def productExceptSelf(nums: list[int]) -> list[int]:
     pass

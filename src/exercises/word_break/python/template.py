@@ -1,2 +1,2 @@
-def wordBreak(s: str, wordDict: List[str]) -> bool:
+def wordBreak(s: str, wordDict: list[str]) -> bool:
     pass

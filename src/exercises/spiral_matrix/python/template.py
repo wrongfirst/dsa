@@ -1,2 +1,2 @@
-def spiralOrder(matrix: List[List[int]]) -> List[int]:
+def spiralOrder(matrix: list[list[int]]) -> list[int]:
     pass

@@ -1,9 +1,9 @@
-def numIslands(grid: List[List[str]]) -> int:
+def numIslands(grid: list[list[str]]) -> int:
     if not grid or not grid[0]:
         return 0
 
     islands = 0
-    visit: Set[Tuple[int, int]] = set()
+    visit: set[tuple[int, int]] = set()
     rows, cols = len(grid), len(grid[0])
 
     def dfs(r: int, c: int) -> None:

@@ -6,5 +6,5 @@ class Interval(object):
         self.end = end
 """
 
-def canAttendMeetings(intervals: List[Interval]) -> bool:
+def canAttendMeetings(intervals: list[Interval]) -> bool:
     pass

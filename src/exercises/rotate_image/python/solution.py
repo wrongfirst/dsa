@@ -1,4 +1,4 @@
-def rotate(matrix: List[List[int]]) -> None:
+def rotate(matrix: list[list[int]]) -> None:
     l, r = 0, len(matrix) - 1
     while l < r:
         for i in range(r - l):

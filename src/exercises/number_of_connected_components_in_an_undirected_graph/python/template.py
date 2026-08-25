@@ -1,2 +1,2 @@
-def countComponents(n: int, edges: List[List[int]]) -> int:
+def countComponents(n: int, edges: list[list[int]]) -> int:
     pass

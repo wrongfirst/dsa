@@ -1,2 +1,2 @@
-def maxProduct(nums: List[int]) -> int:
+def maxProduct(nums: list[int]) -> int:
     pass

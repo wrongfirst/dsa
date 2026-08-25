@@ -1,2 +1,2 @@
-def pacificAtlantic(heights: List[List[int]]) -> List[List[int]]:
+def pacificAtlantic(heights: list[list[int]]) -> list[list[int]]:
     pass

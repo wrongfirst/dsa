@@ -1,2 +1,2 @@
-def setZeroes(matrix: List[List[int]]) -> None:
+def setZeroes(matrix: list[list[int]]) -> None:
     pass

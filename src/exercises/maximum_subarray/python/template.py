@@ -1,2 +1,2 @@
-def maxSubArray(nums: List[int]) -> int:
+def maxSubArray(nums: list[int]) -> int:
     pass

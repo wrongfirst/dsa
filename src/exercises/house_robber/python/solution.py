@@ -1,4 +1,4 @@
-def rob(nums: List[int]) -> int:
+def rob(nums: list[int]) -> int:
     rob1, rob2 = 0, 0
 
     for n in nums:

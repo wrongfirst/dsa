@@ -5,5 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-def levelOrder(root: Optional[TreeNode]) -> List[List[int]]:
+def levelOrder(root: Optional[TreeNode]) -> list[list[int]]:
     pass

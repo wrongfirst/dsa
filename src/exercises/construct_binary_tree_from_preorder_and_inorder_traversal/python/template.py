@@ -5,5 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-def buildTree(preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+def buildTree(preorder: list[int], inorder: list[int]) -> Optional[TreeNode]:
     pass

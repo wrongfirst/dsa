@@ -1,4 +1,4 @@
-def groupAnagrams(strs: List[str]) -> List[List[str]]:
+def groupAnagrams(strs: list[str]) -> list[list[str]]:
     ans = defaultdict(list)
 
     for s in strs:

@@ -1,5 +1,5 @@
-def insert(intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-    res: List[List[int]] = []
+def insert(intervals: list[list[int]], newInterval: list[int]) -> list[list[int]]:
+    res: list[list[int]] = []
 
     for i in range(len(intervals)):
         if newInterval[1] < intervals[i][0]:

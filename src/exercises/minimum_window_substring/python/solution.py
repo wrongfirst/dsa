@@ -2,13 +2,13 @@ def minWindow(s: str, t: str) -> str:
     if t == "":
         return ""
 
-    countT: Dict[str, int] = {}
-    window: Dict[str, int] = {}
+    countT: dict[str, int] = {}
+    window: dict[str, int] = {}
     for c in t:
         countT[c] = 1 + countT.get(c, 0)
 
     have, need = 0, len(countT)
-    res: List[int] = [-1, -1]
+    res: list[int] = [-1, -1]
     resLen: float = float("infinity")
     l = 0
     for r in range(len(s)):

@@ -9,7 +9,7 @@ class Codec:
     
     # Encodes a tree to a single string.
     def serialize(self, root: Optional[TreeNode]) -> str:
-        res: List[str] = []
+        res: list[str] = []
 
         def dfs(node: Optional[TreeNode]):
             if not node:

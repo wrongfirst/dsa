@@ -1,2 +1,2 @@
-def canFinish(numCourses: int, prerequisites: List[List[int]]) -> bool:
+def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
     pass

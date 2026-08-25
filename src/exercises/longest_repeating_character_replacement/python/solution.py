@@ -1,5 +1,5 @@
 def characterReplacement(s: str, k: int) -> int:
-    count: Dict[str, int] = {}
+    count: dict[str, int] = {}
     
     l = 0
     maxf = 0

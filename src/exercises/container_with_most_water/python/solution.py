@@ -1,4 +1,4 @@
-def maxArea(heights: List[int]) -> int:
+def maxArea(heights: list[int]) -> int:
     l, r = 0, len(heights) - 1
     res = 0
 

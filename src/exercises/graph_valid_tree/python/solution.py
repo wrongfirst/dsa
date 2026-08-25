@@ -1,12 +1,12 @@
-def validTree(n: int, edges: List[List[int]]) -> bool:
+def validTree(n: int, edges: list[list[int]]) -> bool:
     if not n:
         return True
-    adj: Dict[int, List[int]] = {i: [] for i in range(n)}
+    adj: dict[int, list[int]] = {i: [] for i in range(n)}
     for n1, n2 in edges:
         adj[n1].append(n2)
         adj[n2].append(n1)
 
-    visit: Set[int] = set()
+    visit: set[int] = set()
 
     def dfs(i: int, prev: int) -> bool:
         if i in visit:

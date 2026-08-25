@@ -1,6 +1,6 @@
 class TrieNode:
     def __init__(self):
-        self.children: Dict[str, TrieNode] = {}
+        self.children: dict[str, TrieNode] = {}
         self.isWord = False
         self.refs = 0
 
@@ -22,14 +22,14 @@ class TrieNode:
                 cur = cur.children[c]
                 cur.refs -= 1
 
-def findWords(board: List[List[str]], words: List[str]) -> List[str]:
+def findWords(board: list[list[str]], words: list[str]) -> list[str]:
     root = TrieNode()
     for w in words:
         root.addWord(w)
 
     ROWS, COLS = len(board), len(board[0])
-    res: Set[str] = set()
-    visit: Set[Tuple[int, int]] = set()
+    res: set[str] = set()
+    visit: set[tuple[int, int]] = set()
 
     def dfs(r: int, c: int, node: TrieNode, word: str) -> None:
         if (

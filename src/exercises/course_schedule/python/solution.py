@@ -1,10 +1,10 @@
-def canFinish(numCourses: int, prerequisites: List[List[int]]) -> bool:
-    preMap: Dict[int, List[int]] = {i: [] for i in range(numCourses)}
+def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
+    preMap: dict[int, list[int]] = {i: [] for i in range(numCourses)}
 
     for crs, pre in prerequisites:
         preMap[crs].append(pre)
 
-    visiting: Set[int] = set()
+    visiting: set[int] = set()
 
     def dfs(crs: int) -> bool:
         if crs in visiting:

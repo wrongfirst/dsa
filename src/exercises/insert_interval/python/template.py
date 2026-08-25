@@ -1,2 +1,2 @@
-def insert(intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+def insert(intervals: list[list[int]], newInterval: list[int]) -> list[list[int]]:
     pass

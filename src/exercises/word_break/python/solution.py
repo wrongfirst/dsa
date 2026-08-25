@@ -1,4 +1,4 @@
-def wordBreak(s: str, wordDict: List[str]) -> bool:
+def wordBreak(s: str, wordDict: list[str]) -> bool:
     dp = [False] * (len(s) + 1)
     dp[len(s)] = True
 

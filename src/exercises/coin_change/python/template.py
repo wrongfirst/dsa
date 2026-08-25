@@ -1,2 +1,2 @@
-def coinChange(coins: List[int], amount: int) -> int:
+def coinChange(coins: list[int], amount: int) -> int:
     pass

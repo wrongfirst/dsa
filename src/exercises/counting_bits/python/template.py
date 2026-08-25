@@ -1,2 +1,2 @@
-def countBits(n: int) -> List[int]:
+def countBits(n: int) -> list[int]:
     pass

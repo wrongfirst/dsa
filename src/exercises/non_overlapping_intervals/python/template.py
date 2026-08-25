@@ -1,2 +1,2 @@
-def eraseOverlapIntervals(intervals: List[List[int]]) -> int:
+def eraseOverlapIntervals(intervals: list[list[int]]) -> int:
     pass

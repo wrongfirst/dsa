@@ -1,5 +1,5 @@
-def threeSum(nums: List[int]) -> List[List[int]]:
-    res: List[List[int]] = []
+def threeSum(nums: list[int]) -> list[list[int]]:
+    res: list[list[int]] = []
     nums.sort()
 
     for i, a in enumerate(nums):

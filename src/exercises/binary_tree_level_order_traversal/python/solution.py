@@ -5,14 +5,14 @@
 #         self.left = left
 #         self.right = right
 
-def levelOrder(root: Optional[TreeNode]) -> List[List[int]]:
-    res: List[List[int]] = []
+def levelOrder(root: Optional[TreeNode]) -> list[list[int]]:
+    res: list[list[int]] = []
     q: deque[TreeNode] = deque()
     if root:
         q.append(root)
 
     while q:
-        val: List[int] = []
+        val: list[int] = []
 
         for i in range(len(q)):
             node = q.popleft()

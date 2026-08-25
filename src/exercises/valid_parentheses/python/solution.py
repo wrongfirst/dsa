@@ -1,6 +1,6 @@
 def isValid(s: str) -> bool:
-    Map: Dict[str, str] = {")": "(", "]": "[", "}": "{"}
-    stack: List[str] = []
+    Map: dict[str, str] = {")": "(", "]": "[", "}": "{"}
+    stack: list[str] = []
 
     for c in s:
         if c not in Map:

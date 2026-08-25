@@ -1,2 +1,2 @@
-def longestConsecutive(nums: List[int]) -> int:
+def longestConsecutive(nums: list[int]) -> int:
     pass

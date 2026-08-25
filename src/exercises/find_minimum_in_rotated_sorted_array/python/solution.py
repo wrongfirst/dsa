@@ -1,4 +1,4 @@
-def findMin(nums: List[int]) -> int:
+def findMin(nums: list[int]) -> int:
     start, end = 0, len(nums) - 1 
     curr_min = nums[0]
     

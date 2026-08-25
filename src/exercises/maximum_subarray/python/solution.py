@@ -1,4 +1,4 @@
-def maxSubArray(nums: List[int]) -> int:
+def maxSubArray(nums: list[int]) -> int:
     res = nums[0]
 
     total = 0

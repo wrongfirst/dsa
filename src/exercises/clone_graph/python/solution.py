@@ -7,7 +7,7 @@ class Node:
 """
 
 def cloneGraph(node: Optional['Node']) -> Optional['Node']:
-    oldToNew: Dict[Node, Node] = {}
+    oldToNew: dict[Node, Node] = {}
 
     def dfs(curr_node: Node) -> Node:
         if curr_node in oldToNew:

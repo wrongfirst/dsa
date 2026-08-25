@@ -1,4 +1,4 @@
-def lengthOfLIS(nums: List[int]) -> int:
+def lengthOfLIS(nums: list[int]) -> int:
     LIS = [1] * len(nums)
 
     for i in range(len(nums) - 1, -1, -1):

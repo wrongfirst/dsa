@@ -1,2 +1,2 @@
-def validTree(n: int, edges: List[List[int]]) -> bool:
+def validTree(n: int, edges: list[list[int]]) -> bool:
     pass

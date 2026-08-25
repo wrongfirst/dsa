@@ -1,2 +1,2 @@
-def canJump(nums: List[int]) -> bool:
+def canJump(nums: list[int]) -> bool:
     pass

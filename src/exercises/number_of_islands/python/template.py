@@ -1,2 +1,2 @@
-def numIslands(grid: List[List[str]]) -> int:
+def numIslands(grid: list[list[str]]) -> int:
     pass

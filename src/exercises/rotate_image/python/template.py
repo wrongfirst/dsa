@@ -1,2 +1,2 @@
-def rotate(matrix: List[List[int]]) -> None:
+def rotate(matrix: list[list[int]]) -> None:
     pass

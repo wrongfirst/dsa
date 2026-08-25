@@ -1,2 +1,2 @@
-def hasDuplicate(nums: List[int]) -> bool:
+def hasDuplicate(nums: list[int]) -> bool:
     pass

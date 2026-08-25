@@ -1,2 +1,2 @@
-def lengthOfLIS(nums: List[int]) -> int:
+def lengthOfLIS(nums: list[int]) -> int:
     pass

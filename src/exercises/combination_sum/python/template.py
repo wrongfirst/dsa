@@ -1,2 +1,2 @@
-def combinationSum(nums: List[int], target: int) -> List[List[int]]:
+def combinationSum(nums: list[int], target: int) -> list[list[int]]:
     pass

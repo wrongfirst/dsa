@@ -1,2 +1,2 @@
-def threeSum(nums: List[int]) -> List[List[int]]:
+def threeSum(nums: list[int]) -> list[list[int]]:
     pass

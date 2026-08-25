@@ -1,2 +1,2 @@
-def topKFrequent(nums: List[int], k: int) -> List[int]:
+def topKFrequent(nums: list[int], k: int) -> list[int]:
     pass

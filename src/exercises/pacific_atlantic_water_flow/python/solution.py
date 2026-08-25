@@ -1,9 +1,9 @@
-def pacificAtlantic(heights: List[List[int]]) -> List[List[int]]:
+def pacificAtlantic(heights: list[list[int]]) -> list[list[int]]:
     ROWS, COLS = len(heights), len(heights[0])
-    pac: Set[Tuple[int, int]] = set()
-    atl: Set[Tuple[int, int]] = set()
+    pac: set[tuple[int, int]] = set()
+    atl: set[tuple[int, int]] = set()
 
-    def dfs(r: int, c: int, visit: Set[Tuple[int, int]], prevHeight: int) -> None:
+    def dfs(r: int, c: int, visit: set[tuple[int, int]], prevHeight: int) -> None:
         if (
             (r, c) in visit
             or r < 0
@@ -27,7 +27,7 @@ def pacificAtlantic(heights: List[List[int]]) -> List[List[int]]:
         dfs(r, 0, pac, heights[r][0])
         dfs(r, COLS - 1, atl, heights[r][COLS - 1])
 
-    res: List[List[int]] = []
+    res: list[list[int]] = []
     for r in range(ROWS):
         for c in range(COLS):
             if (r, c) in pac and (r, c) in atl:

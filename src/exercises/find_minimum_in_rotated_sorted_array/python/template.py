@@ -1,2 +1,2 @@
-def findMin(nums: List[int]) -> int:
+def findMin(nums: list[int]) -> int:
     pass

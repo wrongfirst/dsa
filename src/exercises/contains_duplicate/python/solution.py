@@ -1,5 +1,5 @@
-def hasDuplicate(nums: List[int]) -> bool:
-    hashset: Set[int] = set()
+def hasDuplicate(nums: list[int]) -> bool:
+    hashset: set[int] = set()
 
     for n in nums:
         if n in hashset:

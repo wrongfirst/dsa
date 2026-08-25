@@ -1,7 +1,7 @@
 class UnionFind:
 
     def __init__(self):
-        self.f: Dict[int, int] = {}
+        self.f: dict[int, int] = {}
 
     def findParent(self, x: int) -> int:
         y = self.f.get(x, x)
@@ -13,7 +13,7 @@ class UnionFind:
 
         self.f[self.findParent(x)] = self.findParent(y)
 
-def countComponents(n: int, edges: List[List[int]]) -> int:
+def countComponents(n: int, edges: list[list[int]]) -> int:
     dsu = UnionFind()
     for a, b in edges:
         dsu.union(a, b)

@@ -1,5 +1,5 @@
-def twoSum(nums: List[int], target: int) -> List[int]:
-    prevMap: Dict[int, int] = {}  # val -> index
+def twoSum(nums: list[int], target: int) -> list[int]:
+    prevMap: dict[int, int] = {}  # val -> index
 
     for i, n in enumerate(nums):
         diff = target - n

@@ -6,7 +6,7 @@ class Interval(object):
         self.end = end
 """
 
-def canAttendMeetings(intervals: List[Interval]) -> bool:
+def canAttendMeetings(intervals: list[Interval]) -> bool:
     intervals.sort(key=lambda i: i.start)
 
     for i in range(1, len(intervals)):

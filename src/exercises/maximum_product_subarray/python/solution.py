@@ -1,4 +1,4 @@
-def maxProduct(nums: List[int]) -> int:
+def maxProduct(nums: list[int]) -> int:
     res = nums[0]
     curMin, curMax = 1, 1
 

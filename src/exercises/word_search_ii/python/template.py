@@ -1,2 +1,2 @@
-def findWords(board: List[List[str]], words: List[str]) -> List[str]:
+def findWords(board: list[list[str]], words: list[str]) -> list[str]:
     pass

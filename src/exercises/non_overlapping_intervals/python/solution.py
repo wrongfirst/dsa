@@ -1,4 +1,4 @@
-def eraseOverlapIntervals(intervals: List[List[int]]) -> int:
+def eraseOverlapIntervals(intervals: list[list[int]]) -> int:
     intervals.sort()
     res = 0
     prevEnd = intervals[0][1]

@@ -5,8 +5,8 @@
 #         self.left = left
 #         self.right = right
 
-def buildTree(preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-    indices: Dict[int, int] = {val: idx for idx, val in enumerate(inorder)}
+def buildTree(preorder: list[int], inorder: list[int]) -> Optional[TreeNode]:
+    indices: dict[int, int] = {val: idx for idx, val in enumerate(inorder)}
 
     pre_idx = 0
     def dfs(l: int, r: int) -> Optional[TreeNode]:

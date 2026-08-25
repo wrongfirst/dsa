@@ -1,2 +1,2 @@
-def foreignDictionary(words: List[str]) -> str:
+def foreignDictionary(words: list[str]) -> str:
     pass

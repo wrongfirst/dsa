@@ -1,2 +1,2 @@
-def rob(nums: List[int]) -> int:
+def rob(nums: list[int]) -> int:
     pass
