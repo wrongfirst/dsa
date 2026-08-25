@@ -1,9 +1,111 @@
 chapters:
-  "Basics":
-      - hello_world
-      # - lists
-      # - arrays
-      # - strings
+  "Arrays & Hashing":
+    - contains_duplicate
+    - two_sum
+    - valid_anagram
+    - encode_and_decode_strings
+    - group_anagrams
+    - longest_consecutive_sequence
+    - product_of_array_except_self
+    - top_k_frequent_elements
 
-  # "More Concepts"
-  #     - reference_vs_value
+  "Two Pointers":
+    - valid_palindrome
+    - 3sum
+    - container_with_most_water
+
+  "Sliding Window":
+    - best_time_to_buy_and_sell_stock
+    - longest_repeating_character_replacement
+    - longest_substring_without_repeating_characters
+    - minimum_window_substring
+
+  "Stack":
+    - valid_parentheses
+
+  "Binary Search":
+    - find_minimum_in_rotated_sorted_array
+    - search_in_rotated_sorted_array
+
+  "Linked List":
+    - linked_list_cycle
+    - merge_two_sorted_lists
+    - reverse_linked_list
+    - remove_nth_node_from_end_of_list
+    - reorder_list
+    - merge_k_sorted_lists
+
+  "Trees":
+    - invert_binary_tree
+    - maximum_depth_of_binary_tree
+    - same_tree
+    - subtree_of_another_tree
+    - binary_tree_level_order_traversal
+    - construct_binary_tree_from_preorder_and_inorder_traversal
+    - kth_smallest_element_in_a_bst
+    - lowest_common_ancestor_of_a_binary_search_tree
+    - validate_binary_search_tree
+    - binary_tree_maximum_path_sum
+    - serialize_and_deserialize_binary_tree
+
+  "Tries":
+    - design_add_and_search_words_data_structure
+    - implement_trie_prefix_tree
+    - word_search_ii
+
+  "Heap / Priority Queue":
+    - find_median_from_data_stream
+
+  "Backtracking":
+    - combination_sum
+    - word_search
+
+  "Graphs":
+    - clone_graph
+    - course_schedule
+    - graph_valid_tree
+    - number_of_connected_components_in_an_undirected_graph
+    - number_of_islands
+    - pacific_atlantic_water_flow
+
+  "Advanced Graphs":
+    - alien_dictionary
+
+  "1-D Dynamic Programming":
+    - climbing_stairs
+    - coin_change
+    - decode_ways
+    - house_robber
+    - house_robber_ii
+    - longest_increasing_subsequence
+    - longest_palindromic_substring
+    - maximum_product_subarray
+    - palindromic_substrings
+    - word_break
+
+  "2-D Dynamic Programming":
+    - longest_common_subsequence
+    - unique_paths
+
+  "Greedy":
+    - jump_game
+    - maximum_subarray
+
+  "Intervals":
+    - meeting_rooms
+    - insert_interval
+    - meeting_rooms_ii
+    - merge_intervals
+    - non_overlapping_intervals
+
+  "Math & Geometry":
+    - rotate_image
+    - set_matrix_zeroes
+    - spiral_matrix
+
+  "Bit Manipulation":
+    - counting_bits
+    - missing_number
+    - number_of_1_bits
+    - reverse_bits
+    - sum_of_two_integers

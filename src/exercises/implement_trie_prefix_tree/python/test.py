@@ -1,0 +1,7 @@
+trie = PrefixTree()
+trie.insert("apple")
+Tests.bool_check("search apple", trie.search("apple") == True)
+Tests.bool_check("search app", trie.search("app") == False)
+Tests.bool_check("startsWith app", trie.startsWith("app") == True)
+trie.insert("app")
+Tests.bool_check("search app 2", trie.search("app") == True)
