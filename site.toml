@@ -1,6 +1,3 @@
-# Site Configuration Example
-# Copy this file to `site.toml` to customize your site settings.
-
 # Site Title & Subtitle
 title = "dsa"
 subtitle = "by wrongfirst"
@@ -17,7 +14,7 @@ author_url = "https://github.com/jitinnair1"
 
 # Branding & Assets
 # `logo_emoji`: Emoji displayed in the header logo badge
-logo_emoji = "📓"
+logo_emoji = "🪛"
 # `logo_image`: Path to optional image logo (uncomment to override logo_emoji)
 # logo_image = "/public/logo.png"
 
