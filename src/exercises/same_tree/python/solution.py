@@ -5,7 +5,7 @@
 #         self.left = left
 #         self.right = right
 
-def isSameTree(p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+def isSameTree(p: TreeNode | None, q: TreeNode | None) -> bool:
     if not p and not q:
         return True
     if p and q and p.val == q.val:

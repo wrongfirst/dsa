@@ -5,7 +5,7 @@
 #         self.left = left
 #         self.right = right
 
-def levelOrder(root: Optional[TreeNode]) -> list[list[int]]:
+def levelOrder(root: TreeNode | None) -> list[list[int]]:
     res: list[list[int]] = []
     q: deque[TreeNode] = deque()
     if root:

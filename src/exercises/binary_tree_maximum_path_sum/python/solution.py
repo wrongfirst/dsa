@@ -5,13 +5,13 @@
 #         self.left = left
 #         self.right = right
 
-def maxPathSum(root: Optional[TreeNode]) -> int:
+def maxPathSum(root: TreeNode | None) -> int:
     if not root:
         return 0
 
     res = [root.val]
 
-    def dfs(node: Optional[TreeNode]) -> int:
+    def dfs(node: TreeNode | None) -> int:
         if not node:
             return 0
 

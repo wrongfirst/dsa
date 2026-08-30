@@ -5,9 +5,9 @@
 #         self.left = left
 #         self.right = right
 
-def kthSmallest(root: Optional[TreeNode], k: int) -> int:
+def kthSmallest(root: TreeNode | None, k: int) -> int:
     stack: list[TreeNode] = []
-    curr: Optional[TreeNode] = root
+    curr: TreeNode | None = root
 
     while stack or curr:
         while curr:

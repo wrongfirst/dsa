@@ -8,10 +8,10 @@
 class Codec:
     
     # Encodes a tree to a single string.
-    def serialize(self, root: Optional[TreeNode]) -> str:
+    def serialize(self, root: TreeNode | None) -> str:
         res: list[str] = []
 
-        def dfs(node: Optional[TreeNode]):
+        def dfs(node: TreeNode | None):
             if not node:
                 res.append("N")
                 return
@@ -23,7 +23,7 @@ class Codec:
         return ",".join(res)
         
     # Decodes your encoded data to tree.
-    def deserialize(self, data: str) -> Optional[TreeNode]:
+    def deserialize(self, data: str) -> TreeNode | None:
         vals = data.split(",")
         self.i: int = 0
 

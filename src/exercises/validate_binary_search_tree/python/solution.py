@@ -5,8 +5,8 @@
 #         self.left = left
 #         self.right = right
 
-def isValidBST(root: Optional[TreeNode]) -> bool:
-    def valid(node: Optional[TreeNode], left: float, right: float) -> bool:
+def isValidBST(root: TreeNode | None) -> bool:
+    def valid(node: TreeNode | None, left: float, right: float) -> bool:
         if not node:
             return True
         if not (left < node.val < right):

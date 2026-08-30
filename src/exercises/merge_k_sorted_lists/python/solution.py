@@ -5,12 +5,12 @@
 #         self.next = next
 
 
-def mergeKLists(lists: list[Optional[ListNode]]) -> Optional[ListNode]:
+def mergeKLists(lists: list[ListNode | None]) -> ListNode | None:
     if not lists or len(lists) == 0:
         return None
 
     while len(lists) > 1:
-        mergedLists: list[Optional[ListNode]] = []
+        mergedLists: list[ListNode | None] = []
         for i in range(0, len(lists), 2):
             l1 = lists[i]
             l2 = lists[i + 1] if (i + 1) < len(lists) else None
@@ -18,7 +18,7 @@ def mergeKLists(lists: list[Optional[ListNode]]) -> Optional[ListNode]:
         lists = mergedLists
     return lists[0]
 
-def mergeList(l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+def mergeList(l1: ListNode | None, l2: ListNode | None) -> ListNode | None:
     dummy = ListNode()
     tail: ListNode = dummy
 

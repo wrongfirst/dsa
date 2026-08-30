@@ -5,5 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-def maxDepth(root: Optional[TreeNode]) -> int:
+def maxDepth(root: TreeNode | None) -> int:
     pass

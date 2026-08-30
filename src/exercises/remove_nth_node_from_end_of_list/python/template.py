@@ -4,5 +4,5 @@
 #         self.val = val
 #         self.next = next
 
-def removeNthFromEnd(head: Optional[ListNode], n: int) -> Optional[ListNode]:
+def removeNthFromEnd(head: ListNode | None, n: int) -> ListNode | None:
     pass

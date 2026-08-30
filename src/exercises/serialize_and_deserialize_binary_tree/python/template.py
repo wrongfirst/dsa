@@ -6,8 +6,8 @@
 #         self.right = right
 
 class Codec:
-    def serialize(self, root: Optional[TreeNode]) -> str:
+    def serialize(self, root: TreeNode | None) -> str:
         pass
 
-    def deserialize(self, data: str) -> Optional[TreeNode]:
+    def deserialize(self, data: str) -> TreeNode | None:
         pass

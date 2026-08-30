@@ -4,10 +4,10 @@
 #         self.val = val
 #         self.next = next
 
-def removeNthFromEnd(head: Optional[ListNode], n: int) -> Optional[ListNode]:
+def removeNthFromEnd(head: ListNode | None, n: int) -> ListNode | None:
     dummy = ListNode(0, head)
-    left: Optional[ListNode] = dummy
-    right: Optional[ListNode] = head
+    left: ListNode | None = dummy
+    right: ListNode | None = head
 
     while n > 0 and right:
         right = right.next

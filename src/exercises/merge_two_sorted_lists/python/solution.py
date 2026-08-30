@@ -4,7 +4,7 @@
 #         self.val = val
 #         self.next = next
 
-def mergeTwoLists(list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+def mergeTwoLists(list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
     dummy = ListNode()
     node: ListNode = dummy
 
@@ -24,7 +24,7 @@ def mergeTwoLists(list1: Optional[ListNode], list2: Optional[ListNode]) -> Optio
 
 # Recursive Solution
 # class Solution:
-#     def mergeTwoLists(list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+#     def mergeTwoLists(list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
 #         if not list1:
 #             return list2
 #         if not list2:

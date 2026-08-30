@@ -4,9 +4,9 @@
 #         self.val = val
 #         self.next = next
 
-def hasCycle(head: Optional[ListNode]) -> bool:
-    slow: Optional[ListNode] = head
-    fast: Optional[ListNode] = head
+def hasCycle(head: ListNode | None) -> bool:
+    slow: ListNode | None = head
+    fast: ListNode | None = head
 
     while fast and fast.next and slow:
         slow = slow.next

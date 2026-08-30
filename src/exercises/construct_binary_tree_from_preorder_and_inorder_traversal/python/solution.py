@@ -5,11 +5,11 @@
 #         self.left = left
 #         self.right = right
 
-def buildTree(preorder: list[int], inorder: list[int]) -> Optional[TreeNode]:
+def buildTree(preorder: list[int], inorder: list[int]) -> TreeNode | None:
     indices: dict[int, int] = {val: idx for idx, val in enumerate(inorder)}
 
     pre_idx = 0
-    def dfs(l: int, r: int) -> Optional[TreeNode]:
+    def dfs(l: int, r: int) -> TreeNode | None:
         nonlocal pre_idx
         if l > r:
             return None

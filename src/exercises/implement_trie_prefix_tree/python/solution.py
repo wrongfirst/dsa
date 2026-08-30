@@ -1,6 +1,6 @@
 class PrefixTreeNode:
     def __init__(self):
-        self.children: list[Optional['PrefixTreeNode']] = [None] * 26
+        self.children: list[PrefixTreeNode | None] = [None] * 26
         self.end = False
 
 

@@ -4,5 +4,5 @@
 #         self.val = val
 #         self.next = next
 
-def reorderList(head: Optional[ListNode]) -> None:
+def reorderList(head: ListNode | None) -> None:
     pass

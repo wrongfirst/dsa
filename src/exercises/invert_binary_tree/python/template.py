@@ -5,5 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-def invertTree(root: Optional[TreeNode]) -> Optional[TreeNode]:
+def invertTree(root: TreeNode | None) -> TreeNode | None:
     pass

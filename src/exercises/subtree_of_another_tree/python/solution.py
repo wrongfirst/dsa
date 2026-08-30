@@ -6,7 +6,7 @@
 #         self.right = right
 
 
-def isSubtree(root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+def isSubtree(root: TreeNode | None, subRoot: TreeNode | None) -> bool:
     if not subRoot:
         return True
     if not root:
@@ -16,7 +16,7 @@ def isSubtree(root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         return True
     return isSubtree(root.left, subRoot) or isSubtree(root.right, subRoot)
 
-def sameTree(root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+def sameTree(root: TreeNode | None, subRoot: TreeNode | None) -> bool:
     if not root and not subRoot:
         return True
     if root and subRoot and root.val == subRoot.val:

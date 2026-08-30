@@ -6,5 +6,5 @@ class Node:
         self.neighbors = neighbors if neighbors is not None else []
 """
 
-def cloneGraph(node: Optional['Node']) -> Optional['Node']:
+def cloneGraph(node: Node | None) -> Node | None:
     pass

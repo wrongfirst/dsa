@@ -6,7 +6,7 @@
 #         self.right = right
 
 def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-    curr: Optional[TreeNode] = root
+    curr: TreeNode | None = root
     while curr:
         if curr.val < p.val and curr.val < q.val:
             curr = curr.right

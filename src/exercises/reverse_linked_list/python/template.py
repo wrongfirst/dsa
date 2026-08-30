@@ -4,5 +4,5 @@
 #         self.val = val
 #         self.next = next
 
-def reverseList(head: Optional[ListNode]) -> Optional[ListNode]:
+def reverseList(head: ListNode | None) -> ListNode | None:
     pass

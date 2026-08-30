@@ -4,12 +4,12 @@
 #         self.val = val
 #         self.next = next
 
-def reorderList(head: Optional[ListNode]) -> None:
+def reorderList(head: ListNode | None) -> None:
     if not head or not head.next:
         return
 
-    slow: Optional[ListNode] = head
-    fast: Optional[ListNode] = head.next
+    slow: ListNode | None = head
+    fast: ListNode | None = head.next
     while fast and fast.next and slow:
         slow = slow.next
         fast = fast.next
@@ -20,14 +20,14 @@ def reorderList(head: Optional[ListNode]) -> None:
         return
     second = slow.next
     slow.next = None
-    prev: Optional[ListNode] = None
+    prev: ListNode | None = None
     while second:
         tmp = second.next
         second.next = prev
         prev = second
         second = tmp
 
-    first: Optional[ListNode] = head
+    first: ListNode | None = head
     second = prev
     while first and second:
         tmp1 = first.next

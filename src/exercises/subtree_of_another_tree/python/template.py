@@ -5,5 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-def isSubtree(root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+def isSubtree(root: TreeNode | None, subRoot: TreeNode | None) -> bool:
     pass

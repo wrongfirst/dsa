@@ -5,5 +5,5 @@
 #         self.left = left
 #         self.right = right
 
-def maxPathSum(root: Optional[TreeNode]) -> int:
+def maxPathSum(root: TreeNode | None) -> int:
     pass

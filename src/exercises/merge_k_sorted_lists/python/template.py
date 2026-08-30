@@ -4,5 +4,5 @@
 #         self.val = val
 #         self.next = next
 
-def mergeKLists(lists: list[Optional[ListNode]]) -> Optional[ListNode]:
+def mergeKLists(lists: list[ListNode | None]) -> ListNode | None:
     pass
