@@ -1,0 +1,39 @@
+{
+  "exercise": "search_in_rotated_sorted_array",
+  "cases": [
+    {
+      "uuid": "a7eda3a9-a684-4b6a-9c11-cdb8b1c86896",
+      "description": "Example 1",
+      "property": "search",
+      "input": {
+        "nums": [
+          3,
+          4,
+          5,
+          6,
+          1,
+          2
+        ],
+        "target": 1
+      },
+      "expected": 4
+    },
+    {
+      "uuid": "f3ac15d8-a187-4ef9-902d-7d21ae97f562",
+      "description": "Example 2",
+      "property": "search",
+      "input": {
+        "nums": [
+          3,
+          5,
+          6,
+          0,
+          1,
+          2
+        ],
+        "target": 4
+      },
+      "expected": -1
+    }
+  ]
+}

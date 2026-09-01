@@ -1,0 +1,46 @@
+{
+  "exercise": "jump_game",
+  "cases": [
+    {
+      "uuid": "78881def-7228-4c62-ae20-c6bce33c69b0",
+      "description": "Example 1",
+      "property": "canJump",
+      "input": {
+        "nums": [
+          1,
+          2,
+          0,
+          1,
+          0
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "4a57f16f-2312-4ec1-9bef-2644da9143b2",
+      "description": "Example 2",
+      "property": "canJump",
+      "input": {
+        "nums": [
+          1,
+          2,
+          1,
+          0,
+          1
+        ]
+      },
+      "expected": false
+    },
+    {
+      "description": "Single element",
+      "property": "canJump",
+      "input": {
+        "nums": [
+          0
+        ]
+      },
+      "expected": true,
+      "uuid": "f2be1277-f278-4732-95d7-175486c329cb"
+    }
+  ]
+}

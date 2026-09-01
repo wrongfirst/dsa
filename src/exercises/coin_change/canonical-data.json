@@ -1,0 +1,43 @@
+{
+  "exercise": "coin_change",
+  "cases": [
+    {
+      "uuid": "9215a27e-1c6d-46cb-8f15-b5a1cb53065f",
+      "description": "Example 1",
+      "property": "coinChange",
+      "input": {
+        "coins": [
+          1,
+          2,
+          5
+        ],
+        "amount": 11
+      },
+      "expected": 3
+    },
+    {
+      "uuid": "c2f48aad-bbe8-4132-bc1d-f90ea9aea45c",
+      "description": "Example 2",
+      "property": "coinChange",
+      "input": {
+        "coins": [
+          2
+        ],
+        "amount": 3
+      },
+      "expected": -1
+    },
+    {
+      "uuid": "518d9cda-4d63-4bee-a275-fd944e7aeaf1",
+      "description": "Example 3",
+      "property": "coinChange",
+      "input": {
+        "coins": [
+          1
+        ],
+        "amount": 0
+      },
+      "expected": 0
+    }
+  ]
+}

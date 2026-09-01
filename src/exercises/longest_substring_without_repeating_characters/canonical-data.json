@@ -1,0 +1,41 @@
+{
+  "exercise": "longest_substring_without_repeating_characters",
+  "cases": [
+    {
+      "uuid": "7c773ffa-e5f1-44a3-bdbe-4cdf8f89867b",
+      "description": "Example 1",
+      "property": "lengthOfLongestSubstring",
+      "input": {
+        "s": "abcabcbb"
+      },
+      "expected": 3
+    },
+    {
+      "uuid": "823e0bfc-b9e6-4f37-bb1a-e60a9ea74cd6",
+      "description": "Example 2",
+      "property": "lengthOfLongestSubstring",
+      "input": {
+        "s": "bbbbb"
+      },
+      "expected": 1
+    },
+    {
+      "uuid": "0db01abd-e1d5-4ce4-9804-0e2551be45b6",
+      "description": "Example 3",
+      "property": "lengthOfLongestSubstring",
+      "input": {
+        "s": "pwwkew"
+      },
+      "expected": 3
+    },
+    {
+      "description": "Empty string",
+      "property": "lengthOfLongestSubstring",
+      "input": {
+        "s": ""
+      },
+      "expected": 0,
+      "uuid": "79a20f7a-495d-401f-994d-7326e5899c3b"
+    }
+  ]
+}

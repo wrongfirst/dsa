@@ -1,0 +1,49 @@
+{
+  "exercise": "longest_consecutive_sequence",
+  "cases": [
+    {
+      "uuid": "c156606e-fce4-4050-a887-113a6ab6a012",
+      "description": "Example 1",
+      "property": "longestConsecutive",
+      "input": {
+        "nums": [
+          2,
+          20,
+          4,
+          10,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "uuid": "e9d1c314-a5df-47c8-ae8c-f5b85f68f3f5",
+      "description": "Example 2",
+      "property": "longestConsecutive",
+      "input": {
+        "nums": [
+          0,
+          3,
+          2,
+          5,
+          4,
+          6,
+          1,
+          1
+        ]
+      },
+      "expected": 7
+    },
+    {
+      "description": "Empty vector",
+      "property": "longestConsecutive",
+      "input": {
+        "nums": []
+      },
+      "expected": 0,
+      "uuid": "8c838c92-310a-47f2-9725-c9c3b5ff1bda"
+    }
+  ]
+}

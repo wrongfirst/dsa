@@ -1,0 +1,53 @@
+{
+  "exercise": "meeting_rooms_ii",
+  "inputs": {
+    "intervals": "interval_array"
+  },
+  "cases": [
+    {
+      "uuid": "58a33012-703e-4fd2-9ff7-b7b30097491f",
+      "description": "Example 1",
+      "property": "minMeetingRooms",
+      "input": {
+        "intervals": [
+          [
+            0,
+            40
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            15,
+            20
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "uuid": "f1cfcd19-882d-41d2-8cc1-9f53e32266d2",
+      "description": "Example 2",
+      "property": "minMeetingRooms",
+      "input": {
+        "intervals": [
+          [
+            4,
+            9
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "description": "Empty",
+      "property": "minMeetingRooms",
+      "input": {
+        "intervals": []
+      },
+      "expected": 0,
+      "uuid": "da9d31d8-6547-4442-bbf7-d12185e742e0"
+    }
+  ]
+}

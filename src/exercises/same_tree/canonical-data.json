@@ -1,0 +1,62 @@
+{
+  "exercise": "same_tree",
+  "inputs": {
+    "p": "tree",
+    "q": "tree"
+  },
+  "cases": [
+    {
+      "uuid": "aee33ce5-aa6a-49cc-bdbf-9e19cc65e9b9",
+      "description": "Example 1",
+      "property": "isSameTree",
+      "input": {
+        "p": [
+          1,
+          2,
+          3
+        ],
+        "q": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "aa6d07ab-af12-4c9d-b382-4ec6353fe6f0",
+      "description": "Example 2",
+      "property": "isSameTree",
+      "input": {
+        "p": [
+          4,
+          7
+        ],
+        "q": [
+          4,
+          null,
+          7
+        ]
+      },
+      "expected": false
+    },
+    {
+      "uuid": "6d16cb4e-2bb3-49d7-bcb3-3ec895a43c6b",
+      "description": "Example 3",
+      "property": "isSameTree",
+      "input": {
+        "p": [
+          1,
+          2,
+          3
+        ],
+        "q": [
+          1,
+          3,
+          2
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

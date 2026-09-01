@@ -1,0 +1,32 @@
+{
+  "exercise": "climbing_stairs",
+  "cases": [
+    {
+      "uuid": "43407d5b-893f-4a9e-a213-f472b300c092",
+      "description": "Example 1",
+      "property": "climbStairs",
+      "input": {
+        "n": 2
+      },
+      "expected": 2
+    },
+    {
+      "uuid": "ae84229e-afb2-47f5-8643-c7c5d417d757",
+      "description": "Example 2",
+      "property": "climbStairs",
+      "input": {
+        "n": 3
+      },
+      "expected": 3
+    },
+    {
+      "description": "Base case 1",
+      "property": "climbStairs",
+      "input": {
+        "n": 1
+      },
+      "expected": 1,
+      "uuid": "7ad50f14-7167-424b-906c-d81f2338390a"
+    }
+  ]
+}

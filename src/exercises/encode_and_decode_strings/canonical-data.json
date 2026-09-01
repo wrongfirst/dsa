@@ -1,0 +1,82 @@
+{
+  "exercise": "encode_and_decode_strings",
+  "mode": "compose",
+  "compose": [
+    "decode",
+    "encode"
+  ],
+  "receiver": "Solution",
+  "cases": [
+    {
+      "uuid": "ca0fd7e5-bd0f-484d-a025-e27e572ec898",
+      "description": "Example 1",
+      "property": "decode",
+      "input": {
+        "strs": [
+          "Hello",
+          "World"
+        ]
+      },
+      "expected": [
+        "Hello",
+        "World"
+      ]
+    },
+    {
+      "uuid": "95f76916-b1a5-472d-b0e5-5d722a87a4f4",
+      "description": "Example 2",
+      "property": "decode",
+      "input": {
+        "strs": [
+          ""
+        ]
+      },
+      "expected": [
+        ""
+      ]
+    },
+    {
+      "uuid": "ab5b5816-4921-4540-b65f-4aa6a10912b2",
+      "description": "Example 2",
+      "property": "decode",
+      "input": {
+        "strs": []
+      },
+      "expected": []
+    },
+    {
+      "uuid": "7551b374-48a8-48cb-8501-d5109294168e",
+      "description": "Delimiter in content",
+      "property": "decode",
+      "input": {
+        "strs": [
+          "#",
+          "##",
+          "4#test",
+          "10#hello#world"
+        ]
+      },
+      "expected": [
+        "#",
+        "##",
+        "4#test",
+        "10#hello#world"
+      ]
+    },
+    {
+      "uuid": "f48f741e-7186-4d7e-bfda-bce458b17b32",
+      "description": "Max length strings",
+      "property": "decode",
+      "input": {
+        "strs": [
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ]
+      },
+      "expected": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ]
+    }
+  ]
+}

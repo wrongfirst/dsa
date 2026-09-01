@@ -1,0 +1,75 @@
+{
+  "exercise": "word_search_ii",
+  "comparison": "unordered",
+  "inputs": {
+    "board": "byte_grid"
+  },
+  "cases": [
+    {
+      "uuid": "419817be-0831-403f-9494-b2beb638e677",
+      "description": "Example 1",
+      "property": "findWords",
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          [
+            "s",
+            "a",
+            "a",
+            "t"
+          ],
+          [
+            "a",
+            "c",
+            "k",
+            "e"
+          ],
+          [
+            "a",
+            "c",
+            "d",
+            "n"
+          ]
+        ],
+        "words": [
+          "bat",
+          "cat",
+          "back",
+          "backend",
+          "stack"
+        ]
+      },
+      "expected": [
+        "cat",
+        "backend",
+        "back"
+      ]
+    },
+    {
+      "uuid": "1ea6a955-7ab1-42ad-85bb-3ac3a7f227bd",
+      "description": "Example 2",
+      "property": "findWords",
+      "input": {
+        "board": [
+          [
+            "x",
+            "o"
+          ],
+          [
+            "x",
+            "o"
+          ]
+        ],
+        "words": [
+          "xoxo"
+        ]
+      },
+      "expected": []
+    }
+  ]
+}

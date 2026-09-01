@@ -1,0 +1,35 @@
+{
+  "exercise": "longest_common_subsequence",
+  "cases": [
+    {
+      "uuid": "548f630b-8aa7-4d3a-9250-b148e6c74a40",
+      "description": "Example 1",
+      "property": "longestCommonSubsequence",
+      "input": {
+        "text1": "crabt",
+        "text2": "cat"
+      },
+      "expected": 3
+    },
+    {
+      "uuid": "9ce6afff-4ea6-4cdc-acd1-b9dbb3b07cb6",
+      "description": "Example 2",
+      "property": "longestCommonSubsequence",
+      "input": {
+        "text1": "abcd",
+        "text2": "abcd"
+      },
+      "expected": 4
+    },
+    {
+      "uuid": "3a9f4deb-e941-497c-8a82-e28d0c87ebba",
+      "description": "Example 3",
+      "property": "longestCommonSubsequence",
+      "input": {
+        "text1": "abcd",
+        "text2": "efgh"
+      },
+      "expected": 0
+    }
+  ]
+}

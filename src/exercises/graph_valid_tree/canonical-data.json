@@ -1,0 +1,63 @@
+{
+  "exercise": "graph_valid_tree",
+  "cases": [
+    {
+      "uuid": "d218764c-901b-401f-9cb7-30be97200bc6",
+      "description": "Example 1",
+      "property": "validTree",
+      "input": {
+        "n": 5,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "21592ba5-09e3-464f-921c-9b965021534f",
+      "description": "Example 2",
+      "property": "validTree",
+      "input": {
+        "n": 5,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

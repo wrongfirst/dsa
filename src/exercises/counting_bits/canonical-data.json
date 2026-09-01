@@ -1,0 +1,31 @@
+{
+  "exercise": "counting_bits",
+  "cases": [
+    {
+      "uuid": "d1e211f5-7305-4591-a122-08ce1e737ec6",
+      "description": "Example 1",
+      "property": "countBits",
+      "input": {
+        "n": 4
+      },
+      "expected": [
+        0,
+        1,
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "description": "n = 0",
+      "property": "countBits",
+      "input": {
+        "n": 0
+      },
+      "expected": [
+        0
+      ],
+      "uuid": "1c596597-6d75-4898-8d27-f5207dcac2c0"
+    }
+  ]
+}

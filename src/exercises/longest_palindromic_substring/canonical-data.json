@@ -1,0 +1,32 @@
+{
+  "exercise": "longest_palindromic_substring",
+  "cases": [
+    {
+      "uuid": "10b1befa-2f40-4aea-916d-112acd70b790",
+      "description": "Example 1",
+      "property": "longestPalindrome",
+      "input": {
+        "s": "ababd"
+      },
+      "expected": "aba"
+    },
+    {
+      "uuid": "a48f3c13-4e20-4fa3-a4c3-38dc7267c715",
+      "description": "Example 2",
+      "property": "longestPalindrome",
+      "input": {
+        "s": "abbc"
+      },
+      "expected": "bb"
+    },
+    {
+      "description": "Single character",
+      "property": "longestPalindrome",
+      "input": {
+        "s": "a"
+      },
+      "expected": "a",
+      "uuid": "251c06da-f539-4369-9e29-8167c4f3a75d"
+    }
+  ]
+}

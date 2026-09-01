@@ -1,0 +1,53 @@
+{
+  "exercise": "lowest_common_ancestor_of_a_binary_search_tree",
+  "inputs": {
+    "root": "tree",
+    "p": "tree_node",
+    "q": "tree_node"
+  },
+  "returns": "tree_node",
+  "cases": [
+    {
+      "uuid": "c9c67063-63c2-420a-845d-cf2f5c8f1880",
+      "description": "Example 1",
+      "property": "lowestCommonAncestor",
+      "input": {
+        "root": [
+          5,
+          3,
+          8,
+          1,
+          4,
+          7,
+          9,
+          null,
+          2
+        ],
+        "p": 3,
+        "q": 8
+      },
+      "expected": 5
+    },
+    {
+      "uuid": "b7954e04-43b3-433b-a310-8fb0c6d2005b",
+      "description": "Example 2",
+      "property": "lowestCommonAncestor",
+      "input": {
+        "root": [
+          5,
+          3,
+          8,
+          1,
+          4,
+          7,
+          9,
+          null,
+          2
+        ],
+        "p": 3,
+        "q": 4
+      },
+      "expected": 3
+    }
+  ]
+}

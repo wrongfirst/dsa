@@ -1,0 +1,48 @@
+{
+  "exercise": "word_break",
+  "cases": [
+    {
+      "uuid": "7c50f000-05d6-4137-b35c-8db107d112d4",
+      "description": "Example 1",
+      "property": "wordBreak",
+      "input": {
+        "s": "neetcode",
+        "wordDict": [
+          "neet",
+          "code"
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "a1bf9ac3-dffb-4b3c-a8a1-4259be21c4a0",
+      "description": "Example 2",
+      "property": "wordBreak",
+      "input": {
+        "s": "applepenapple",
+        "wordDict": [
+          "apple",
+          "pen",
+          "ape"
+        ]
+      },
+      "expected": true
+    },
+    {
+      "description": "Example 3",
+      "property": "wordBreak",
+      "input": {
+        "s": "catsandog",
+        "wordDict": [
+          "cats",
+          "dog",
+          "sand",
+          "and",
+          "cat"
+        ]
+      },
+      "expected": false,
+      "uuid": "e56d557e-849a-4c51-aa35-c8da978a47ec"
+    }
+  ]
+}

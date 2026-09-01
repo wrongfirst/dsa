@@ -1,0 +1,49 @@
+{
+  "exercise": "longest_increasing_subsequence",
+  "cases": [
+    {
+      "uuid": "83975ac9-381d-4097-843e-d9340f1811f5",
+      "description": "Example 1",
+      "property": "lengthOfLIS",
+      "input": {
+        "nums": [
+          9,
+          1,
+          4,
+          2,
+          3,
+          3,
+          7
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "uuid": "589dc7fa-28a1-463f-a8f4-ac25d079af71",
+      "description": "Example 2",
+      "property": "lengthOfLIS",
+      "input": {
+        "nums": [
+          0,
+          3,
+          1,
+          3,
+          2,
+          3
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "description": "Single element",
+      "property": "lengthOfLIS",
+      "input": {
+        "nums": [
+          10
+        ]
+      },
+      "expected": 1,
+      "uuid": "be48471f-052a-4d03-84e2-3206868467dc"
+    }
+  ]
+}

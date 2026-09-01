@@ -1,0 +1,43 @@
+{
+  "exercise": "validate_binary_search_tree",
+  "inputs": {
+    "root": "tree"
+  },
+  "cases": [
+    {
+      "uuid": "b1a01ecf-0c57-4b1a-af33-4541c2d2fd58",
+      "description": "Example 1",
+      "property": "isValidBST",
+      "input": {
+        "root": [
+          2,
+          1,
+          3
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "2afbd975-7af7-4b83-9296-79677f71d1b8",
+      "description": "Example 2",
+      "property": "isValidBST",
+      "input": {
+        "root": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": false
+    },
+    {
+      "description": "Empty tree",
+      "property": "isValidBST",
+      "input": {
+        "root": []
+      },
+      "expected": true,
+      "uuid": "4b7f1a93-5066-44e8-a7db-2add6062398e"
+    }
+  ]
+}

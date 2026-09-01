@@ -1,0 +1,46 @@
+{
+  "exercise": "linked_list_cycle",
+  "inputs": {
+    "head": "linked_list_cycle"
+  },
+  "cases": [
+    {
+      "uuid": "0349b72b-c4b8-4fd6-81aa-1767f9a0f99b",
+      "description": "Example 1",
+      "property": "hasCycle",
+      "input": {
+        "head": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "pos": 1
+      },
+      "expected": true
+    },
+    {
+      "uuid": "64f4afac-5e07-404e-b7e0-b2dab3b71be4",
+      "description": "Example 2",
+      "property": "hasCycle",
+      "input": {
+        "head": [
+          1,
+          2
+        ],
+        "pos": -1
+      },
+      "expected": false
+    },
+    {
+      "description": "Empty list",
+      "property": "hasCycle",
+      "input": {
+        "head": [],
+        "pos": -1
+      },
+      "expected": false,
+      "uuid": "0e70d43b-5bd0-4a91-845f-490576447c69"
+    }
+  ]
+}

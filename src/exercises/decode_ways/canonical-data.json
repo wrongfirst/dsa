@@ -1,0 +1,32 @@
+{
+  "exercise": "decode_ways",
+  "cases": [
+    {
+      "uuid": "b60dc2ae-f800-4c68-9ff9-7cd4ae51c52b",
+      "description": "Example 1",
+      "property": "numDecodings",
+      "input": {
+        "s": "12"
+      },
+      "expected": 2
+    },
+    {
+      "uuid": "c24e716c-430a-4c28-9aed-a4c25e9f7e93",
+      "description": "Example 2",
+      "property": "numDecodings",
+      "input": {
+        "s": "226"
+      },
+      "expected": 3
+    },
+    {
+      "uuid": "91d7078b-db9d-48fc-aa2f-efb8a3aba517",
+      "description": "Example 3",
+      "property": "numDecodings",
+      "input": {
+        "s": "06"
+      },
+      "expected": 0
+    }
+  ]
+}

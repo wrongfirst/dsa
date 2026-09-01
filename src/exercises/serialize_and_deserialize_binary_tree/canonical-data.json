@@ -1,0 +1,47 @@
+{
+  "exercise": "serialize_and_deserialize_binary_tree",
+  "mode": "compose",
+  "compose": [
+    "deserialize",
+    "serialize"
+  ],
+  "receiver": "Codec",
+  "inputs": {
+    "root": "tree"
+  },
+  "returns": "tree",
+  "cases": [
+    {
+      "uuid": "6e3b9f5a-91ff-457e-abe3-87e43186373b",
+      "description": "Example 1",
+      "input": {
+        "root": [
+          1,
+          2,
+          3,
+          null,
+          null,
+          4,
+          5
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        null,
+        null,
+        4,
+        5
+      ]
+    },
+    {
+      "uuid": "c1cc831a-5107-4ca0-b819-64cc9cf166a0",
+      "description": "Example 2",
+      "input": {
+        "root": []
+      },
+      "expected": []
+    }
+  ]
+}

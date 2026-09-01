@@ -1,0 +1,76 @@
+{
+  "exercise": "set_matrix_zeroes",
+  "mutation": {
+    "target": "matrix"
+  },
+  "cases": [
+    {
+      "uuid": "5aa96fb6-1655-436f-86fe-0d1772a2affc",
+      "description": "Example 1",
+      "property": "setZeroes",
+      "input": {
+        "matrix": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "uuid": "ecb1267b-e3da-4f65-8d55-eec9b96e7cec",
+      "description": "Example 2",
+      "property": "setZeroes",
+      "input": {
+        "matrix": [
+          [
+            1,
+            0,
+            3
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            6,
+            0,
+            8
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ]
+}

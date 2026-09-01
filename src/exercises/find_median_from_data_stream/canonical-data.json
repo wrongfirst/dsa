@@ -1,0 +1,46 @@
+{
+  "exercise": "find_median_from_data_stream",
+  "mode": "operations",
+  "cases": [
+    {
+      "uuid": "d705d8cc-5c1e-41f1-bfae-1c34e2a339b9",
+      "description": "Example 1",
+      "property": "operations",
+      "input": {
+        "operations": [
+          "MedianFinder",
+          "addNum",
+          "findMedian",
+          "addNum",
+          "findMedian",
+          "addNum",
+          "findMedian"
+        ],
+        "arguments": [
+          [],
+          [
+            1
+          ],
+          [],
+          [
+            2
+          ],
+          [],
+          [
+            3
+          ],
+          []
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        1.0,
+        null,
+        1.5,
+        null,
+        2.0
+      ]
+    }
+  ]
+}

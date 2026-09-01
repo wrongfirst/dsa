@@ -1,0 +1,63 @@
+{
+  "exercise": "binary_tree_level_order_traversal",
+  "inputs": {
+    "root": "tree"
+  },
+  "cases": [
+    {
+      "uuid": "9aa2d9b4-13da-4203-9347-8f0431f5f892",
+      "description": "Example 1",
+      "property": "levelOrder",
+      "input": {
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "expected": [
+        [
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ]
+      ]
+    },
+    {
+      "uuid": "f748638d-484d-46d2-9e70-3bc527ec8cdc",
+      "description": "Example 2",
+      "property": "levelOrder",
+      "input": {
+        "root": [
+          1
+        ]
+      },
+      "expected": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "uuid": "29e35ffd-5f3e-40bf-b9d2-6a8bc418bf22",
+      "description": "Example 3",
+      "property": "levelOrder",
+      "input": {
+        "root": []
+      },
+      "expected": []
+    }
+  ]
+}

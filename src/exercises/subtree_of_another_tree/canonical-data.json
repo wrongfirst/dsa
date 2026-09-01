@@ -1,0 +1,52 @@
+{
+  "exercise": "subtree_of_another_tree",
+  "inputs": {
+    "root": "tree",
+    "subRoot": "tree"
+  },
+  "cases": [
+    {
+      "uuid": "fc66c90f-aaa4-413f-9045-f8a77c28b461",
+      "description": "Example 1",
+      "property": "isSubtree",
+      "input": {
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "subRoot": [
+          2,
+          4,
+          5
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "d33d4538-919e-4fbf-bd97-cb7094957dcc",
+      "description": "Example 2",
+      "property": "isSubtree",
+      "input": {
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          null,
+          null,
+          6
+        ],
+        "subRoot": [
+          2,
+          4,
+          5
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

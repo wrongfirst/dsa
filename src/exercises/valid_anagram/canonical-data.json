@@ -1,0 +1,25 @@
+{
+  "exercise": "valid_anagram",
+  "cases": [
+    {
+      "uuid": "603e8d86-cb1f-4509-b893-a0c7a1d93854",
+      "description": "Example 1",
+      "property": "isAnagram",
+      "input": {
+        "s": "racecar",
+        "t": "carrace"
+      },
+      "expected": true
+    },
+    {
+      "uuid": "cbf33c40-a253-4b61-bb10-48e5641479b8",
+      "description": "Example 2",
+      "property": "isAnagram",
+      "input": {
+        "s": "jar",
+        "t": "jam"
+      },
+      "expected": false
+    }
+  ]
+}

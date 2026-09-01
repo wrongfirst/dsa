@@ -1,0 +1,48 @@
+{
+  "exercise": "find_minimum_in_rotated_sorted_array",
+  "cases": [
+    {
+      "uuid": "2619eab0-59a4-4abc-96f9-40512758542b",
+      "description": "Example 1",
+      "property": "findMin",
+      "input": {
+        "nums": [
+          3,
+          4,
+          5,
+          6,
+          1,
+          2
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "uuid": "6df13f9f-76eb-4be6-abfa-f256affe35ae",
+      "description": "Example 2",
+      "property": "findMin",
+      "input": {
+        "nums": [
+          4,
+          5,
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "description": "Single element",
+      "property": "findMin",
+      "input": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": 5,
+      "uuid": "fdd4aa22-1f42-488d-8701-29084b4ba1df"
+    }
+  ]
+}

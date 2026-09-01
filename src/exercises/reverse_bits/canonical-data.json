@@ -1,0 +1,14 @@
+{
+  "exercise": "reverse_bits",
+  "cases": [
+    {
+      "uuid": "547273e2-36bc-4e9a-8ae9-e89ac8d7bd52",
+      "description": "Example 1",
+      "property": "reverseBits",
+      "input": {
+        "n": 21
+      },
+      "expected": 2818572288
+    }
+  ]
+}

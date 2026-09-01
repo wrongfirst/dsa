@@ -1,0 +1,40 @@
+{
+  "exercise": "two_sum",
+  "cases": [
+    {
+      "uuid": "6ba0271a-aa8b-4dfe-942a-035d123c414e",
+      "description": "Example 1",
+      "property": "twoSum",
+      "input": {
+        "nums": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "target": 7
+      },
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "uuid": "cd148334-695a-4c44-9aa9-75a790c96229",
+      "description": "Example 2",
+      "property": "twoSum",
+      "input": {
+        "nums": [
+          4,
+          5,
+          6
+        ],
+        "target": 10
+      },
+      "expected": [
+        0,
+        2
+      ]
+    }
+  ]
+}

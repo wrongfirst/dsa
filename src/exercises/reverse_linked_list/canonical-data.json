@@ -1,0 +1,37 @@
+{
+  "exercise": "reverse_linked_list",
+  "inputs": {
+    "head": "linked_list"
+  },
+  "returns": "linked_list",
+  "cases": [
+    {
+      "uuid": "307ee9ce-f726-4c31-97d4-b4a2d24e5d06",
+      "description": "Example 1",
+      "property": "reverseList",
+      "input": {
+        "head": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "uuid": "ca0b1eb6-5211-463c-a485-614ceb5e6b2e",
+      "description": "Example 2",
+      "property": "reverseList",
+      "input": {
+        "head": []
+      },
+      "expected": []
+    }
+  ]
+}
