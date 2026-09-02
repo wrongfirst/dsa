@@ -1,6 +1,4 @@
-type Solution struct{}
-
-func (s *Solution) Encode(strs []string) string {
+func Encode(strs []string) string {
 	var res strings.Builder
 	for _, str := range strs {
 		res.WriteString(strconv.Itoa(len(str)))
@@ -10,7 +8,7 @@ func (s *Solution) Encode(strs []string) string {
 	return res.String()
 }
 
-func (s *Solution) Decode(encoded string) []string {
+func Decode(encoded string) []string {
 	res := []string{}
 	i := 0
 	for i < len(encoded) {

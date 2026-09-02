@@ -1,12 +1,3 @@
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-
 type Codec struct {
     i int
 }
@@ -16,7 +7,7 @@ func Constructor() Codec {
 }
 
 // Serializes a tree to a single string.
-func (this *Codec) serialize(root *TreeNode) string {
+func (this *Codec) Serialize(root *TreeNode) string {
     var res []string
     
     var dfs func(node *TreeNode)
@@ -35,7 +26,7 @@ func (this *Codec) serialize(root *TreeNode) string {
 }
 
 // Deserializes your encoded data to tree.
-func (this *Codec) deserialize(data string) *TreeNode {
+func (this *Codec) Deserialize(data string) *TreeNode {
     vals := strings.Split(data, ",")
     this.i = 0
     
@@ -54,4 +45,12 @@ func (this *Codec) deserialize(data string) *TreeNode {
     }
     
     return dfs()
+}
+
+func (this *Codec) serialize(root *TreeNode) string {
+    return this.Serialize(root)
+}
+
+func (this *Codec) deserialize(data string) *TreeNode {
+    return this.Deserialize(data)
 }

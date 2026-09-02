@@ -336,7 +336,9 @@ function buildComposeTestCode(cases: FlatCanonicalTestCase[], meta: CanonicalDat
     const innerMethod = innerFn.charAt(0).toUpperCase() + innerFn.slice(1);
     invocation = `res := inst.${outerMethod}(inst.${innerMethod}(${callArgs}))`;
   } else {
-    invocation = `res := ${outerFn}(${innerFn}(${callArgs}))`;
+    const outerMethod = outerFn.charAt(0).toUpperCase() + outerFn.slice(1);
+    const innerMethod = innerFn.charAt(0).toUpperCase() + innerFn.slice(1);
+    invocation = `res := ${outerMethod}(${innerMethod}(${callArgs}))`;
   }
 
   return `testCases := []struct {
