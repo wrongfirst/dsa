@@ -3794,26 +3794,86 @@ Tests.equal_check("Example 2", [[1, 2], [3, 5], [6, 7], [9, 10]], insert([[1, 2]
 TreeNode* invertTree(TreeNode* root);
 
 int main() {
-    Tests.equal_check("Example 1",
-        std::vector<std::optional<int>>{4, 7, 2, 9, 6, 3, 1},
-        tree_to_list(invertTree(list_to_tree({4, 2, 7, 1, 3, 6, 9}))));
+    // Problem description examples
+    Tests.equal_check("Problem Example 1",
+        std::vector<std::optional<int>>{1, 3, 2, 7, 6, 5, 4},
+        tree_to_list(invertTree(list_to_tree({1, 2, 3, 4, 5, 6, 7}))));
 
-    Tests.equal_check("Example 2",
-        std::vector<std::optional<int>>{2, 3, 1},
-        tree_to_list(invertTree(list_to_tree({2, 1, 3}))));
+    Tests.equal_check("Problem Example 2",
+        std::vector<std::optional<int>>{3, 1, 2},
+        tree_to_list(invertTree(list_to_tree({3, 2, 1}))));
 
-    Tests.equal_check("Example 3",
-        std::vector<std::optional<int>>{},
-        tree_to_list(invertTree(list_to_tree({}))));
+    // Single node
+    Tests.equal_check("Single node",
+        std::vector<std::optional<int>>{1},
+        tree_to_list(invertTree(list_to_tree({1}))));
+
+    // Asymmetric / Skewed trees
+    Tests.equal_check("Left child only",
+        std::vector<std::optional<int>>{1, std::nullopt, 2},
+        tree_to_list(invertTree(list_to_tree({1, 2}))));
+
+    Tests.equal_check("Right child only",
+        std::vector<std::optional<int>>{1, 2},
+        tree_to_list(invertTree(list_to_tree({1, std::nullopt, 2}))));
+
+    Tests.equal_check("Left-skewed tree",
+        std::vector<std::optional<int>>{1, std::nullopt, 2, std::nullopt, 3},
+        tree_to_list(invertTree(list_to_tree({1, 2, std::nullopt, 3}))));
+
+    Tests.equal_check("Right-skewed tree",
+        std::vector<std::optional<int>>{1, 2, std::nullopt, 3},
+        tree_to_list(invertTree(list_to_tree({1, std::nullopt, 2, std::nullopt, 3}))));
+
+    // Negative and zero values
+    Tests.equal_check("Negative values and bounds",
+        std::vector<std::optional<int>>{0, 100, -100},
+        tree_to_list(invertTree(list_to_tree({0, -100, 100}))));
+
+    // Duplicate values
+    Tests.equal_check("Duplicate values",
+        std::vector<std::optional<int>>{2, 2, 2},
+        tree_to_list(invertTree(list_to_tree({2, 2, 2}))));
 
     return 0;
 }
-`,Fo=`Tests.EqualCheck("Example 1", []int{4, 7, 2, 9, 6, 3, 1}, TreeToInts(invertTree(IntsToTree(4, 2, 7, 1, 3, 6, 9))))
-Tests.EqualCheck("Example 2", []int{2, 3, 1}, TreeToInts(invertTree(IntsToTree(2, 1, 3))))
-Tests.EqualCheck("Example 3", []int{}, TreeToInts(invertTree(IntsToTree())))
-`,Io=`Tests.equal_check("Example 1", [4, 7, 2, 9, 6, 3, 1], tree_to_list(invertTree(list_to_tree([4, 2, 7, 1, 3, 6, 9]))))
-Tests.equal_check("Example 2", [2, 3, 1], tree_to_list(invertTree(list_to_tree([2, 1, 3]))))
-Tests.equal_check("Example 3", [], tree_to_list(invertTree(list_to_tree([]))))
+`,Fo=`// Problem description examples
+Tests.EqualCheck("Problem Example 1", []int{1, 3, 2, 7, 6, 5, 4}, TreeToInts(invertTree(IntsToTree(1, 2, 3, 4, 5, 6, 7))))
+Tests.EqualCheck("Problem Example 2", []int{3, 1, 2}, TreeToInts(invertTree(IntsToTree(3, 2, 1))))
+
+// Single node
+Tests.EqualCheck("Single node", []int{1}, TreeToInts(invertTree(IntsToTree(1))))
+
+// Asymmetric / Skewed trees
+Tests.EqualCheck("Left child only", []*int{MakeInt(1), nil, MakeInt(2)}, TreeToList(invertTree(ListToTree([]*int{MakeInt(1), MakeInt(2)}))))
+Tests.EqualCheck("Right child only", []*int{MakeInt(1), MakeInt(2)}, TreeToList(invertTree(ListToTree([]*int{MakeInt(1), nil, MakeInt(2)}))))
+Tests.EqualCheck("Left-skewed tree", []*int{MakeInt(1), nil, MakeInt(2), nil, MakeInt(3)}, TreeToList(invertTree(ListToTree([]*int{MakeInt(1), MakeInt(2), nil, MakeInt(3)}))))
+Tests.EqualCheck("Right-skewed tree", []*int{MakeInt(1), MakeInt(2), nil, MakeInt(3)}, TreeToList(invertTree(ListToTree([]*int{MakeInt(1), nil, MakeInt(2), nil, MakeInt(3)}))))
+
+// Negative and zero values
+Tests.EqualCheck("Negative values and bounds", []int{0, 100, -100}, TreeToInts(invertTree(IntsToTree(0, -100, 100))))
+
+// Duplicate values
+Tests.EqualCheck("Duplicate values", []int{2, 2, 2}, TreeToInts(invertTree(IntsToTree(2, 2, 2))))
+
+`,Io=`# Problem description examples
+Tests.equal_check("Problem Example 1", [1, 3, 2, 7, 6, 5, 4], tree_to_list(invertTree(list_to_tree([1, 2, 3, 4, 5, 6, 7]))))
+Tests.equal_check("Problem Example 2", [3, 1, 2], tree_to_list(invertTree(list_to_tree([3, 2, 1]))))
+
+# Single node
+Tests.equal_check("Single node", [1], tree_to_list(invertTree(list_to_tree([1]))))
+
+# Asymmetric / Skewed trees
+Tests.equal_check("Left child only", [1, None, 2], tree_to_list(invertTree(list_to_tree([1, 2]))))
+Tests.equal_check("Right child only", [1, 2], tree_to_list(invertTree(list_to_tree([1, None, 2]))))
+Tests.equal_check("Left-skewed tree", [1, None, 2, None, 3], tree_to_list(invertTree(list_to_tree([1, 2, None, 3]))))
+Tests.equal_check("Right-skewed tree", [1, 2, None, 3], tree_to_list(invertTree(list_to_tree([1, None, 2, None, 3]))))
+
+# Negative and zero values
+Tests.equal_check("Negative values and bounds", [0, 100, -100], tree_to_list(invertTree(list_to_tree([0, -100, 100]))))
+
+# Duplicate values
+Tests.equal_check("Duplicate values", [2, 2, 2], tree_to_list(invertTree(list_to_tree([2, 2, 2]))))
 `,Lo=`#include <vector>
 
 bool canJump(const std::vector<int>& nums);
@@ -10480,7 +10540,7 @@ ALL TESTS PASSED!`;let n=t.includes(e);J.getState().markComplete(e),n?tj(`Passed
                 <a href="${t}/issues" target="_blank">Report an Error</a>
             </span>
             <span id="build-date" class="w-full sm:w-auto text-xs text-fg-muted order-last text-center">
-              Last updated on September 02, 2026
+              Last updated on September 03, 2026
             </span>
         </div>
     `}function iH(){let{activeLessonSlug:e,currentLanguageId:t}=J.getState(),n=uA.find(t=>t.id===e),r=n?.title||`Unknown Exercise`,i=n?.description||``,a=n?MA(n,t):null,o=a?.initialCode||``,s=a?.testCode||``,c=a?.validatorCode||``,l=sR()||o,u=uR(),d=Q.console?.textContent?.trim()||``;return d===`// Ready...`&&(d=``),{systemPrompt:`You are an expert mentor and pair programmer.
