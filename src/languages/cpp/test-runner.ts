@@ -2,6 +2,8 @@ import {
   type FlatCanonicalTestCase,
   type CanonicalData,
   type CanonicalTypeDescriptor,
+  type CanonicalMethodDescriptor,
+  type CanonicalSignature,
   parseCanonicalSignature,
   inferCanonicalType
 } from '../canonical';
@@ -13,6 +15,7 @@ function toCppType(desc: CanonicalTypeDescriptor, isParam: boolean, isMutation =
   switch (desc.kind) {
     case 'primitive':
       if (desc.type === 'int') return 'int';
+      if (desc.type === 'int64') return 'long long';
       if (desc.type === 'uint32') return 'uint32_t';
       if (desc.type === 'float') return 'double';
       if (desc.type === 'bool') return 'bool';
@@ -91,7 +94,7 @@ function toDefaultReturnValue(desc: CanonicalTypeDescriptor): string {
   switch (desc.kind) {
     case 'primitive':
       if (desc.type === 'bool') return 'return false;';
-      if (desc.type === 'int' || desc.type === 'float') return 'return 0;';
+      if (desc.type === 'int' || desc.type === 'int64' || desc.type === 'uint32' || desc.type === 'float') return 'return 0;';
       if (desc.type === 'string') return 'return "";';
       return 'return 0;';
 
@@ -125,6 +128,9 @@ function formatCppLiteral(val: any, isTree = false): string {
     return val ? 'true' : 'false';
   }
   if (typeof val === 'number') {
+    if (val < -2147483648 || val > 4294967295) {
+      return `${val}LL`;
+    }
     if (val > 2147483647) {
       return `${val}ULL`;
     }
@@ -198,33 +204,48 @@ ${methodsCode}
   }
 
   if (sig.mode === 'compose') {
-    const [outerFn, innerFn] = sig.compose || ['decode', 'encode'];
+    const innerFn = sig.innerFunction || {
+      name: sig.compose?.[1] || 'encode',
+      parameters: sig.parameters,
+      returnType: { kind: 'primitive', type: 'string' as const }
+    };
+    const outerFn = sig.outerFunction || {
+      name: sig.compose?.[0] || 'decode',
+      parameters: [
+        {
+          name: (sig.compose?.[0] || 'decode') === 'decode' ? 's' : 'data',
+          type: { kind: 'primitive', type: 'string' as const },
+          isMutationTarget: false
+        }
+      ],
+      returnType: sig.returnType
+    };
+
+    const formatMethod = (m: CanonicalMethodDescriptor, indent: string) => {
+      const paramList = m.parameters
+        .map(p => `${toCppType(p.type, true, p.isMutationTarget)} ${p.name}`)
+        .join(', ');
+      const retType = toCppType(m.returnType, false);
+      const retStmt = toDefaultReturnValue(m.returnType);
+      const body = retStmt ? `${indent}    // Your code here\n${indent}    ${retStmt}` : `${indent}    // Your code here`;
+      return `${indent}${retType} ${m.name}(${paramList}) {\n${body}\n${indent}}`;
+    };
+
     if (sig.receiver) {
+      const innerCode = formatMethod(innerFn, '    ');
+      const outerCode = formatMethod(outerFn, '    ');
       return `${includeBlock}class ${sig.receiver} {
 public:
-    std::string ${innerFn}(TreeNode* root) {
-        // Your code here
-        return "";
-    }
+${innerCode}
 
-    TreeNode* ${outerFn}(const std::string& data) {
-        // Your code here
-        return nullptr;
-    }
+${outerCode}
 };
 `;
     }
 
-    return `${includeBlock}std::string ${innerFn}(const std::vector<std::string>& strs) {
-    // Your code here
-    return "";
-}
-
-std::vector<std::string> ${outerFn}(const std::string& s) {
-    // Your code here
-    return {};
-}
-`;
+    const innerCode = formatMethod(innerFn, '');
+    const outerCode = formatMethod(outerFn, '');
+    return `${includeBlock}${innerCode}\n\n${outerCode}\n`;
   }
 
   // Standard function
@@ -333,7 +354,10 @@ export function buildTestCode(cases: FlatCanonicalTestCase[], meta: CanonicalDat
   }
 
   const callArgs = callArgExprs.join(', ');
-  const msgExpr = `"${property}() - " + tc.desc`;
+  const argReprExprs = sig.parameters.map(p => `_harness_detail::to_string_repr(tc.${p.name})`);
+  const msgExpr = argReprExprs.length > 0
+    ? `"${property}(" + ${argReprExprs.join(' + ", " + ')} + ") - " + tc.desc`
+    : `"${property}() - " + tc.desc`;
 
   // In-place mutation handling
   if (mutation?.target) {
@@ -352,8 +376,14 @@ export function buildTestCode(cases: FlatCanonicalTestCase[], meta: CanonicalDat
       postTransform = `targetVar`;
     }
 
+    // Secondary parameter prep statements (exclude targetKey since it is initialized in targetInit)
+    const secondaryPrep = prepStatements
+      .filter(stmt => !stmt.includes(`${targetKey}CharGrid`) && !stmt.includes(`${targetKey}ListVal`) && !stmt.includes(`${targetKey}IntervalsVal`))
+      .join('\n');
+    const prepBlock = secondaryPrep ? secondaryPrep + '\n' : '';
+
     const mutationArgs = sig.parameters
-      .map(p => (p.name === targetKey ? 'targetVar' : `tc.${p.name}`))
+      .map((p, idx) => (p.name === targetKey ? 'targetVar' : callArgExprs[idx]))
       .join(', ');
 
     return `#include <iostream>
@@ -370,8 +400,9 @@ ${structFields.join('\n')}
 ${testCaseEntries.join('\n')}
     };
 
-    for (auto tc : testCases) {
-${targetInit}
+    // In mutation mode, tc is accessed by const reference while the mutation target is copied into targetVar
+    for (const auto& tc : testCases) {
+${prepBlock}${targetInit}
         ${property}(${mutationArgs});
         std::string msg = ${msgExpr};
         Tests.equal_check(msg, tc.expected, ${postTransform});
@@ -409,7 +440,7 @@ ${structFields.join('\n')}
 ${testCaseEntries.join('\n')}
     };
 
-    for (auto tc : testCases) {
+    for (auto& tc : testCases) {
 ${prepBlock}        auto res = ${property}(${callArgs});
         std::string msg = ${msgExpr};
         ${assertion}
@@ -420,7 +451,7 @@ ${prepBlock}        auto res = ${property}(${callArgs});
 `;
 }
 
-function buildOperationsTestCode(cases: FlatCanonicalTestCase[], sig: any): string {
+function buildOperationsTestCode(cases: FlatCanonicalTestCase[], sig: CanonicalSignature): string {
   const caseBlocks = cases.map((c) => {
     const ops: string[] = c.input.operations || [];
     const args: any[][] = c.input.arguments || [];
@@ -468,24 +499,24 @@ ${caseBlocks.join('\n\n')}
 `;
 }
 
-function buildComposeTestCode(cases: FlatCanonicalTestCase[], sig: any): string {
+function buildComposeTestCode(cases: FlatCanonicalTestCase[], sig: CanonicalSignature): string {
   const [outerFn, innerFn] = sig.compose || ['decode', 'encode'];
   const returns = sig.returnType.kind;
 
   const structFields = [
-    ...sig.parameters.map((p: any) => `        ${toCppStructFieldType(p.type)} ${p.name};`),
+    ...sig.parameters.map((p) => `        ${toCppStructFieldType(p.type)} ${p.name};`),
     `        ${toCppStructFieldType(sig.returnType)} expected;`,
     `        std::string desc;`
   ];
 
   const testCaseEntries = cases.map((c) => {
-    const inputs = sig.parameters.map((p: any) => formatCppLiteral(c.input[p.name], p.type.kind === 'tree'));
+    const inputs = sig.parameters.map((p) => formatCppLiteral(c.input[p.name], p.type.kind === 'tree'));
     const exp = formatCppLiteral(c.expected, sig.returnType.kind === 'tree');
     const desc = JSON.stringify(c.description);
     return `        {${[...inputs, exp, desc].join(', ')}},`;
   });
 
-  const callArgs = sig.parameters.map((p: any) => {
+  const callArgs = sig.parameters.map((p) => {
     if (p.type.kind === 'tree') return `list_to_tree(tc.${p.name})`;
     if (p.type.kind === 'linked_list') return `list_to_linked_list(tc.${p.name})`;
     return `tc.${p.name}`;
@@ -495,7 +526,10 @@ function buildComposeTestCode(cases: FlatCanonicalTestCase[], sig: any): string 
   if (returns === 'tree') resTransform = 'tree_to_list(res)';
   else if (returns === 'linked_list') resTransform = 'linked_list_to_list(res)';
 
-  const msgExpr = `"${outerFn}(${innerFn}()) - " + tc.desc`;
+  const composeArgReprExprs = sig.parameters.map(p => `_harness_detail::to_string_repr(tc.${p.name})`);
+  const msgExpr = composeArgReprExprs.length > 0
+    ? `"${outerFn}(${innerFn}(" + ${composeArgReprExprs.join(' + ", " + ')} + ")) - " + tc.desc`
+    : `"${outerFn}(${innerFn}()) - " + tc.desc`;
 
   const invocation = sig.receiver
     ? `        ${sig.receiver} inst;\n        auto res = inst.${outerFn}(inst.${innerFn}(${callArgs}));`

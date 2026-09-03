@@ -68,7 +68,7 @@ Output: true
 ### Step 2: Formulate `canonical-data.json`
 
 Create `src/exercises/<exercise_id>/canonical-data.json`.
-The schema is formally defined in [`src/languages/canonical-schema.json`](file:///Users/jitin/GitHub/dsa/src/languages/canonical-schema.json).
+The schema is formally defined in [`src/languages/canonical-schema.json`](../src/languages/canonical-schema.json).
 
 #### Required Fields
 * **`exercise`**: String matching the directory name (e.g. `"contains_duplicate"`).

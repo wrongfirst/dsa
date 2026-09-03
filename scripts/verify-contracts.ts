@@ -19,34 +19,16 @@
  */
 
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const ROOT_DIR = path.resolve(__dirname, '..');
-const EXERCISES_DIR = path.join(ROOT_DIR, 'src', 'exercises');
-const LANGUAGES_DIR = path.join(ROOT_DIR, 'src', 'languages');
-
-interface CliArgs {
-  exercise?: string;
-  lang?: string;
-}
-
-function parseArgs(): CliArgs {
-  const args = process.argv.slice(2);
-  const result: CliArgs = {};
-  for (const arg of args) {
-    if (arg.startsWith('--exercise=')) {
-      result.exercise = arg.split('=')[1];
-    } else if (arg.startsWith('--lang=')) {
-      result.lang = arg.split('=')[1];
-    }
-  }
-  return result;
-}
+import {
+  ROOT_DIR,
+  EXERCISES_DIR,
+  LANGUAGES_DIR,
+  parseCliArgs,
+  discoverLanguageModules,
+  type LanguageModule
+} from './lib/shared';
 
 interface Violation {
   exerciseId: string;
@@ -56,29 +38,13 @@ interface Violation {
   file?: string;
 }
 
-const VALID_INPUT_TYPES = new Set([
-  'standard',
-  'tree',
-  'tree_node',
-  'linked_list',
-  'linked_list_array',
-  'linked_list_cycle',
-  'graph',
-  'interval',
-  'interval_array',
-  'byte_grid'
-]);
+const schemaPath = path.join(LANGUAGES_DIR, 'canonical-schema.json');
+const canonicalSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf-8'));
 
-const VALID_RETURN_TYPES = new Set([
-  'standard',
-  'tree',
-  'tree_node',
-  'linked_list',
-  'graph',
-  'void'
-]);
-
-const VALID_MODES = new Set(['function', 'operations', 'compose']);
+const VALID_INPUT_TYPES = new Set<string>(canonicalSchema.definitions.CanonicalInputType.enum);
+const VALID_RETURN_TYPES = new Set<string>(canonicalSchema.definitions.CanonicalReturnType.enum);
+const VALID_COMPARISON_TYPES = new Set<string>(canonicalSchema.definitions.ComparisonType.enum);
+const VALID_MODES = new Set<string>(canonicalSchema.properties.mode.enum);
 
 function validateCanonicalJson(exId: string, data: any, filePath: string): Violation[] {
   const violations: Violation[] = [];
@@ -87,6 +53,7 @@ function validateCanonicalJson(exId: string, data: any, filePath: string): Viola
     return [{ exerciseId: exId, type: 'SCHEMA', message: 'Root JSON is not an object', file: filePath }];
   }
 
+  // 1. Validate top-level required properties
   if (data.exercise !== exId) {
     violations.push({
       exerciseId: exId,
@@ -96,6 +63,7 @@ function validateCanonicalJson(exId: string, data: any, filePath: string): Viola
     });
   }
 
+  // 2. Validate mode
   if (data.mode && !VALID_MODES.has(data.mode)) {
     violations.push({
       exerciseId: exId,
@@ -105,6 +73,7 @@ function validateCanonicalJson(exId: string, data: any, filePath: string): Viola
     });
   }
 
+  // 3. Validate returns
   if (data.returns && !VALID_RETURN_TYPES.has(data.returns)) {
     violations.push({
       exerciseId: exId,
@@ -114,6 +83,29 @@ function validateCanonicalJson(exId: string, data: any, filePath: string): Viola
     });
   }
 
+  // 4. Validate comparison
+  if (data.comparison && !VALID_COMPARISON_TYPES.has(data.comparison)) {
+    violations.push({
+      exerciseId: exId,
+      type: 'SCHEMA',
+      message: `Invalid comparison "${data.comparison}". Must be one of: ${Array.from(VALID_COMPARISON_TYPES).join(', ')}`,
+      file: filePath
+    });
+  }
+
+  // 5. Validate compose
+  if (data.compose !== undefined) {
+    if (!Array.isArray(data.compose) || data.compose.length !== 2 || typeof data.compose[0] !== 'string' || typeof data.compose[1] !== 'string') {
+      violations.push({
+        exerciseId: exId,
+        type: 'SCHEMA',
+        message: 'Field "compose" must be an array of exactly two function names [outer, inner]',
+        file: filePath
+      });
+    }
+  }
+
+  // 6. Validate inputs
   if (data.inputs && typeof data.inputs === 'object') {
     for (const [k, v] of Object.entries(data.inputs)) {
       if (!VALID_INPUT_TYPES.has(v as string)) {
@@ -127,6 +119,7 @@ function validateCanonicalJson(exId: string, data: any, filePath: string): Viola
     }
   }
 
+  // 7. Validate mutation
   if (data.mutation) {
     if (!data.mutation.target || typeof data.mutation.target !== 'string') {
       violations.push({
@@ -138,6 +131,7 @@ function validateCanonicalJson(exId: string, data: any, filePath: string): Viola
     }
   }
 
+  // 8. Validate cases array
   if (!Array.isArray(data.cases) || data.cases.length === 0) {
     violations.push({
       exerciseId: exId,
@@ -145,93 +139,114 @@ function validateCanonicalJson(exId: string, data: any, filePath: string): Viola
       message: 'Field "cases" must be a non-empty array',
       file: filePath
     });
+    return violations;
   }
+
+  // 9. Recursively validate cases against CanonicalCase schema definitions
+  function validateCase(c: any, pathStr: string) {
+    if (!c || typeof c !== 'object') {
+      violations.push({
+        exerciseId: exId,
+        type: 'SCHEMA',
+        message: `Case at ${pathStr} is not an object`,
+        file: filePath
+      });
+      return;
+    }
+
+    // Case Group
+    if ('cases' in c) {
+      if (typeof c.description !== 'string' || !c.description.trim()) {
+        violations.push({
+          exerciseId: exId,
+          type: 'SCHEMA',
+          message: `Case group at ${pathStr} missing required string "description"`,
+          file: filePath
+        });
+      }
+      if (!Array.isArray(c.cases) || c.cases.length === 0) {
+        violations.push({
+          exerciseId: exId,
+          type: 'SCHEMA',
+          message: `Case group at ${pathStr} must contain a non-empty "cases" array`,
+          file: filePath
+        });
+      } else {
+        c.cases.forEach((subCase: any, idx: number) => {
+          validateCase(subCase, `${pathStr}.cases[${idx}]`);
+        });
+      }
+      return;
+    }
+
+    // Leaf Test Case
+    if (typeof c.description !== 'string' || !c.description.trim()) {
+      violations.push({
+        exerciseId: exId,
+        type: 'SCHEMA',
+        message: `Test case at ${pathStr} missing required string "description"`,
+        file: filePath
+      });
+    }
+
+    if (!c.input || typeof c.input !== 'object' || Array.isArray(c.input)) {
+      violations.push({
+        exerciseId: exId,
+        type: 'SCHEMA',
+        message: `Test case at ${pathStr} missing required object "input"`,
+        file: filePath
+      });
+    }
+
+    if (!('expected' in c)) {
+      violations.push({
+        exerciseId: exId,
+        type: 'SCHEMA',
+        message: `Test case at ${pathStr} missing required field "expected"`,
+        file: filePath
+      });
+    }
+
+    if (c.returns && !VALID_RETURN_TYPES.has(c.returns)) {
+      violations.push({
+        exerciseId: exId,
+        type: 'SCHEMA',
+        message: `Test case at ${pathStr} has invalid returns "${c.returns}"`,
+        file: filePath
+      });
+    }
+
+    if (c.comparison && !VALID_COMPARISON_TYPES.has(c.comparison)) {
+      violations.push({
+        exerciseId: exId,
+        type: 'SCHEMA',
+        message: `Test case at ${pathStr} has invalid comparison "${c.comparison}"`,
+        file: filePath
+      });
+    }
+
+    if (c.inputs && typeof c.inputs === 'object') {
+      for (const [k, v] of Object.entries(c.inputs)) {
+        if (!VALID_INPUT_TYPES.has(v as string)) {
+          violations.push({
+            exerciseId: exId,
+            type: 'SCHEMA',
+            message: `Test case at ${pathStr} has invalid input type "${v}" for parameter "${k}"`,
+            file: filePath
+          });
+        }
+      }
+    }
+  }
+
+  data.cases.forEach((c: any, idx: number) => {
+    validateCase(c, `cases[${idx}]`);
+  });
 
   return violations;
 }
 
-interface LanguageModule {
-  id: string;
-  extension: string;
-  harnessCode?: string;
-  buildTestCode: (cases: any[], meta: any) => string;
-  buildTemplateCode?: (meta: any) => string;
-}
 
-function getActiveLanguages(): string[] {
-  const siteTomlPath = path.join(ROOT_DIR, 'site.toml');
-  if (!fs.existsSync(siteTomlPath)) {
-    throw new Error(`site.toml not found at ${siteTomlPath}`);
-  }
-
-  const content = fs.readFileSync(siteTomlPath, 'utf-8');
-
-  // 1. Try extracting languages array from site.toml
-  const langsMatch = content.match(/languages\s*=\s*\[(.*?)\]/s);
-  if (langsMatch) {
-    const list = langsMatch[1]
-      .split(',')
-      .map(s => s.trim().replace(/['"]/g, ''))
-      .filter(Boolean);
-    if (list.length > 0) return list;
-  }
-
-  // 2. Fall back to default_language from site.toml
-  const defaultMatch = content.match(/default_language\s*=\s*['"](.*?)['"]/);
-  if (defaultMatch && defaultMatch[1].trim()) {
-    return [defaultMatch[1].trim()];
-  }
-
-  throw new Error(`Could not determine active languages or default_language from ${siteTomlPath}`);
-}
-
-async function discoverLanguageRunners(targetLang?: string): Promise<LanguageModule[]> {
-  const activeLangs = targetLang ? [targetLang] : getActiveLanguages();
-
-  const runners: LanguageModule[] = [];
-
-  for (const id of activeLangs) {
-
-    const runnerPath = path.join(LANGUAGES_DIR, id, 'test-runner.ts');
-    const metadataPath = path.join(LANGUAGES_DIR, id, 'metadata.ts');
-
-    if (!fs.existsSync(runnerPath) || !fs.existsSync(metadataPath)) continue;
-
-    try {
-      const metaModule = await import(`file://${metadataPath}`);
-      const metadata = metaModule.metadata || metaModule.default;
-      const extension = metadata?.extension;
-      if (!extension) continue;
-
-      const runnerModule = await import(`file://${runnerPath}`);
-      const buildTestCode = runnerModule.buildTestCode || runnerModule.default;
-      const buildTemplateCode = runnerModule.buildTemplateCode || runnerModule.default?.buildTemplateCode;
-
-      // Find harness file if available
-      let harnessCode: string | undefined;
-      const harnessCandidates = [
-        path.join(LANGUAGES_DIR, id, 'harness.hpp'),
-        path.join(LANGUAGES_DIR, id, 'harness.h'),
-        path.join(LANGUAGES_DIR, id, 'harness.py'),
-        path.join(LANGUAGES_DIR, id, 'harness.go')
-      ];
-      for (const hPath of harnessCandidates) {
-        if (fs.existsSync(hPath)) {
-          harnessCode = fs.readFileSync(hPath, 'utf-8');
-          break;
-        }
-      }
-
-      if (typeof buildTestCode === 'function') {
-        runners.push({ id, extension, harnessCode, buildTestCode, buildTemplateCode });
-      }
-    } catch (err) {
-      console.warn(`[WARN] Could not load runner for language '${id}':`, err);
-    }
-  }
-
-  return runners;
-}
 
 function lintGeneratedTestCode(langId: string, testCode: string, exId: string): Violation[] {
   const violations: Violation[] = [];
@@ -321,6 +336,7 @@ function verifySignatureInCode(
   code: string,
   targetName: string,
   receiver: string | undefined,
+  methods: { name: string }[] | undefined,
   langId: string,
   exId: string,
   fileName: string
@@ -378,6 +394,33 @@ function verifySignatureInCode(
         message: `Missing required receiver class "${receiver}" specified by canonical-data in ${fileName}`,
         file: fileName
       });
+    }
+  }
+
+  // Verify that methods of a receiver class or composite function exist in code
+  if (methods && methods.length > 0) {
+    for (const method of methods) {
+      let methodFound = false;
+      if (langId === 'python') {
+        methodFound = new RegExp(`\\bdef\\s+${method.name}\\b`).test(code);
+      } else if (langId === 'go') {
+        const capitalized = method.name.charAt(0).toUpperCase() + method.name.slice(1);
+        methodFound = new RegExp(`\\bfunc\\s+(?:\\([^)]*\\)\\s*)?(?:${method.name}|${capitalized})\\b`).test(code);
+      } else if (langId === 'cpp' || langId === 'c' || langId === 'typescript') {
+        methodFound = new RegExp(`\\b${method.name}\\s*\\(`).test(code);
+      } else {
+        methodFound = code.includes(method.name);
+      }
+
+      if (!methodFound) {
+        violations.push({
+          exerciseId: exId,
+          languageId: langId,
+          type: 'SIGNATURE',
+          message: `Missing required method "${method.name}" on receiver "${receiver || targetName}" in ${fileName}`,
+          file: fileName
+        });
+      }
     }
   }
 
@@ -456,20 +499,67 @@ function verifyWithCompiler(
         message: stderr.trim().split('\n').pop() || 'Syntax error'
       });
     }
+  } else if (langId === 'go') {
+    let fullSource = userCode;
+    if (!/^\s*package\s+[a-zA-Z0-9_]+/m.test(fullSource)) {
+      fullSource = 'package main\n\n' + fullSource;
+    }
+    if (testCode && testCode.trim()) {
+      fullSource += '\n\nfunc main() {\n' + testCode + '\n}\n';
+    }
+    try {
+      execSync('gofmt -e', {
+        input: fullSource,
+        stdio: ['pipe', 'pipe', 'pipe']
+      });
+    } catch (err: any) {
+      const stderr = err?.stderr?.toString() || err?.message || 'Go syntax error';
+      const errors = stderr
+        .split('\n')
+        .filter((l: string) => l.includes(':'))
+        .slice(0, 2)
+        .map((l: string) => l.replace(/<standard input>:\d+:\d+:\s*/, '').trim())
+        .join(' | ');
+
+      violations.push({
+        exerciseId: exId,
+        languageId: langId,
+        type: targetType,
+        message: errors || stderr.trim().split('\n')[0]
+      });
+    }
   }
 
   return violations;
 }
 
 async function main() {
-  const args = parseArgs();
+  const args = parseCliArgs();
   const { flattenCases, parseCanonicalSignature } = await import(`file://${path.join(LANGUAGES_DIR, 'canonical.ts')}`);
 
-  const runners = await discoverLanguageRunners(args.lang);
+  if (args.exercise) {
+    const targetCanonical = path.join(EXERCISES_DIR, args.exercise, 'canonical-data.json');
+    if (!fs.existsSync(targetCanonical)) {
+      console.error(`\x1b[31m[ERROR] Exercise '${args.exercise}' not found or missing canonical-data.json at: ${targetCanonical}\x1b[0m\n`);
+      process.exit(1);
+    }
+  }
+
+  const runners = await discoverLanguageModules(args.lang);
+  if (runners.length === 0) {
+    console.error(`\x1b[31m[ERROR] No active language runners found${args.lang ? ` matching '${args.lang}'` : ''}.\x1b[0m\n`);
+    process.exit(1);
+  }
+
   const exerciseDirs = fs.readdirSync(EXERCISES_DIR, { withFileTypes: true })
     .filter(d => d.isDirectory() && fs.existsSync(path.join(EXERCISES_DIR, d.name, 'canonical-data.json')))
     .map(d => d.name)
     .filter(name => !args.exercise || name === args.exercise);
+
+  if (exerciseDirs.length === 0) {
+    console.error(`\x1b[31m[ERROR] No exercises found with canonical-data.json.\x1b[0m\n`);
+    process.exit(1);
+  }
 
   console.log(`\n======================================================`);
   console.log(` DSA Contract & Compiler Verification`);
@@ -518,7 +608,7 @@ async function main() {
       if (fs.existsSync(templatePath)) {
         totalTemplatesChecked++;
         templateCode = fs.readFileSync(templatePath, 'utf-8');
-        const tmplViolations = verifySignatureInCode(templateCode, targetSymbol, receiver, runner.id, exId, templatePath);
+        const tmplViolations = verifySignatureInCode(templateCode, targetSymbol, receiver, sig.methods, runner.id, exId, templatePath);
         allViolations.push(...tmplViolations);
       }
 
@@ -526,12 +616,21 @@ async function main() {
       if (fs.existsSync(solutionPath)) {
         totalSolutionsChecked++;
         solutionCode = fs.readFileSync(solutionPath, 'utf-8');
-        const solViolations = verifySignatureInCode(solutionCode, targetSymbol, receiver, runner.id, exId, solutionPath);
+        const solViolations = verifySignatureInCode(solutionCode, targetSymbol, receiver, sig.methods, runner.id, exId, solutionPath);
         allViolations.push(...solViolations);
       }
 
       // Generate testCode and lint it
       let testCode: string | undefined;
+      if (!runner.buildTestCode) {
+        allViolations.push({
+          exerciseId: exId,
+          languageId: runner.id,
+          type: 'GENERATOR',
+          message: `runner for '${runner.id}' does not export buildTestCode()`
+        });
+        continue;
+      }
       try {
         testCode = runner.buildTestCode(flatCases, canonicalData);
         totalTestsGenerated++;

@@ -30,7 +30,7 @@ flowchart TD
 
 ### Step 1: Register the Type in the Canonical Schema
 
-1. Update [`src/languages/canonical-schema.json`](file:///Users/jitin/GitHub/dsa/src/languages/canonical-schema.json):
+1. Update [`src/languages/canonical-schema.json`](../src/languages/canonical-schema.json):
    Add the new string identifier under `CanonicalInputType` or `CanonicalReturnType`:
    ```json
    "CanonicalInputType": {
@@ -51,7 +51,7 @@ flowchart TD
    }
    ```
 
-2. Update the TypeScript union in [`src/languages/canonical.ts`](file:///Users/jitin/GitHub/dsa/src/languages/canonical.ts):
+2. Update the TypeScript union in [`src/languages/canonical.ts`](../src/languages/canonical.ts):
    ```ts
    export type CanonicalInputType =
      | 'standard'
@@ -71,36 +71,19 @@ flowchart TD
 
 ---
 
-### Step 2: Use `npm run check` to Identify Affected Languages
-
-Because language mappers use exhaustive TypeScript mappings (`Record<CanonicalInputType, ...>`), the TypeScript compiler will immediately pinpoint every language that needs the new mapping:
-
-```bash
-npm run check
-```
-
-Output:
-```
-src/languages/cpp/test-runner.ts: Property 'trie_node' is missing in type...
-src/languages/go/test-runner.ts: Property 'trie_node' is missing in type...
-src/languages/python/test-runner.ts: Property 'trie_node' is missing in type...
-```
-
-This ensures you never miss a language or cause silent runtime fallbacks.
-
----
-
-### Step 3: Implement the Mapping in Each Language
+### Step 2: Implement the Mapping in Each Language Runner
 
 In each `src/languages/<lang>/test-runner.ts`, define how the type should be represented for:
-1. **Parameter Type**: When passed as an argument (e.g. `const TrieNode*` in C++, `*TrieNode` in Go, `TrieNode` in Python).
+1. **Parameter Type**: When passed as an argument (e.g. `const TrieNode*` in C++, `*TrieNode` in Go, `TrieNode | None` in Python, `TreeNode | null` in TypeScript).
 2. **Return Type**: When returned from a function.
-3. **Template Stub**: Default return value in starter code (e.g. `nullptr`, `nil`, `None`, `null`).
-4. **Harness Converter**: Any conversion needed from the raw JSON input to the language object (e.g. `list_to_trie(tc.root)`).
+3. **Template Stub**: Default return value in starter code (e.g. `nullptr`, `nil`, `None`, `null`, `return 0`).
+4. **Harness Converter**: Any conversion needed from raw JSON test cases to native language data structures (e.g. `list_to_trie(tc.root)`).
+
+Ensure the runner's type mapper function (`to<Lang>Type`) and default return mapper (`toDefault<Lang>ReturnValue`) include cases for the new type.
 
 ---
 
-### Step 4: Update Data Structures in `harness.<ext>` (If Applicable)
+### Step 3: Update Data Structures in `harness.<ext>` (If Applicable)
 
 If the new type introduces a shared struct or class:
 1. Define the struct/class in each language's `harness.<ext>` file:
@@ -110,11 +93,11 @@ If the new type introduces a shared struct or class:
    * `src/languages/typescript/harness.ts`
    * `src/languages/c/harness.h`
    * `src/languages/ocaml/harness.ml`
-2. Document the structure and constructor in [`src/languages/HARNESS.md`](file:///Users/jitin/GitHub/dsa/src/languages/HARNESS.md).
+2. Document the structure and constructor in [`src/languages/HARNESS.md`](../src/languages/HARNESS.md).
 
 ---
 
-### Step 5: Verify Across the Curriculum
+### Step 4: Verify Across the Curriculum
 
 Run the contract verification script to ensure all exercises compile and all language runners satisfy the updated contract:
 

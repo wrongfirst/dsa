@@ -9,109 +9,15 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const ROOT_DIR = path.resolve(__dirname, '..');
-const EXERCISES_DIR = path.join(ROOT_DIR, 'src', 'exercises');
-const LANGUAGES_DIR = path.join(ROOT_DIR, 'src', 'languages');
-
-interface CliArgs {
-  exercise?: string;
-  all?: boolean;
-  lang?: string;
-  force?: boolean;
-}
-
-function parseArgs(): CliArgs {
-  const args = process.argv.slice(2);
-  const result: CliArgs = {};
-
-  for (const arg of args) {
-    if (arg === '--all') {
-      result.all = true;
-    } else if (arg.startsWith('--exercise=')) {
-      result.exercise = arg.split('=')[1];
-    } else if (arg.startsWith('--lang=')) {
-      result.lang = arg.split('=')[1];
-    } else if (arg === '--force' || arg === '-f') {
-      result.force = true;
-    }
-  }
-
-  return result;
-}
-
-interface LanguageModule {
-  id: string;
-  extension: string;
-  buildTemplateCode?: (meta: any) => string;
-}
-
-function getActiveLanguages(): string[] {
-  const siteTomlPath = path.join(ROOT_DIR, 'site.toml');
-  if (!fs.existsSync(siteTomlPath)) {
-    throw new Error(`site.toml not found at ${siteTomlPath}`);
-  }
-
-  const content = fs.readFileSync(siteTomlPath, 'utf-8');
-
-  const langsMatch = content.match(/languages\s*=\s*\[(.*?)\]/s);
-  if (langsMatch) {
-    const list = langsMatch[1]
-      .split(',')
-      .map(s => s.trim().replace(/['"]/g, ''))
-      .filter(Boolean);
-    if (list.length > 0) return list;
-  }
-
-  const defaultMatch = content.match(/default_language\s*=\s*['"](.*?)['"]/);
-  if (defaultMatch && defaultMatch[1].trim()) {
-    return [defaultMatch[1].trim()];
-  }
-
-  throw new Error(`Could not determine active languages or default_language from ${siteTomlPath}`);
-}
-
-async function discoverLanguages(targetLang?: string): Promise<LanguageModule[]> {
-  const activeLangs = targetLang ? [targetLang] : getActiveLanguages();
-  const modules: LanguageModule[] = [];
-
-  for (const id of activeLangs) {
-
-    const runnerPath = path.join(LANGUAGES_DIR, id, 'test-runner.ts');
-    const metadataPath = path.join(LANGUAGES_DIR, id, 'metadata.ts');
-
-    if (!fs.existsSync(runnerPath) || !fs.existsSync(metadataPath)) {
-      continue;
-    }
-
-    try {
-      const metaModule = await import(`file://${metadataPath}`);
-      const metadata = metaModule.metadata || metaModule.default;
-      const extension = metadata?.extension;
-
-      if (!extension) continue;
-
-      const runnerModule = await import(`file://${runnerPath}`);
-      const buildTemplateCode = runnerModule.buildTemplateCode || runnerModule.default?.buildTemplateCode;
-
-      modules.push({
-        id,
-        extension,
-        buildTemplateCode
-      });
-    } catch (err) {
-      console.warn(`[WARN] Could not load language module for '${id}':`, err);
-    }
-  }
-
-  return modules;
-}
+import {
+  ROOT_DIR,
+  EXERCISES_DIR,
+  parseCliArgs,
+  discoverLanguageModules
+} from './lib/shared';
 
 async function run() {
-  const args = parseArgs();
+  const args = parseCliArgs();
 
   if (!args.exercise && !args.all) {
     console.error('Usage:');
@@ -120,10 +26,18 @@ async function run() {
     process.exit(1);
   }
 
-  const languages = await discoverLanguages(args.lang);
+  const languages = await discoverLanguageModules(args.lang);
   if (languages.length === 0) {
     console.error(`No language modules with test-runner.ts found${args.lang ? ` matching '${args.lang}'` : ''}.`);
     process.exit(1);
+  }
+
+  if (args.exercise) {
+    const canonicalPath = path.join(EXERCISES_DIR, args.exercise, 'canonical-data.json');
+    if (!fs.existsSync(canonicalPath)) {
+      console.error(`[ERROR] Exercise '${args.exercise}' not found or missing canonical-data.json at: ${canonicalPath}`);
+      process.exit(1);
+    }
   }
 
   const exerciseIds = args.all
@@ -131,6 +45,11 @@ async function run() {
         .filter(d => d.isDirectory() && fs.existsSync(path.join(EXERCISES_DIR, d.name, 'canonical-data.json')))
         .map(d => d.name)
     : [args.exercise!];
+
+  if (exerciseIds.length === 0) {
+    console.error('[ERROR] No exercises found with canonical-data.json.');
+    process.exit(1);
+  }
 
   console.log(`\nScaffolding templates for ${exerciseIds.length} exercise(s) across ${languages.length} language(s)...\n`);
 

@@ -173,7 +173,7 @@ export function buildTestCode(cases: FlatCanonicalTestCase[], meta: CanonicalDat
 1. **Share Type Mappers**: `buildTemplateCode` and `buildTestCode` must share the exact same internal type mapping so templates and tests never drift.
 2. **Never Emit Redundant Forward Declarations**: In static languages (C, C++), do not emit forward declarations in `testCode`. The worker prepends `userCode`, so forward declarations cause ambiguous overload errors.
 3. **Safe Assertion Formatting**: Never call dynamic stringification (like `std::to_string()`) on composite containers or structures.
-4. **Exhaustive Mapping**: Use `Record<CanonicalInputType, ...>` so `npm run check` flags any unmapped types at compile time. See [`ADDING_A_NEW_TYPE_MAPPING.md`](./ADDING_A_NEW_TYPE_MAPPING.md).
+4. **Canonical Signature & Type Descriptors**: Consume `parseCanonicalSignature(meta)` and map canonical types via `CanonicalTypeDescriptor` to the target language types so templates and test harnesses handle primitives, collections, and custom data structures consistently. See [`ADDING_A_NEW_TYPE_MAPPING.md`](./ADDING_A_NEW_TYPE_MAPPING.md).
 
 ---
 
@@ -234,7 +234,7 @@ If adding exercises specific to the new language, register their IDs in `src/exe
 - [ ] Created `src/languages/<lang_id>/worker.ts` (using `createWorkerHandler`).
 - [ ] Created `src/languages/<lang_id>/syntax.ts` (if syntax mode available).
 - [ ] Created `src/languages/<lang_id>/linter.ts` (if worker implements `lint()`).
-- [ ] Added `<lang_id>/template.<ext>` and `<lang_id>/test.<ext>` to exercise folders.
+- [ ] Added `<lang_id>/template.<ext>` and `<lang_id>/solution.<ext>` to exercise folders.
 - [ ] Enabled language ID in `languages` in `site.toml`.
 - [ ] Verified execution, test results, syntax highlighting, and diagnostics in UI.
 

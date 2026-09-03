@@ -46,11 +46,3 @@ func (this *Codec) Deserialize(data string) *TreeNode {
     
     return dfs()
 }
-
-func (this *Codec) serialize(root *TreeNode) string {
-    return this.Serialize(root)
-}
-
-func (this *Codec) deserialize(data string) *TreeNode {
-    return this.Deserialize(data)
-}

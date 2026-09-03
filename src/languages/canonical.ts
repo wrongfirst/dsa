@@ -59,12 +59,12 @@ export interface CanonicalCaseGroup {
 export interface CanonicalTestCase {
   uuid?: string;
   description: string;
-  property: string;
+  property?: string;
   input: Record<string, any>;
   expected: any;
   comments?: string[];
   comparison?: 'exact' | 'unordered' | 'unordered_nested';
-  returns?: 'tree' | 'linked_list' | 'graph' | 'void' | 'standard';
+  returns?: CanonicalReturnType;
   inputs?: Record<string, CanonicalInputType>;
   mutation?: { target: string };
 }
@@ -73,6 +73,7 @@ export interface CanonicalTestCase {
  * Flattened test case preserving optional parent group description context.
  */
 export interface FlatCanonicalTestCase extends CanonicalTestCase {
+  property: string;
   groupDescription?: string;
 }
 
@@ -80,7 +81,7 @@ export interface FlatCanonicalTestCase extends CanonicalTestCase {
  * Type guard to distinguish leaf CanonicalTestCase from CanonicalCaseGroup.
  */
 export function isTestCase(c: CanonicalCase): c is CanonicalTestCase {
-  return ('property' in c || 'expected' in c) && 'input' in c;
+  return !('cases' in c) && 'input' in c;
 }
 
 /**
@@ -96,7 +97,7 @@ export function flattenCases(
     if (isTestCase(c)) {
       result.push({
         ...c,
-        property: (c as any).property || '',
+        property: c.property || '',
         ...(groupDesc ? { groupDescription: groupDesc } : {})
       });
     } else if (Array.isArray(c.cases)) {
@@ -114,7 +115,7 @@ export function flattenCases(
  * Universal structured type descriptor for canonical parameters and return values.
  */
 export type CanonicalTypeDescriptor =
-  | { kind: 'primitive'; type: 'int' | 'uint32' | 'float' | 'bool' | 'string' }
+  | { kind: 'primitive'; type: 'int' | 'int64' | 'uint32' | 'float' | 'bool' | 'string' }
   | { kind: 'array'; element: CanonicalTypeDescriptor }
   | { kind: 'tree' }
   | { kind: 'tree_node' }
@@ -146,6 +147,8 @@ export interface CanonicalSignature {
   name: string; // Function name or class name
   receiver?: string;
   compose?: [string, string];
+  innerFunction?: CanonicalMethodDescriptor;
+  outerFunction?: CanonicalMethodDescriptor;
   mutationTarget?: string;
   parameters: CanonicalParamDescriptor[];
   returnType: CanonicalTypeDescriptor;
@@ -171,8 +174,17 @@ export function inferCanonicalType(
   if (hint === 'interval_array') return { kind: 'interval_array' };
   if (hint === 'byte_grid') return { kind: 'byte_grid' };
   if (hint === 'void') return { kind: 'void' };
+  // 'standard' hint explicitly falls through to data-based type inference
 
   if (val === null || val === undefined) {
+    if (allCases && key) {
+      for (const c of allCases) {
+        const sample = key === 'expected' ? c.expected : c.input?.[key];
+        if (sample !== null && sample !== undefined) {
+          return inferCanonicalType(sample, hint === 'standard' ? undefined : hint, allCases, key);
+        }
+      }
+    }
     return { kind: 'unknown' };
   }
 
@@ -182,9 +194,13 @@ export function inferCanonicalType(
 
   if (typeof val === 'number') {
     if (Number.isInteger(val)) {
-      return val > 2147483647 || val < -2147483648
-        ? { kind: 'primitive', type: 'uint32' }
-        : { kind: 'primitive', type: 'int' };
+      if (val < -2147483648 || val > 4294967295) {
+        return { kind: 'primitive', type: 'int64' };
+      }
+      if (val > 2147483647) {
+        return { kind: 'primitive', type: 'uint32' };
+      }
+      return { kind: 'primitive', type: 'int' };
     }
     return { kind: 'primitive', type: 'float' };
   }
@@ -198,15 +214,15 @@ export function inferCanonicalType(
       // Look across all other cases to find an example with elements
       if (allCases && key) {
         for (const c of allCases) {
-          const sample = c.input?.[key];
+          const sample = key === 'expected' ? c.expected : c.input?.[key];
           if (Array.isArray(sample) && sample.length > 0) {
-            return { kind: 'array', element: inferCanonicalType(sample[0]) };
+            return { kind: 'array', element: inferCanonicalType(sample[0], undefined, allCases, key) };
           }
         }
       }
       return { kind: 'array', element: { kind: 'primitive', type: 'int' } };
     }
-    return { kind: 'array', element: inferCanonicalType(val[0]) };
+    return { kind: 'array', element: inferCanonicalType(val[0], undefined, allCases, key) };
   }
 
   return { kind: 'unknown' };
@@ -225,36 +241,68 @@ export function parseCanonicalSignature(meta: CanonicalData): CanonicalSignature
   const mutationTarget = meta.mutation?.target || first?.mutation?.target;
 
   if (mode === 'operations') {
-    const ops: string[] = first?.input?.operations || [];
-    const args: any[][] = first?.input?.arguments || [];
-    const exps: any[] = first?.expected || [];
-    const className = ops[0] || 'Solution';
-
-    const ctorParams: CanonicalParamDescriptor[] = (args[0] || []).map((arg, idx) => ({
-      name: `arg${idx + 1}`,
-      type: inferCanonicalType(arg),
-      isMutationTarget: false
-    }));
+    let className = meta.receiver || (first?.input?.operations?.[0]) || 'Solution';
+    let ctorParams: CanonicalParamDescriptor[] = [];
+    let foundCtor = false;
 
     const methodMap = new Map<string, CanonicalMethodDescriptor>();
-    for (let i = 1; i < ops.length; i++) {
-      const op = ops[i];
-      if (!methodMap.has(op)) {
+
+    for (const c of flat) {
+      const ops: string[] = c.input?.operations || [];
+      const args: any[][] = c.input?.arguments || [];
+      const exps: any[] = c.expected || [];
+
+      if (ops.length > 0) {
+        if (!meta.receiver && ops[0]) {
+          className = ops[0];
+        }
+        if (!foundCtor && args.length > 0 && Array.isArray(args[0])) {
+          ctorParams = (args[0] || []).map((arg, idx) => ({
+            name: `arg${idx + 1}`,
+            type: inferCanonicalType(arg),
+            isMutationTarget: false
+          }));
+          if (ctorParams.length > 0) {
+            foundCtor = true;
+          }
+        }
+      }
+
+      for (let i = 1; i < ops.length; i++) {
+        const op = ops[i];
         const methodArgs = args[i] || [];
         const expectedVal = exps[i];
-        const returnType = expectedVal === null || expectedVal === undefined
-          ? { kind: 'void' as const }
-          : inferCanonicalType(expectedVal);
 
-        methodMap.set(op, {
-          name: op,
-          parameters: methodArgs.map((a, aIdx) => ({
-            name: `arg${aIdx + 1}`,
-            type: inferCanonicalType(a),
-            isMutationTarget: false
-          })),
-          returnType
-        });
+        const existing = methodMap.get(op);
+        if (!existing) {
+          const returnType = expectedVal === null || expectedVal === undefined
+            ? { kind: 'void' as const }
+            : inferCanonicalType(expectedVal);
+
+          methodMap.set(op, {
+            name: op,
+            parameters: methodArgs.map((a, aIdx) => ({
+              name: `arg${aIdx + 1}`,
+              type: inferCanonicalType(a),
+              isMutationTarget: false
+            })),
+            returnType
+          });
+        } else {
+          // If we previously marked it void because expectedVal was null/undefined,
+          // refine it if a subsequent invocation returns a concrete value.
+          if (existing.returnType.kind === 'void' && expectedVal !== null && expectedVal !== undefined) {
+            existing.returnType = inferCanonicalType(expectedVal);
+          }
+          // If existing parameters were empty but this invocation has arguments, refine them
+          if (existing.parameters.length === 0 && methodArgs.length > 0) {
+            existing.parameters = methodArgs.map((a, aIdx) => ({
+              name: `arg${aIdx + 1}`,
+              type: inferCanonicalType(a),
+              isMutationTarget: false
+            }));
+          }
+        }
       }
     }
 
@@ -282,7 +330,30 @@ export function parseCanonicalSignature(meta: CanonicalData): CanonicalSignature
       isMutationTarget: false
     }));
 
-    const retType = inferCanonicalType(first?.expected, returnsMeta === 'standard' ? undefined : returnsMeta);
+    const retType = inferCanonicalType(
+      first?.expected,
+      returnsMeta,
+      flat,
+      'expected'
+    );
+
+    const innerFunction: CanonicalMethodDescriptor = {
+      name: innerFn,
+      parameters: params,
+      returnType: { kind: 'primitive', type: 'string' }
+    };
+
+    const outerFunction: CanonicalMethodDescriptor = {
+      name: outerFn,
+      parameters: [
+        {
+          name: outerFn === 'decode' ? 's' : 'data',
+          type: { kind: 'primitive', type: 'string' },
+          isMutationTarget: false
+        }
+      ],
+      returnType: retType
+    };
 
     return {
       exercise,
@@ -290,10 +361,12 @@ export function parseCanonicalSignature(meta: CanonicalData): CanonicalSignature
       name: outerFn,
       receiver: meta.receiver,
       compose: [outerFn, innerFn],
+      innerFunction,
+      outerFunction,
       mutationTarget,
       parameters: params,
       returnType: retType,
-      methods: []
+      methods: [innerFunction, outerFunction]
     };
   }
 
@@ -309,7 +382,12 @@ export function parseCanonicalSignature(meta: CanonicalData): CanonicalSignature
 
   const retType = mutationTarget
     ? { kind: 'void' as const }
-    : inferCanonicalType(first?.expected, returnsMeta === 'standard' ? undefined : returnsMeta);
+    : inferCanonicalType(
+        first?.expected,
+        returnsMeta,
+        flat,
+        'expected'
+      );
 
   return {
     exercise,
