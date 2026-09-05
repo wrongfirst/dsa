@@ -1,0 +1,1 @@
+import{t as e}from"./base-adapter-5sLCcPKz.js";var t=e(`go`,()=>new Worker(new URL(``+new URL(`worker-BOwmAr8M.js`,import.meta.url).href,``+import.meta.url),{type:`module`}));export{t as default,t as runner};
