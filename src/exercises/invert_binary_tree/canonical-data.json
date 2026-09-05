@@ -7,54 +7,173 @@
   "cases": [
     {
       "uuid": "373e6053-1a73-49a3-b113-076ec9badc6e",
-      "description": "Example 1",
+      "description": "Problem Example 1",
       "property": "invertTree",
       "input": {
         "root": [
-          4,
-          2,
-          7,
           1,
+          2,
           3,
+          4,
+          5,
           6,
-          9
+          7
         ]
       },
       "expected": [
-        4,
-        7,
-        2,
-        9,
-        6,
+        1,
         3,
-        1
+        2,
+        7,
+        6,
+        5,
+        4
       ]
     },
     {
       "uuid": "fea70967-fcea-4343-b2e7-9a981234d3ec",
-      "description": "Example 2",
+      "description": "Problem Example 2",
       "property": "invertTree",
       "input": {
         "root": [
+          3,
           2,
-          1,
-          3
+          1
         ]
       },
       "expected": [
-        2,
         3,
-        1
+        1,
+        2
       ]
     },
     {
       "uuid": "01777046-002a-4c97-af1f-b055770159df",
-      "description": "Example 3",
+      "description": "Problem Example 3",
       "property": "invertTree",
       "input": {
         "root": []
       },
       "expected": []
+    },
+    {
+      "uuid": "dd971a68-aba5-4149-9c54-a2b9aad1a3f2",
+      "description": "Single node",
+      "property": "invertTree",
+      "input": {
+        "root": [
+          1
+        ]
+      },
+      "expected": [
+        1
+      ]
+    },
+    {
+      "uuid": "3ce2e608-630d-43dc-9aeb-9a798cfbf478",
+      "description": "Left child only",
+      "property": "invertTree",
+      "input": {
+        "root": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        null,
+        2
+      ]
+    },
+    {
+      "uuid": "8b69bed2-4358-4b5e-b1d5-63d69735f271",
+      "description": "Right child only",
+      "property": "invertTree",
+      "input": {
+        "root": [
+          1,
+          null,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "uuid": "c90af266-cade-4d22-8b5f-4d57860b9298",
+      "description": "Left-skewed tree",
+      "property": "invertTree",
+      "input": {
+        "root": [
+          1,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        null,
+        2,
+        null,
+        3
+      ]
+    },
+    {
+      "uuid": "9cdd57d8-b767-46fc-9cc5-de7a764c52bd",
+      "description": "Right-skewed tree",
+      "property": "invertTree",
+      "input": {
+        "root": [
+          1,
+          null,
+          2,
+          null,
+          3
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        null,
+        3
+      ]
+    },
+    {
+      "uuid": "78c2eee7-217b-4289-b9d8-872a13b90bb2",
+      "description": "Negative values and bounds",
+      "property": "invertTree",
+      "input": {
+        "root": [
+          0,
+          -100,
+          100
+        ]
+      },
+      "expected": [
+        0,
+        100,
+        -100
+      ]
+    },
+    {
+      "uuid": "af54f696-ee3d-4a92-8517-cf260e952be4",
+      "description": "Duplicate values",
+      "property": "invertTree",
+      "input": {
+        "root": [
+          2,
+          2,
+          2
+        ]
+      },
+      "expected": [
+        2,
+        2,
+        2
+      ]
     }
   ]
 }
