@@ -6,7 +6,7 @@ subtitle = "by wrongfirst"
 # `languages`: Array of globally enabled language IDs (matching folders under src/languages/<lang_id>)
 # `default_language`: Default language selected when users first load the site
 default_language = "python"
-languages = ["python", "go"]
+languages = ["python", "go", "cpp"]
 
 # URLs
 project_url = "https://github.com/wrongfirst/dsa"

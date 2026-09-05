@@ -1,0 +1,34 @@
+{
+  "exercise": "house_robber",
+  "cases": [
+    {
+      "uuid": "2ddc721c-aebd-4e7d-9c4c-5ba612f9961d",
+      "description": "Example 1",
+      "property": "rob",
+      "input": {
+        "nums": [
+          1,
+          1,
+          3,
+          3
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "uuid": "157aa612-c29d-489c-8ded-4ac94c7ed9e6",
+      "description": "Example 2",
+      "property": "rob",
+      "input": {
+        "nums": [
+          2,
+          9,
+          8,
+          3,
+          6
+        ]
+      },
+      "expected": 16
+    }
+  ]
+}

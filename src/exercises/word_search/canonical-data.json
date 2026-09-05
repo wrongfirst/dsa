@@ -1,0 +1,66 @@
+{
+  "exercise": "word_search",
+  "inputs": {
+    "board": "byte_grid"
+  },
+  "cases": [
+    {
+      "uuid": "9516b990-65b8-476b-831e-e40923574573",
+      "description": "Example 1",
+      "property": "exist",
+      "input": {
+        "board": [
+          [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          [
+            "S",
+            "A",
+            "A",
+            "T"
+          ],
+          [
+            "A",
+            "C",
+            "A",
+            "E"
+          ]
+        ],
+        "word": "CAT"
+      },
+      "expected": true
+    },
+    {
+      "uuid": "0d249055-c29c-4a0f-8621-73087c1b5470",
+      "description": "Example 2",
+      "property": "exist",
+      "input": {
+        "board": [
+          [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          [
+            "S",
+            "A",
+            "A",
+            "T"
+          ],
+          [
+            "A",
+            "C",
+            "A",
+            "E"
+          ]
+        ],
+        "word": "BAT"
+      },
+      "expected": false
+    }
+  ]
+}

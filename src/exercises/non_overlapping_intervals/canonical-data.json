@@ -1,0 +1,45 @@
+{
+  "exercise": "non_overlapping_intervals",
+  "cases": [
+    {
+      "uuid": "c09f51d0-d2f2-4099-9241-c7b907ba3a05",
+      "description": "Example 1",
+      "property": "eraseOverlapIntervals",
+      "input": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "uuid": "f2b8ed96-d7aa-4197-b33e-a4f68281a26f",
+      "description": "Example 2",
+      "property": "eraseOverlapIntervals",
+      "input": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "exercise": "merge_k_sorted_lists",
+  "inputs": {
+    "lists": "linked_list_array"
+  },
+  "returns": "linked_list",
+  "cases": [
+    {
+      "uuid": "08504aba-1958-4c00-989e-d1eb1963c4d0",
+      "description": "Example 1",
+      "property": "mergeKLists",
+      "input": {
+        "lists": [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "uuid": "1447f72c-eb7a-4d4c-8049-0028e8bb58ef",
+      "description": "Example 2",
+      "property": "mergeKLists",
+      "input": {
+        "lists": []
+      },
+      "expected": []
+    },
+    {
+      "uuid": "8ba2a9ed-ab22-4047-96ec-d3593a58b6b7",
+      "description": "Example 3",
+      "property": "mergeKLists",
+      "input": {
+        "lists": [
+          []
+        ]
+      },
+      "expected": []
+    }
+  ]
+}

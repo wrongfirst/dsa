@@ -1,0 +1,76 @@
+{
+  "exercise": "rotate_image",
+  "mutation": {
+    "target": "matrix"
+  },
+  "cases": [
+    {
+      "uuid": "4e095218-db1d-436e-8df7-1c54945155b5",
+      "description": "Example 1",
+      "property": "rotate",
+      "input": {
+        "matrix": [
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ]
+      },
+      "expected": [
+        [
+          4,
+          3
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "uuid": "99d16479-ffda-4e64-b226-c5106fe29067",
+      "description": "Example 2",
+      "property": "rotate",
+      "input": {
+        "matrix": [
+          [
+            7,
+            4,
+            1
+          ],
+          [
+            8,
+            5,
+            2
+          ],
+          [
+            9,
+            6,
+            3
+          ]
+        ]
+      },
+      "expected": [
+        [
+          9,
+          8,
+          7
+        ],
+        [
+          6,
+          5,
+          4
+        ],
+        [
+          3,
+          2,
+          1
+        ]
+      ]
+    }
+  ]
+}

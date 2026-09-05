@@ -1,0 +1,32 @@
+{
+  "exercise": "valid_palindrome",
+  "cases": [
+    {
+      "uuid": "f8d2fd25-2e26-4c8c-a79c-6ac7859dae36",
+      "description": "Example 1",
+      "property": "isPalindrome",
+      "input": {
+        "s": "Was it a car or a cat I saw?"
+      },
+      "expected": true
+    },
+    {
+      "uuid": "b46fad0d-aa42-4bf9-8871-36ab0f60317a",
+      "description": "Example 2",
+      "property": "isPalindrome",
+      "input": {
+        "s": "tab a cat"
+      },
+      "expected": false
+    },
+    {
+      "description": "Empty string",
+      "property": "isPalindrome",
+      "input": {
+        "s": ""
+      },
+      "expected": true,
+      "uuid": "79a46a04-d64b-406a-9792-50a8a90eff3b"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "exercise": "implement_trie_prefix_tree",
+  "mode": "operations",
+  "cases": [
+    {
+      "uuid": "d61c4aff-0dcd-43d6-abb7-4e0d39101b29",
+      "description": "Example 1",
+      "property": "operations",
+      "input": {
+        "operations": [
+          "PrefixTree",
+          "insert",
+          "search",
+          "search",
+          "startsWith",
+          "insert",
+          "search"
+        ],
+        "arguments": [
+          [],
+          [
+            "apple"
+          ],
+          [
+            "apple"
+          ],
+          [
+            "app"
+          ],
+          [
+            "app"
+          ],
+          [
+            "app"
+          ],
+          [
+            "app"
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        true,
+        false,
+        true,
+        null,
+        true
+      ]
+    }
+  ]
+}

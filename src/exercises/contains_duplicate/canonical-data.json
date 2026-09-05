@@ -1,0 +1,33 @@
+{
+  "exercise": "contains_duplicate",
+  "cases": [
+    {
+      "uuid": "15d2a321-55e4-4516-9b68-b79c50f6d55c",
+      "description": "Example 1",
+      "property": "hasDuplicate",
+      "input": {
+        "nums": [
+          1,
+          2,
+          3,
+          3
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "9fed63af-6eb2-412c-9abd-77db6a36c20b",
+      "description": "Example 2",
+      "property": "hasDuplicate",
+      "input": {
+        "nums": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

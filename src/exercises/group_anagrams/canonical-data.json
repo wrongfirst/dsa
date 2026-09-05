@@ -1,0 +1,65 @@
+{
+  "exercise": "group_anagrams",
+  "comparison": "unordered_nested",
+  "cases": [
+    {
+      "uuid": "263f4dd9-888d-42e2-a06e-c1e2848270d4",
+      "description": "Example 1",
+      "property": "groupAnagrams",
+      "input": {
+        "strs": [
+          "act",
+          "pots",
+          "tops",
+          "cat",
+          "stop",
+          "hat"
+        ]
+      },
+      "expected": [
+        [
+          "act",
+          "cat"
+        ],
+        [
+          "pots",
+          "tops",
+          "stop"
+        ],
+        [
+          "hat"
+        ]
+      ]
+    },
+    {
+      "uuid": "eaff2cf0-efa5-4c9b-be11-ad8659ac5aac",
+      "description": "Example 2",
+      "property": "groupAnagrams",
+      "input": {
+        "strs": [
+          "x"
+        ]
+      },
+      "expected": [
+        [
+          "x"
+        ]
+      ]
+    },
+    {
+      "description": "Example 3",
+      "property": "groupAnagrams",
+      "input": {
+        "strs": [
+          "a"
+        ]
+      },
+      "expected": [
+        [
+          "a"
+        ]
+      ],
+      "uuid": "e486fd75-4f6e-4a77-8d2f-28f4f016794b"
+    }
+  ]
+}

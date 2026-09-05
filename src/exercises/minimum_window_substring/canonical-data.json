@@ -1,0 +1,35 @@
+{
+  "exercise": "minimum_window_substring",
+  "cases": [
+    {
+      "uuid": "6ec74a0a-5268-4624-9ce1-d8333f3b2abc",
+      "description": "Example 1",
+      "property": "minWindow",
+      "input": {
+        "s": "OUZODYXAZV",
+        "t": "XYZ"
+      },
+      "expected": "YXAZ"
+    },
+    {
+      "uuid": "185e879a-8052-4f5a-b9e9-528a5732ae45",
+      "description": "Example 2",
+      "property": "minWindow",
+      "input": {
+        "s": "xyz",
+        "t": "xyz"
+      },
+      "expected": "xyz"
+    },
+    {
+      "uuid": "2aa0b924-08df-4fd7-a443-ea40e6f7b047",
+      "description": "Example 3",
+      "property": "minWindow",
+      "input": {
+        "s": "x",
+        "t": "xy"
+      },
+      "expected": ""
+    }
+  ]
+}

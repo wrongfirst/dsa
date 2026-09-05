@@ -1,0 +1,39 @@
+{
+  "exercise": "course_schedule",
+  "cases": [
+    {
+      "uuid": "f37f3f26-d751-48f1-a59d-3be1fb3f0e77",
+      "description": "Example 1",
+      "property": "canFinish",
+      "input": {
+        "numCourses": 2,
+        "prerequisites": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "expected": true
+    },
+    {
+      "uuid": "bd086fc4-6d45-41a6-8669-2b933faeeb9c",
+      "description": "Example 2",
+      "property": "canFinish",
+      "input": {
+        "numCourses": 2,
+        "prerequisites": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "expected": false
+    }
+  ]
+}

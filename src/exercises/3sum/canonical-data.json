@@ -1,0 +1,46 @@
+{
+  "exercise": "3sum",
+  "comparison": "unordered_nested",
+  "cases": [
+    {
+      "uuid": "f2337394-4a58-4c1a-b527-9fc168b0dccb",
+      "description": "Example 1",
+      "property": "threeSum",
+      "input": {
+        "nums": [
+          -4,
+          -1,
+          -1,
+          0,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          -1,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "uuid": "75d5376a-b679-418c-bef6-1803ddc16cf3",
+      "description": "Example 2",
+      "property": "threeSum",
+      "input": {
+        "nums": [
+          0,
+          1,
+          1
+        ]
+      },
+      "expected": []
+    }
+  ]
+}

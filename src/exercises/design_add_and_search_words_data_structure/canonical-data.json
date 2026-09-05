@@ -1,0 +1,62 @@
+{
+  "exercise": "design_add_and_search_words_data_structure",
+  "mode": "operations",
+  "cases": [
+    {
+      "uuid": "4b6d54e0-0a71-4385-afa4-329f5bb2f10d",
+      "description": "Example 1",
+      "property": "operations",
+      "input": {
+        "operations": [
+          "WordDictionary",
+          "addWord",
+          "addWord",
+          "addWord",
+          "addWord",
+          "search",
+          "search",
+          "search",
+          "search"
+        ],
+        "arguments": [
+          [],
+          [
+            "day"
+          ],
+          [
+            "bay"
+          ],
+          [
+            "may"
+          ],
+          [
+            "say"
+          ],
+          [
+            "day"
+          ],
+          [
+            ".ay"
+          ],
+          [
+            "b.."
+          ],
+          [
+            "nope"
+          ]
+        ]
+      },
+      "expected": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        true,
+        true,
+        true,
+        false
+      ]
+    }
+  ]
+}

@@ -147,26 +147,67 @@ export default lintExtension;
 
 ---
 
-### 6. Exercise Variants (`src/exercises/<exercise_id>/<lang_id>/`)
+### 6. Test Runner & Template Builder (`src/languages/<lang_id>/test-runner.ts`)
 
-Add the language folder to each supported exercise:
+Every language module must export two functions to interface with canonical exercise specifications:
 
-- **`template.<ext>`** (e.g. `template.py`): Starter code displayed in the editor.
-- **`solution.<ext>`** (e.g. `solution.py`): Reference solution used for verification and speedrun validation.
-- **`test.<ext>`** *(Optional)*: Fallback test harness if `canonical-data.json` is not provided for the exercise.
+```ts
+import type { FlatCanonicalTestCase, CanonicalData } from '../canonical';
+
+/**
+ * Generate user starter code matching canonical data for this language.
+ */
+export function buildTemplateCode(meta: CanonicalData): string {
+  // Return starter template conforming to canonical property and types
+}
+
+/**
+ * Generate test harness code calling the canonical function/class.
+ */
+export function buildTestCode(cases: FlatCanonicalTestCase[], meta: CanonicalData): string {
+  // Return runnable test harness with Tests assertions
+}
+```
+
+#### Rules for Test Runners:
+1. **Share Type Mappers**: `buildTemplateCode` and `buildTestCode` must share the exact same internal type mapping so templates and tests never drift.
+2. **Never Emit Redundant Forward Declarations**: In static languages (C, C++), do not emit forward declarations in `testCode`. The worker prepends `userCode`, so forward declarations cause ambiguous overload errors.
+3. **Safe Assertion Formatting**: Never call dynamic stringification (like `std::to_string()`) on composite containers or structures.
+4. **Canonical Signature & Type Descriptors**: Consume `parseCanonicalSignature(meta)` and map canonical types via `CanonicalTypeDescriptor` to the target language types so templates and test harnesses handle primitives, collections, and custom data structures consistently. See [`ADDING_A_NEW_TYPE_MAPPING.md`](./ADDING_A_NEW_TYPE_MAPPING.md).
 
 ---
 
-### 7. Enable in Site Configuration (`site.toml`)
+### 7. Exercise Variants (`src/exercises/<exercise_id>/<lang_id>/`)
+
+Generate starter templates automatically using the CLI:
+```bash
+npm run gen:templates -- --lang=<lang_id> --all
+```
+Then add reference solutions in `src/exercises/<exercise_id>/<lang_id>/solution.<ext>`.
+See [`ADDING_A_NEW_PROBLEM.md`](./ADDING_A_NEW_PROBLEM.md) for full exercise lifecycle details.
+
+---
+
+### 8. Enable in Site Configuration (`site.toml`)
 
 Once the language module and exercise variants are in place, enable the language ID in `site.toml`:
 
 ```toml
 default_language = "ocaml"
-languages = ["ocaml", "python", "go", "typescript"] # Add language ID
+languages = ["ocaml", "python", "go", "typescript", "cpp"] # Add language ID
 ```
 
 > If a language is enabled in `site.toml` but missing for an exercise, the UI marks it as `(N/A)` for that exercise.
+
+---
+
+### 9. Verify Contracts Statically
+
+Run the static contract validator:
+```bash
+npm run verify:contracts -- --lang=<lang_id>
+```
+Ensure zero schema, signature, or generator violations before launching the UI speedrun modal.
 
 ---
 
@@ -193,7 +234,7 @@ If adding exercises specific to the new language, register their IDs in `src/exe
 - [ ] Created `src/languages/<lang_id>/worker.ts` (using `createWorkerHandler`).
 - [ ] Created `src/languages/<lang_id>/syntax.ts` (if syntax mode available).
 - [ ] Created `src/languages/<lang_id>/linter.ts` (if worker implements `lint()`).
-- [ ] Added `<lang_id>/template.<ext>` and `<lang_id>/test.<ext>` to exercise folders.
+- [ ] Added `<lang_id>/template.<ext>` and `<lang_id>/solution.<ext>` to exercise folders.
 - [ ] Enabled language ID in `languages` in `site.toml`.
 - [ ] Verified execution, test results, syntax highlighting, and diagnostics in UI.
 

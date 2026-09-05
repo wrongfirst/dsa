@@ -1,0 +1,23 @@
+{
+  "exercise": "palindromic_substrings",
+  "cases": [
+    {
+      "uuid": "f6dd74c7-3451-4265-8524-fbea8651a643",
+      "description": "Example 1",
+      "property": "countSubstrings",
+      "input": {
+        "s": "abc"
+      },
+      "expected": 3
+    },
+    {
+      "uuid": "fd1519e7-8b14-4231-bafc-6fb26f962657",
+      "description": "Example 2",
+      "property": "countSubstrings",
+      "input": {
+        "s": "aaa"
+      },
+      "expected": 6
+    }
+  ]
+}

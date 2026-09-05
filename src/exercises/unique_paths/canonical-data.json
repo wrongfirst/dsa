@@ -1,0 +1,35 @@
+{
+  "exercise": "unique_paths",
+  "cases": [
+    {
+      "uuid": "0602b304-a3e3-4e84-8b1f-44ec38ed921c",
+      "description": "Example 1",
+      "property": "uniquePaths",
+      "input": {
+        "m": 3,
+        "n": 6
+      },
+      "expected": 21
+    },
+    {
+      "uuid": "c70e440e-439b-415a-bfcb-1cabf3253a15",
+      "description": "Example 2",
+      "property": "uniquePaths",
+      "input": {
+        "m": 3,
+        "n": 3
+      },
+      "expected": 6
+    },
+    {
+      "description": "1x1 grid",
+      "property": "uniquePaths",
+      "input": {
+        "m": 1,
+        "n": 1
+      },
+      "expected": 1,
+      "uuid": "21f9afa9-b38a-49e5-a0b5-9701349e44ef"
+    }
+  ]
+}

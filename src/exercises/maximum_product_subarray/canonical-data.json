@@ -1,0 +1,32 @@
+{
+  "exercise": "maximum_product_subarray",
+  "cases": [
+    {
+      "uuid": "f0d75be0-3eb9-48be-b044-b0e15fb13d95",
+      "description": "Example 1",
+      "property": "maxProduct",
+      "input": {
+        "nums": [
+          2,
+          4,
+          -3,
+          5
+        ]
+      },
+      "expected": 8
+    },
+    {
+      "uuid": "a15ceb3c-c2cf-47f1-96d3-daf7a1aaf456",
+      "description": "Example 2",
+      "property": "maxProduct",
+      "input": {
+        "nums": [
+          -3,
+          0,
+          -2
+        ]
+      },
+      "expected": 0
+    }
+  ]
+}

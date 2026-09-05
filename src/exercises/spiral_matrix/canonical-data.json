@@ -1,0 +1,104 @@
+{
+  "exercise": "spiral_matrix",
+  "cases": [
+    {
+      "uuid": "ec244189-e586-48ef-b5e4-9d2950420fb6",
+      "description": "Example 1",
+      "property": "spiralOrder",
+      "input": {
+        "matrix": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        4,
+        3
+      ]
+    },
+    {
+      "uuid": "05f731c6-fdd5-4140-bb8a-661ca777bcb8",
+      "description": "Example 2",
+      "property": "spiralOrder",
+      "input": {
+        "matrix": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ],
+          [
+            7,
+            8,
+            9
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        6,
+        9,
+        8,
+        7,
+        4,
+        5
+      ]
+    },
+    {
+      "uuid": "79f0ced9-812c-4fe3-8a26-97f6b02d0ccd",
+      "description": "Example 3",
+      "property": "spiralOrder",
+      "input": {
+        "matrix": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            5,
+            6,
+            7,
+            8
+          ],
+          [
+            9,
+            10,
+            11,
+            12
+          ]
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        4,
+        8,
+        12,
+        11,
+        10,
+        9,
+        5,
+        6,
+        7
+      ]
+    }
+  ]
+}

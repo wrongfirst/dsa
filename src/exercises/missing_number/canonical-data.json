@@ -1,0 +1,30 @@
+{
+  "exercise": "missing_number",
+  "cases": [
+    {
+      "uuid": "00ed0a69-a8d6-406a-8e02-1f53ff5fcec3",
+      "description": "Example 1",
+      "property": "missingNumber",
+      "input": {
+        "nums": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 0
+    },
+    {
+      "uuid": "53f91881-e23d-4500-9290-41caae5f030f",
+      "description": "Example 2",
+      "property": "missingNumber",
+      "input": {
+        "nums": [
+          0,
+          2
+        ]
+      },
+      "expected": 1
+    }
+  ]
+}

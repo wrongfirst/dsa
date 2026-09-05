@@ -1,0 +1,33 @@
+{
+  "exercise": "maximum_depth_of_binary_tree",
+  "inputs": {
+    "root": "tree"
+  },
+  "cases": [
+    {
+      "uuid": "8b6a54de-4bc3-46a3-bbd3-e410cf03cff9",
+      "description": "Example 1",
+      "property": "maxDepth",
+      "input": {
+        "root": [
+          1,
+          2,
+          3,
+          null,
+          null,
+          4
+        ]
+      },
+      "expected": 3
+    },
+    {
+      "uuid": "885396d0-04d0-4c12-93eb-d7338606f33a",
+      "description": "Example 2",
+      "property": "maxDepth",
+      "input": {
+        "root": []
+      },
+      "expected": 0
+    }
+  ]
+}

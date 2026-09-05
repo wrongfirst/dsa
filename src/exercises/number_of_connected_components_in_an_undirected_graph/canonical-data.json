@@ -1,0 +1,65 @@
+{
+  "exercise": "number_of_connected_components_in_an_undirected_graph",
+  "cases": [
+    {
+      "uuid": "827cf244-1d48-4561-aef1-f5e42c61b4cb",
+      "description": "Example 1",
+      "property": "countComponents",
+      "input": {
+        "n": 5,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expected": 2
+    },
+    {
+      "uuid": "8dc15509-5868-4d4b-9123-002e1c3f9262",
+      "description": "Example 2",
+      "property": "countComponents",
+      "input": {
+        "n": 5,
+        "edges": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expected": 1
+    },
+    {
+      "description": "No edges",
+      "property": "countComponents",
+      "input": {
+        "n": 3,
+        "edges": []
+      },
+      "expected": 3,
+      "uuid": "6fdd3d0d-940b-482f-b5d7-955a04df2bb7"
+    }
+  ]
+}

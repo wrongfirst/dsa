@@ -1,0 +1,52 @@
+{
+  "exercise": "reorder_list",
+  "inputs": {
+    "head": "linked_list"
+  },
+  "returns": "linked_list",
+  "mutation": {
+    "target": "head"
+  },
+  "cases": [
+    {
+      "uuid": "ce72e798-c6b2-4f2e-9eda-fbe281303e69",
+      "description": "Example 1",
+      "property": "reorderList",
+      "input": {
+        "head": [
+          2,
+          4,
+          6,
+          8
+        ]
+      },
+      "expected": [
+        2,
+        8,
+        4,
+        6
+      ]
+    },
+    {
+      "uuid": "8489525e-9cd6-455e-964d-cd792fcce1b2",
+      "description": "Example 2",
+      "property": "reorderList",
+      "input": {
+        "head": [
+          2,
+          4,
+          6,
+          8,
+          10
+        ]
+      },
+      "expected": [
+        2,
+        10,
+        4,
+        8,
+        6
+      ]
+    }
+  ]
+}

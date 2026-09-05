@@ -14,7 +14,7 @@ export interface PromptContext {
 
 /**
  * Builds the comprehensive mentor system prompt containing the active problem statement,
- * starter code, test harness, linter diagnostics, runtime output,
+ * active user code, test harness, linter diagnostics, runtime console output,
  * and pedagogical instructions.
  */
 export function buildSystemPrompt(): PromptContext {

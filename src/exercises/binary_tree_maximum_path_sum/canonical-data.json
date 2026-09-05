@@ -1,0 +1,39 @@
+{
+  "exercise": "binary_tree_maximum_path_sum",
+  "inputs": {
+    "root": "tree"
+  },
+  "cases": [
+    {
+      "uuid": "64b0e31f-091c-48a6-bebe-462272ecabd7",
+      "description": "Example 1",
+      "property": "maxPathSum",
+      "input": {
+        "root": [
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 6
+    },
+    {
+      "uuid": "100977df-a549-41af-a183-459b30cb8ed1",
+      "description": "Example 2",
+      "property": "maxPathSum",
+      "input": {
+        "root": [
+          -15,
+          10,
+          20,
+          null,
+          null,
+          15,
+          5,
+          -5
+        ]
+      },
+      "expected": 40
+    }
+  ]
+}

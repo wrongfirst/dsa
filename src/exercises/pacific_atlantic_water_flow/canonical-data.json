@@ -1,0 +1,95 @@
+{
+  "exercise": "pacific_atlantic_water_flow",
+  "comparison": "unordered_nested",
+  "cases": [
+    {
+      "uuid": "8d9bdfc5-5f69-4f19-a61a-b8321d51896c",
+      "description": "Example 1",
+      "property": "pacificAtlantic",
+      "input": {
+        "heights": [
+          [
+            4,
+            2,
+            7,
+            3,
+            4
+          ],
+          [
+            7,
+            4,
+            6,
+            4,
+            7
+          ],
+          [
+            6,
+            3,
+            5,
+            3,
+            6
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ]
+      ]
+    },
+    {
+      "uuid": "185ebee2-af9b-4c51-a23f-ebf650a8b675",
+      "description": "Example 2",
+      "property": "pacificAtlantic",
+      "input": {
+        "heights": [
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    }
+  ]
+}

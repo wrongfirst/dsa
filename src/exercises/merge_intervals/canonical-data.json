@@ -1,0 +1,59 @@
+{
+  "exercise": "merge_intervals",
+  "cases": [
+    {
+      "uuid": "a778f4e0-256c-436f-93f3-866531cf2e4d",
+      "description": "Example 1",
+      "property": "merge",
+      "input": {
+        "intervals": [
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            6,
+            7
+          ]
+        ]
+      },
+      "expected": [
+        [
+          1,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ]
+    },
+    {
+      "uuid": "f7070c6a-99c5-4558-8fb5-1fb2d599ff59",
+      "description": "Example 2",
+      "property": "merge",
+      "input": {
+        "intervals": [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": [
+        [
+          1,
+          3
+        ]
+      ]
+    }
+  ]
+}

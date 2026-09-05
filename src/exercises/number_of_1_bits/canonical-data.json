@@ -1,0 +1,23 @@
+{
+  "exercise": "number_of_1_bits",
+  "cases": [
+    {
+      "uuid": "cb242c24-0240-4e3d-a5d6-23b4b5886006",
+      "description": "Example 1",
+      "property": "hammingWeight",
+      "input": {
+        "n": 11
+      },
+      "expected": 3
+    },
+    {
+      "uuid": "8dd12df3-a097-4bb7-b9af-f50ff976bd7c",
+      "description": "Example 2",
+      "property": "hammingWeight",
+      "input": {
+        "n": 2147483645
+      },
+      "expected": 30
+    }
+  ]
+}

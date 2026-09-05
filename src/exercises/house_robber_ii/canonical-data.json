@@ -1,0 +1,44 @@
+{
+  "exercise": "house_robber_ii",
+  "cases": [
+    {
+      "uuid": "ec58d237-08a9-4a75-9da4-9c4edd10cb17",
+      "description": "Example 1",
+      "property": "rob",
+      "input": {
+        "nums": [
+          3,
+          4,
+          3
+        ]
+      },
+      "expected": 4
+    },
+    {
+      "uuid": "34428c0c-0358-4100-a32d-01688e80fbf6",
+      "description": "Example 2",
+      "property": "rob",
+      "input": {
+        "nums": [
+          2,
+          9,
+          8,
+          3,
+          6
+        ]
+      },
+      "expected": 15
+    },
+    {
+      "description": "Single house",
+      "property": "rob",
+      "input": {
+        "nums": [
+          5
+        ]
+      },
+      "expected": 5,
+      "uuid": "84204f77-fb66-498a-a200-6267c12d6187"
+    }
+  ]
+}

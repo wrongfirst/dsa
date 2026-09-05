@@ -1,0 +1,41 @@
+{
+  "exercise": "top_k_frequent_elements",
+  "comparison": "unordered",
+  "cases": [
+    {
+      "uuid": "5f05a2c6-488a-46a5-bd5f-a6e1eb89f555",
+      "description": "Example 1",
+      "property": "topKFrequent",
+      "input": {
+        "nums": [
+          1,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "k": 2
+      },
+      "expected": [
+        2,
+        3
+      ]
+    },
+    {
+      "uuid": "fd80eb37-dcd6-4375-a88f-7a39fbcf4b0f",
+      "description": "Example 2",
+      "property": "topKFrequent",
+      "input": {
+        "nums": [
+          7,
+          7
+        ],
+        "k": 1
+      },
+      "expected": [
+        7
+      ]
+    }
+  ]
+}

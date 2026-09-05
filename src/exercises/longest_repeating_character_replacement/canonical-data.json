@@ -1,0 +1,25 @@
+{
+  "exercise": "longest_repeating_character_replacement",
+  "cases": [
+    {
+      "uuid": "4d9a667c-e079-41d7-9bb4-60a71b188fbc",
+      "description": "Example 1",
+      "property": "characterReplacement",
+      "input": {
+        "s": "XYYX",
+        "k": 2
+      },
+      "expected": 4
+    },
+    {
+      "uuid": "a01ba28c-30a7-4571-a492-53a61fb31801",
+      "description": "Example 2",
+      "property": "characterReplacement",
+      "input": {
+        "s": "AAABABB",
+        "k": 1
+      },
+      "expected": 5
+    }
+  ]
+}

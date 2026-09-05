@@ -1,0 +1,40 @@
+{
+  "exercise": "remove_nth_node_from_end_of_list",
+  "inputs": {
+    "head": "linked_list"
+  },
+  "returns": "linked_list",
+  "cases": [
+    {
+      "uuid": "1b0b5e94-7cfc-4761-ae3f-a5f3de21b76d",
+      "description": "Example 1",
+      "property": "removeNthFromEnd",
+      "input": {
+        "head": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "n": 2
+      },
+      "expected": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "uuid": "e7608682-7a18-41b5-9857-e0cd1683c9f6",
+      "description": "Example 2",
+      "property": "removeNthFromEnd",
+      "input": {
+        "head": [
+          5
+        ],
+        "n": 1
+      },
+      "expected": []
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "exercise": "combination_sum",
+  "comparison": "unordered_nested",
+  "cases": [
+    {
+      "uuid": "bb4eec7e-1e47-4628-903b-7e9c51e096a0",
+      "description": "Example 1",
+      "property": "combinationSum",
+      "input": {
+        "nums": [
+          2,
+          5,
+          6,
+          9
+        ],
+        "target": 9
+      },
+      "expected": [
+        [
+          2,
+          2,
+          5
+        ],
+        [
+          9
+        ]
+      ]
+    },
+    {
+      "uuid": "41534dbf-9e08-4ed0-8b76-dd7c38874d88",
+      "description": "Example 2",
+      "property": "combinationSum",
+      "input": {
+        "nums": [
+          3,
+          4,
+          5
+        ],
+        "target": 16
+      },
+      "expected": [
+        [
+          3,
+          3,
+          3,
+          3,
+          4
+        ],
+        [
+          3,
+          3,
+          5,
+          5
+        ],
+        [
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          3,
+          4,
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "uuid": "0988929e-02c0-4f3d-bd83-49683dcdf6e9",
+      "description": "Example 3",
+      "property": "combinationSum",
+      "input": {
+        "nums": [
+          3
+        ],
+        "target": 5
+      },
+      "expected": []
+    }
+  ]
+}

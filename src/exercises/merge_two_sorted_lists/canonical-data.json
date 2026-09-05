@@ -1,0 +1,61 @@
+{
+  "exercise": "merge_two_sorted_lists",
+  "inputs": {
+    "list1": "linked_list",
+    "list2": "linked_list"
+  },
+  "returns": "linked_list",
+  "cases": [
+    {
+      "uuid": "2a06ae80-dce4-4e80-bcb0-41dc57fbb439",
+      "description": "Example 1",
+      "property": "mergeTwoLists",
+      "input": {
+        "list1": [
+          1,
+          2,
+          4
+        ],
+        "list2": [
+          1,
+          3,
+          5
+        ]
+      },
+      "expected": [
+        1,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "uuid": "26df8e68-fca0-4b03-ad9a-4b8a4d11187a",
+      "description": "Example 2",
+      "property": "mergeTwoLists",
+      "input": {
+        "list1": [],
+        "list2": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "description": "Both empty",
+      "property": "mergeTwoLists",
+      "input": {
+        "list1": [],
+        "list2": []
+      },
+      "expected": [],
+      "uuid": "bcecd91f-cf44-4301-82d9-51c750b1c6a4"
+    }
+  ]
+}

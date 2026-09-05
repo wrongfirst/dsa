@@ -1,0 +1,44 @@
+{
+  "exercise": "alien_dictionary",
+  "cases": [
+    {
+      "uuid": "363c5e86-cfd0-42d1-8731-f8aac1fd2153",
+      "description": "Example 1",
+      "property": "foreignDictionary",
+      "input": {
+        "words": [
+          "z",
+          "o"
+        ]
+      },
+      "expected": "zo"
+    },
+    {
+      "uuid": "27565589-d49a-45a5-9d39-f63506ad2907",
+      "description": "Example 2",
+      "property": "foreignDictionary",
+      "input": {
+        "words": [
+          "hrn",
+          "hrf",
+          "er",
+          "enn",
+          "rfnn"
+        ]
+      },
+      "expected": "hernf"
+    },
+    {
+      "uuid": "69925c03-d663-4529-a491-0fd90ab13bc0",
+      "description": "Example 3",
+      "property": "foreignDictionary",
+      "input": {
+        "words": [
+          "abc",
+          "ab"
+        ]
+      },
+      "expected": ""
+    }
+  ]
+}
