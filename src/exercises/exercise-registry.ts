@@ -1,6 +1,8 @@
 import curriculumConfig from './curriculum.yaml';
 import { Exercise, Chapter, LanguageVariant } from '../core/types';
 import { enabledLanguageIds } from '../languages/language-registry';
+import { flattenCases } from '../languages/canonical';
+import type { CanonicalData, FlatCanonicalTestCase } from '../languages/canonical';
 
 // Discover all problem.md files dynamically
 const problemFiles = import.meta.glob<string>(
@@ -8,7 +10,22 @@ const problemFiles = import.meta.glob<string>(
   { query: '?raw', import: 'default', eager: true }
 );
 
-// Discover template, test, and optional validator files across all exercise subfolders
+// Discover canonical-data.json files across exercise folders
+const canonicalDataFiles = import.meta.glob<CanonicalData>(
+  './*/canonical-data.json',
+  { import: 'default', eager: true }
+);
+
+// Discover colocated language test-runner generators
+const testRunnerModules = import.meta.glob<{
+  buildTestCode?: (cases: FlatCanonicalTestCase[], meta: CanonicalData) => string;
+  default?: (cases: FlatCanonicalTestCase[], meta: CanonicalData) => string;
+}>(
+  '../languages/*/test-runner.ts',
+  { eager: true }
+);
+
+// Discover template, test, and solution files across all exercise subfolders
 const templateFiles = import.meta.glob<string>(
   './*/*/template.*',
   { query: '?raw', import: 'default', eager: true }
@@ -21,16 +38,6 @@ const testFiles = import.meta.glob<string>(
 
 const solutionFiles = import.meta.glob<string>(
   './*/*/solution.*',
-  { query: '?raw', import: 'default', eager: true }
-);
-
-const validatorFiles = import.meta.glob<{ default?: (code: string, output: string) => true | string; validate?: (code: string, output: string) => true | string }>(
-  './*/*/validator.ts',
-  { eager: true }
-);
-
-const validatorRawFiles = import.meta.glob<string>(
-  './*/*/validator.ts',
   { query: '?raw', import: 'default', eager: true }
 );
 
@@ -93,18 +100,28 @@ function attachDiscoveredVariants(chapterList: Chapter[]) {
     if (!enabledLanguageIds.includes(langId)) continue;
 
     const initialCode = templateFiles[path] || '';
-    const testPathKey = Object.keys(testFiles).find(p => p.startsWith(`./${folder}/${langId}/test.`));
-    const testCode = testPathKey ? (testFiles[testPathKey] || '') : '';
+
+    let testCode = '';
+    const canonicalPath = `./${folder}/canonical-data.json`;
+    const canonicalData = canonicalDataFiles[canonicalPath];
+
+    if (canonicalData) {
+      const runnerPath = `../languages/${langId}/test-runner.ts`;
+      const runnerMod = testRunnerModules[runnerPath];
+      const buildFn = runnerMod?.buildTestCode || runnerMod?.default;
+      if (buildFn) {
+        const cases = flattenCases(canonicalData.cases);
+        testCode = buildFn(cases, canonicalData);
+      }
+    }
+
+    if (!testCode) {
+      const testPathKey = Object.keys(testFiles).find(p => p.startsWith(`./${folder}/${langId}/test.`));
+      testCode = testPathKey ? (testFiles[testPathKey] || '') : '';
+    }
 
     const solutionPathKey = Object.keys(solutionFiles).find(p => p.startsWith(`./${folder}/${langId}/solution.`));
     const solutionCode = solutionPathKey ? (solutionFiles[solutionPathKey] || '') : '';
-
-    const validatorPathKey = Object.keys(validatorFiles).find(p => p === `./${folder}/${langId}/validator.ts`);
-    const validatorMod = validatorPathKey ? validatorFiles[validatorPathKey] : undefined;
-    const validateFn = validatorMod?.validate || validatorMod?.default;
-
-    const validatorRawPathKey = Object.keys(validatorRawFiles).find(p => p === `./${folder}/${langId}/validator.ts`);
-    const validatorCode = validatorRawPathKey ? (validatorRawFiles[validatorRawPathKey] || '') : '';
 
     if (!discoveredMap[folder]) {
       discoveredMap[folder] = {};
@@ -112,9 +129,7 @@ function attachDiscoveredVariants(chapterList: Chapter[]) {
     discoveredMap[folder][langId] = {
       initialCode,
       testCode,
-      ...(solutionCode ? { solutionCode } : {}),
-      ...(validatorCode ? { validatorCode } : {}),
-      ...(validateFn ? { validate: validateFn } : {})
+      ...(solutionCode ? { solutionCode } : {})
     };
   }
 
