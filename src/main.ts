@@ -1,10 +1,11 @@
 import './input.css';
 import { store, ensureSettingsDecrypted } from './core/store';
 import { initStartupSync } from './core/sync/syncManager';
+import { Effect } from 'effect';
 import { exercises, curriculum, getExerciseDisplayNumber } from './exercises/exercise-registry';
 import { getExerciseVariant } from './core/types';
 import { loadExerciseCode, setEditorCode, updateEditorTheme, getCode, formatEditorCode } from './core/editor';
-import { parseMarkdown, highlightStaticBlocks, escapeHtml } from './core/markdown';
+import { parseMarkdown, escapeHtml } from './core/markdown';
 
 //module imports
 import { elements } from './core/elements';
@@ -25,6 +26,7 @@ import { setupCopyCodeButton } from './ui/copyCode';
 import { setupFormatCodeButton } from './ui/formatCode';
 import { renderFooter } from './ui/footer';
 import { initShortcuts } from './ui/shortcuts';
+import { initCommandPalette } from './ui/commandPalette';
 import { initResetProgress } from './ui/resetProgress';
 import { initSettings } from './ui/settings';
 import { initChatPanel } from './ui/chatPanel';
@@ -38,6 +40,7 @@ Object.defineProperty(window, 'fetch', { value: window.fetch, writable: false, c
 //initialisation
 initBranding();
 initShortcuts();
+initCommandPalette();
 initSettings();
 initChatPanel();
 initResetProgress();
@@ -120,9 +123,6 @@ function render() {
         //update nav
         if (navActions) navActions.updateNavState(activeLessonSlug);
 
-        //highlight static blocks
-        highlightStaticBlocks();
-
         //language selector
         renderLanguageSelector(elements.languageSelectorContainer, currentEx);
         const languageExtension = getLanguageExtension(currentLanguageId);
@@ -188,16 +188,18 @@ if (elements.clearOutputBtn) {
 }
 
 //routing
-if (elements.branding.brandLink) {
-    elements.branding.brandLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        const firstExId = exercises[0]?.id;
-        if (firstExId) {
-            window.location.hash = `#${firstExId}`;
-            store.getState().setCurrent(firstExId);
-        }
-    });
-}
+const navigateHome = (e: MouseEvent) => {
+    e.preventDefault();
+    const firstExId = exercises[0]?.id;
+    if (firstExId) {
+        window.location.hash = `#${firstExId}`;
+        store.getState().setCurrent(firstExId);
+    }
+};
+
+//header anchor links
+elements.branding.brandLink?.addEventListener('click', navigateHome);
+elements.branding.titleLink?.addEventListener('click', navigateHome);
 
 window.addEventListener('hashchange', () => {
     const id = window.location.hash.slice(1);
@@ -234,7 +236,9 @@ render();
 
 //kick off background credential decryption and startup sync (non-blocking)
 ensureSettingsDecrypted(store)
-    .then(() => initStartupSync())
+    .then(() => {
+        Effect.runFork(initStartupSync());
+    })
     .catch((err) => {
         console.warn('[main] Startup decryption or sync check failed:', err);
     });
