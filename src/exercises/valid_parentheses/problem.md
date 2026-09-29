@@ -10,7 +10,7 @@ Return `true` if `s` is a valid string, and `false` otherwise.
 
 **Example 1:**
 
-```java
+```
 Input: s = "[]"
 
 Output: true
@@ -18,7 +18,7 @@ Output: true
 
 **Example 2:**
 
-```java
+```
 Input: s = "([{}])"
 
 Output: true
@@ -26,7 +26,7 @@ Output: true
 
 **Example 3:**
 
-```java
+```
 Input: s = "[(])"
 
 Output: false

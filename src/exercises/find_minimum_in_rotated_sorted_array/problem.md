@@ -11,7 +11,7 @@ A solution that runs in `O(n)` time is trivial, can you write an algorithm that 
 
 **Example 1:**
 
-```java
+```
 Input: nums = [3,4,5,6,1,2]
 
 Output: 1
@@ -19,7 +19,7 @@ Output: 1
 
 **Example 2:**
 
-```java
+```
 Input: nums = [4,5,0,1,2,3]
 
 Output: 0
@@ -27,7 +27,7 @@ Output: 0
 
 **Example 3:**
 
-```java
+```
 Input: nums = [4,5,6,7]
 
 Output: 4

@@ -8,9 +8,9 @@ Rebuild the binary tree from the preorder and inorder traversals and return its 
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/938c14d3-6669-47ab-924b-a1a08640f200/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: preorder = [1,2,3,4], inorder = [2,1,3,4]
 
 Output: [1,2,3,null,null,null,4]
@@ -18,7 +18,7 @@ Output: [1,2,3,null,null,null,4]
 
 **Example 2:**
 
-```java
+```
 Input: preorder = [1], inorder = [1]
 
 Output: [1]

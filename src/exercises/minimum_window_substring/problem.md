@@ -4,7 +4,7 @@ You may assume that the correct output is always unique.
 
 **Example 1:**
 
-```java
+```
 Input: s = "OUZODYXAZV", t = "XYZ"
 
 Output: "YXAZ"
@@ -14,7 +14,7 @@ Explanation: `"YXAZ"` is the shortest substring that includes `"X"`, `"Y"`, and 
 
 **Example 2:**
 
-```java
+```
 Input: s = "xyz", t = "xyz"
 
 Output: "xyz"
@@ -22,7 +22,7 @@ Output: "xyz"
 
 **Example 3:**
 
-```java
+```
 Input: s = "x", t = "xy"
 
 Output: ""

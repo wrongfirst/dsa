@@ -4,7 +4,7 @@ Return the number of distinct ways to climb to the top of the staircase.
 
 **Example 1:**
 
-```java
+```
 Input: n = 2
 
 Output: 2
@@ -16,7 +16,7 @@ Explanation:
 
 **Example 2:**
 
-```java
+```
 Input: n = 3
 
 Output: 3

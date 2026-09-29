@@ -8,9 +8,9 @@ Internally, `index` determines the index of the beginning of the cycle, if it ex
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/3ecdbcfc-70fc-429a-4654-cf4f6a7dbe00/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: head = [1,2,3,4], index = 1
 
 Output: true
@@ -20,9 +20,9 @@ Explanation: There is a cycle in the linked list, where the tail connects to the
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/89e6716c-9f65-46da-d7b2-f04a93269700/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: head = [1,2], index = -1
 
 Output: false

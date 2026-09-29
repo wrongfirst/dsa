@@ -2,12 +2,13 @@ Design a data structure that supports adding new words and searching for existin
 
 Implement the `WordDictionary` class:
 
-* `void addWord(word)` Adds `word` to the data structure.
-* `bool search(word)` Returns `true` if there is any string in the data structure that matches `word` or `false` otherwise. `word` may contain dots `'.'` where dots can be matched with any letter.
+* `WordDictionary()`: Initializes the object.
+* `addWord(word)`: Adds `word` to the data structure.
+* `search(word)`: Returns `true` if there is any string in the data structure that matches `word`, or `false` otherwise. `word` may contain dots `'.'` where dots can be matched with any letter.
 
 **Example 1:**
 
-```java
+```
 Input:
 ["WordDictionary","addWord","addWord","addWord","search","search","search","search"]
 [[],["day"],["bay"],["may"],["say"],["day"],[".ay"],["b.."]]
@@ -16,14 +17,14 @@ Output:
 [null, null, null, null, false, true, true, true]
 
 Explanation:
-WordDictionary wordDictionary = new WordDictionary();
-wordDictionary.addWord("day");
-wordDictionary.addWord("bay");
-wordDictionary.addWord("may");
-wordDictionary.search("say"); // return false
-wordDictionary.search("day"); // return true
-wordDictionary.search(".ay"); // return true
-wordDictionary.search("b.."); // return true
+WordDictionary wordDictionary = WordDictionary()
+wordDictionary.addWord("day")
+wordDictionary.addWord("bay")
+wordDictionary.addWord("may")
+wordDictionary.search("say") // return false
+wordDictionary.search("day") // return true
+wordDictionary.search(".ay") // return true
+wordDictionary.search("b..") // return true
 ```
 
 **Constraints:**

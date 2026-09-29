@@ -6,7 +6,7 @@ Return the *maximum* amount of money you can rob **without** alerting the police
 
 **Example 1:**
 
-```java
+```
 Input: nums = [3,4,3]
 
 Output: 4
@@ -16,7 +16,7 @@ Explanation: You cannot rob `nums[0] + nums[2] = 6` because `nums[0]` and `nums[
 
 **Example 2:**
 
-```java
+```
 Input: nums = [2,9,8,3,6]
 
 Output: 15

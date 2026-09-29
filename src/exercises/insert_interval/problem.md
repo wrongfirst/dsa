@@ -10,7 +10,7 @@ Note: Intervals are *non-overlapping* if they have no common point. For example,
 
 **Example 1:**
 
-```java
+```
 Input: intervals = [[1,3],[4,6]], newInterval = [2,5]
 
 Output: [[1,6]]
@@ -20,7 +20,7 @@ Explanation: `[2,5]` overlaps with `[1,3]` and `[4,6]`, so all three are merged 
 
 **Example 2:**
 
-```java
+```
 Input: intervals = [[1,2],[3,5],[9,10]], newInterval = [6,7]
 
 Output: [[1,2],[3,5],[6,7],[9,10]]

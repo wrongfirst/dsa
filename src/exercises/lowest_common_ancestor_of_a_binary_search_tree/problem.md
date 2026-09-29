@@ -4,9 +4,9 @@ The lowest common ancestor between two nodes `p` and `q` is the lowest node in a
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/2080ee6a-3d27-4cd5-0db2-07672ead8200/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: root = [5,3,8,1,4,7,9,null,2], p = 3, q = 8
 
 Output: 5
@@ -14,9 +14,9 @@ Output: 5
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/2080ee6a-3d27-4cd5-0db2-07672ead8200/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: root = [5,3,8,1,4,7,9,null,2], p = 3, q = 4
 
 Output: 3

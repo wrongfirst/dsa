@@ -4,9 +4,9 @@ The **depth** of a binary tree is defined as the number of nodes along the longe
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/5ea6da77-7e43-43e0-dd9d-e879ca0b1600/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: root = [1,2,3,null,null,4]
 
 Output: 3
@@ -14,7 +14,7 @@ Output: 3
 
 **Example 2:**
 
-```java
+```
 Input: root = []
 
 Output: 0

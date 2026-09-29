@@ -4,9 +4,9 @@ For a word to be present it must be possible to form the word with a path in the
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/06435c8e-bac3-49f5-5df7-77fd5dd42800/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input:
 board = [
   ["a","b","c","d"],
@@ -21,9 +21,9 @@ Output: ["cat","back","backend"]
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/6f244a10-78bf-4a30-0a5f-b8f3e03ce000/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input:
 board = [
   ["x","o"],

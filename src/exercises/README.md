@@ -10,6 +10,8 @@ Each exercise lives in a topic folder under `src/exercises/` (e.g. `hello_world/
 src/exercises/hello_world/
 ├── canonical-data.json  # Canonical test data (Exercism JSON schema)
 ├── problem.md           # Problem description (Markdown - first line "# Hello World" is the title)
+├── assets/              # Optional local images/diagrams (.png, .svg, .jpg, .webp)
+│   └── diagram.svg      # Referenced in problem.md as ![](./assets/diagram.svg)
 ├── ocaml/
 │   ├── template.ml      # Starter code for OCaml
 │   └── solution.ml      # Solution code for OCaml

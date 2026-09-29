@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" width="260" height="200">
+<rect width="100%" height="100%" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <defs>
+    <marker id="spArr1" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <g transform="translate(65, 35)">
+    <rect x="0" y="0" width="55" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="27" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">1</text>
+    <rect x="75" y="0" width="55" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="102" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">2</text>
+    <rect x="0" y="75" width="55" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="27" y="109" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">3</text>
+    <rect x="75" y="75" width="55" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="102" y="109" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">4</text>
+
+    <!-- Arrows cleanly drawn in the gaps between cells -->
+    <line x1="57" y1="27" x2="72" y2="27" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr1)"/>
+    <line x1="102" y1="57" x2="102" y2="72" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr1)"/>
+    <line x1="73" y1="102" x2="58" y2="102" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr1)"/>
+  </g>
+
+  <text x="130" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#b45309" text-anchor="middle">Order: [1, 2, 4, 3]</text>
+
+</svg>

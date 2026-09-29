@@ -6,9 +6,9 @@ You must update the matrix *in-place*.
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/49ffd14e-b32b-4ed8-e0d0-9378e5eb9b00/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: matrix = [
   [0,1],
   [1,0]
@@ -22,9 +22,9 @@ Output: [
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/04d99cc8-e453-464d-888c-58d0a95daf00/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: matrix = [
   [1,2,3],
   [4,0,5],

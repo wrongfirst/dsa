@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" width="360" height="240">
+<rect width="100%" height="100%" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <defs>
+    <marker id="wsArrD" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#b45309"/>
+    </marker>
+    <marker id="wsArrR" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#b45309"/>
+    </marker>
+  </defs>
+
+  <g transform="translate(60, 40)">
+
+    <rect x="0" y="0" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="25" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">A</text>
+
+    <rect x="60" y="0" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="85" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">B</text>
+
+    <rect x="120" y="0" width="50" height="42" rx="6" fill="#fef08a" stroke="#eab308" stroke-width="2.5"/>
+    <text x="145" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#854d0e" text-anchor="middle">C</text>
+
+    <rect x="180" y="0" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="205" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">D</text>
+
+    <rect x="0" y="50" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="25" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">S</text>
+
+    <rect x="60" y="50" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="85" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">A</text>
+
+    <rect x="120" y="50" width="50" height="42" rx="6" fill="#fef08a" stroke="#eab308" stroke-width="2.5"/>
+    <text x="145" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#854d0e" text-anchor="middle">A</text>
+
+    <rect x="180" y="50" width="50" height="42" rx="6" fill="#fef08a" stroke="#eab308" stroke-width="2.5"/>
+    <text x="205" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#854d0e" text-anchor="middle">T</text>
+
+    <rect x="0" y="100" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="25" y="126" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">A</text>
+
+    <rect x="60" y="100" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="85" y="126" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">C</text>
+
+    <rect x="120" y="100" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="145" y="126" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">A</text>
+
+    <rect x="180" y="100" width="50" height="42" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="205" y="126" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#475569" text-anchor="middle">E</text>
+
+    <!-- Clean directional arrows between highlighted cells in gaps without crossing text -->
+    <line x1="145" y1="43" x2="145" y2="48" stroke="#b45309" stroke-width="2.5" marker-end="url(#wsArrD)"/>
+    <line x1="171" y1="71" x2="178" y2="71" stroke="#b45309" stroke-width="2.5" marker-end="url(#wsArrR)"/>
+  </g>
+  <text x="180" y="215" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" fill="#854d0e" text-anchor="middle">word = "CAT" (found, true)</text>
+
+</svg>

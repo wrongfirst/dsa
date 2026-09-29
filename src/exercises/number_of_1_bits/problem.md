@@ -4,7 +4,7 @@ You may assume `n` is a non-negative integer which fits within 32-bits.
 
 **Example 1:**
 
-```java
+```
 Input: n = 00000000000000000000000000010111
 
 Output: 4
@@ -12,7 +12,7 @@ Output: 4
 
 **Example 2:**
 
-```java
+```
 Input: n = 01111111111111111111111111111101
 
 Output: 30

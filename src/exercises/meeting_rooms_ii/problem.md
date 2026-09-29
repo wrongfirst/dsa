@@ -4,7 +4,7 @@ Given an array of meeting time interval objects consisting of start and end time
 
 **Example 1:**
 
-```java
+```
 Input: intervals = [(0,40),(5,10),(15,20)]
 
 Output: 2
@@ -16,7 +16,7 @@ room2: `(5,10),(15,20)`
 
 **Example 2:**
 
-```java
+```
 Input: intervals = [(4,9)]
 
 Output: 1

@@ -3,9 +3,9 @@ Given `n` nodes labeled from `0` to `n - 1` and a list of **undirected** edges (
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/cf8b3035-344d-455a-fcbe-cbe9d6121a00/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]
 
 Output: true
@@ -14,9 +14,9 @@ Output: true
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/09155553-b851-4439-203e-8a8064ea9000/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: n = 5, edges = [[0,1],[1,2],[2,3],[1,3],[1,4]]
 
 Output: false

@@ -7,9 +7,9 @@ A **binary search tree** satisfies the following constraints:
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/02eca3db-f72f-4277-7134-faec4f02e500/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: root = [2,1,3], k = 1
 
 Output: 1
@@ -17,9 +17,9 @@ Output: 1
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/dca6c42d-2327-4036-f7f2-3e99d8203100/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: root = [4,3,5,2,null], k = 4
 
 Output: 5

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 240" width="420" height="240">
+<rect width="100%" height="100%" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <defs>
+    <marker id="upArrR" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="upArrD" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+  </defs>
+
+  <g transform="translate(45, 45)">
+
+    <rect x="0" y="0" width="50" height="40" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+
+    <rect x="55" y="0" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="110" y="0" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="165" y="0" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="220" y="0" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="275" y="0" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="0" y="45" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="55" y="45" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="110" y="45" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="165" y="45" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="220" y="45" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="275" y="45" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="0" y="90" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="55" y="90" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="110" y="90" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="165" y="90" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="220" y="90" width="50" height="40" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <rect x="275" y="90" width="50" height="40" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+
+    <text x="25" y="26" font-size="18" text-anchor="middle">🤖</text>
+    <text x="300" y="116" font-size="18" text-anchor="middle">⭐</text>
+
+    <!-- Arrow right out of cell (0,0) into (0,1) without touching robot -->
+    <line x1="42" y1="20" x2="63" y2="20" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#upArrR)"/>
+    <!-- Arrow down out of cell (0,0) into (1,0) without touching robot -->
+    <line x1="25" y1="34" x2="25" y2="53" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#upArrD)"/>
+  </g>
+
+  <text x="210" y="205" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#334155" text-anchor="middle">m = 3 rows, n = 6 columns (Total Unique Paths = 21)</text>
+
+</svg>

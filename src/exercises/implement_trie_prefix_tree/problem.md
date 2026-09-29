@@ -1,28 +1,28 @@
 A **prefix tree** (also known as a trie) is a tree data structure used to efficiently store and retrieve keys in a set of strings. Some applications of this data structure include auto-complete and spell checker systems.
 
-Implement the PrefixTree class:
-* `PrefixTree()` Initializes the prefix tree object.
-* `void insert(String word)` Inserts the string `word` into the prefix tree.
-* `boolean search(String word)` Returns `true` if the string `word` is in the prefix tree (i.e., was inserted before), and `false` otherwise.
-* `boolean startsWith(String prefix)` Returns `true` if there is a previously inserted string `word` that has the prefix `prefix`, and `false` otherwise.
+Implement the `PrefixTree` class:
+* `PrefixTree()`: Initializes the prefix tree object.
+* `insert(word)`: Inserts string `word` into the prefix tree.
+* `search(word)`: Returns `true` if string `word` exists in the prefix tree (was previously inserted), and `false` otherwise.
+* `startsWith(prefix)`: Returns `true` if any previously inserted string begins with prefix `prefix`, and `false` otherwise.
 
 **Example 1:**
 
-```java
+```
 Input:
-["Trie", "insert", "dog", "search", "dog", "search", "do", "startsWith", "do", "insert", "do", "search", "do"]
+["PrefixTree", "insert", "dog", "search", "dog", "search", "do", "startsWith", "do", "insert", "do", "search", "do"]
 
 Output:
 [null, null, true, false, true, null, true]
 
 Explanation:
-PrefixTree prefixTree = new PrefixTree();
-prefixTree.insert("dog");
-prefixTree.search("dog");    // return true
-prefixTree.search("do");     // return false
-prefixTree.startsWith("do"); // return true
-prefixTree.insert("do");
-prefixTree.search("do");     // return true
+PrefixTree prefixTree = PrefixTree()
+prefixTree.insert("dog")
+prefixTree.search("dog")    // return true
+prefixTree.search("do")     // return false
+prefixTree.startsWith("do") // return true
+prefixTree.insert("do")
+prefixTree.search("do")     // return true
 ```
 
 **Constraints:**

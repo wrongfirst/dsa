@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 180" width="380" height="180">
+<rect width="100%" height="100%" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <g transform="translate(60, 40)">
+    <text x="45" y="-12" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="bold" fill="#64748b" text-anchor="middle">Before</text>
+    <rect x="0" y="0" width="42" height="42" fill="#fee2e2" stroke="#fca5a5" rx="4"/>
+    <text x="21" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#b91c1c" text-anchor="middle">0</text>
+    <rect x="46" y="0" width="42" height="42" fill="#f8fafc" stroke="#cbd5e1" rx="4"/>
+    <text x="67" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#475569" text-anchor="middle">1</text>
+    <rect x="0" y="46" width="42" height="42" fill="#f8fafc" stroke="#cbd5e1" rx="4"/>
+    <text x="21" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#475569" text-anchor="middle">1</text>
+    <rect x="46" y="46" width="42" height="42" fill="#fee2e2" stroke="#fca5a5" rx="4"/>
+    <text x="67" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#b91c1c" text-anchor="middle">0</text>
+  </g>
+
+  <g transform="translate(180, 80)">
+    <line x1="0" y1="0" x2="35" y2="0" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="35,-6 45,0 35,6" fill="#6366f1"/>
+  </g>
+
+  <g transform="translate(250, 40)">
+    <text x="45" y="-12" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="bold" fill="#b91c1c" text-anchor="middle">After</text>
+    <rect x="0" y="0" width="42" height="42" fill="#fee2e2" stroke="#fca5a5" rx="4"/>
+    <text x="21" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#b91c1c" text-anchor="middle">0</text>
+    <rect x="46" y="0" width="42" height="42" fill="#fee2e2" stroke="#fca5a5" rx="4"/>
+    <text x="67" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#b91c1c" text-anchor="middle">0</text>
+    <rect x="0" y="46" width="42" height="42" fill="#fee2e2" stroke="#fca5a5" rx="4"/>
+    <text x="21" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#b91c1c" text-anchor="middle">0</text>
+    <rect x="46" y="46" width="42" height="42" fill="#fee2e2" stroke="#fca5a5" rx="4"/>
+    <text x="67" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="bold" fill="#b91c1c" text-anchor="middle">0</text>
+  </g>
+
+</svg>

@@ -1,6 +1,6 @@
 A string consisting of uppercase english characters can be encoded to a number using the following mapping:
 
-```java
+```
 'A' -> "1"
 'B' -> "2"
 ...
@@ -18,7 +18,7 @@ Given a string `s` containing only digits, return the number of ways to **decode
 
 **Example 1:**
 
-```java
+```
 Input: s = "12"
 
 Output: 2
@@ -28,7 +28,7 @@ Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
 
 **Example 2:**
 
-```java
+```
 Input: s = "01"
 
 Output: 0

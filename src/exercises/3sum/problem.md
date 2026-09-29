@@ -4,7 +4,7 @@ The output should *not* contain any duplicate triplets. You may return the outpu
 
 **Example 1:**
 
-```java
+```
 Input: nums = [-1,0,1,2,-1,-4]
 
 Output: [[-1,-1,2],[-1,0,1]]
@@ -18,7 +18,7 @@ The distinct triplets are `[-1,0,1]` and `[-1,-1,2]`.
 
 **Example 2:**
 
-```java
+```
 Input: nums = [0,1,1]
 
 Output: []
@@ -28,7 +28,7 @@ Explanation: The only possible triplet does not sum up to 0.
 
 **Example 3:**
 
-```java
+```
 Input: nums = [0,0,0]
 
 Output: [[0,0,0]]

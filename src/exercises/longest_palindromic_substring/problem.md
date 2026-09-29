@@ -6,7 +6,7 @@ If there are multiple palindromic substrings that have the same length, return a
 
 **Example 1:**
 
-```java
+```
 Input: s = "ababd"
 
 Output: "bab"
@@ -16,7 +16,7 @@ Explanation: Both "aba" and "bab" are valid answers.
 
 **Example 2:**
 
-```java
+```
 Input: s = "abbc"
 
 Output: "bb"

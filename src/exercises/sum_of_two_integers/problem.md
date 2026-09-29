@@ -2,7 +2,7 @@ Given two integers `a` and `b`, return the sum of the two integers without using
 
 **Example 1:**
 
-```java
+```
 Input: a = 1, b = 1
 
 Output: 2
@@ -10,7 +10,7 @@ Output: 2
 
 **Example 2:**
 
-```java
+```
 Input: a = 4, b = 7
 
 Output: 11

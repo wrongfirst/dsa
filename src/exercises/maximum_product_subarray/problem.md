@@ -8,7 +8,7 @@ You can assume the output will fit into a **32-bit** integer.
 
 **Example 1:**
 
-```java
+```
 Input: nums = [2,4,-3,5]
 
 Output: 8
@@ -19,7 +19,7 @@ Explanation: `[2,4]` has the largest product `8`.
 
 **Example 2:**
 
-```java
+```
 Input: nums = [-3,0,-2]
 
 Output: 0

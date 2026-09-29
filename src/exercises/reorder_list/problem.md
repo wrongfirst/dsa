@@ -16,7 +16,7 @@ You may not modify the values in the list's nodes, but instead you must reorder 
 
 **Example 1:**
 
-```java
+```
 Input: head = [2,4,6,8]
 
 Output: [2,8,4,6]
@@ -24,7 +24,7 @@ Output: [2,8,4,6]
 
 **Example 2:**
 
-```java
+```
 Input: head = [2,4,6,8,10]
 
 Output: [2,10,4,8,6]

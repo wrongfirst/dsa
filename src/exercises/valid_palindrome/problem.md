@@ -6,7 +6,7 @@ A **palindrome** is a string that reads the same forward and backward. It is als
 
 **Example 1:**
 
-```java
+```
 Input: s = "Was it a car or a cat I saw?"
 
 Output: true
@@ -16,7 +16,7 @@ Explanation: After considering only alphanumerical characters we have "wasitacar
 
 **Example 2:**
 
-```java
+```
 Input: s = "tab a cat"
 
 Output: false

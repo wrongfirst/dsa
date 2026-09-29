@@ -13,7 +13,7 @@ A string `a` is lexicographically smaller than a string `b` if either of the fol
 
 **Example 1:**
 
-```java
+```
 Input: words = ["z","o"]
 
 Output: "zo"
@@ -25,7 +25,7 @@ From `"z"` and `"o"`, we know `'z' < 'o'`, so return `"zo"`.
 
 **Example 2:**
 
-```java
+```
 Input: words = ["hrn","hrf","er","enn","rfnn"]
 
 Output: "hernf"
@@ -41,7 +41,7 @@ Explanation:
 
 **Example 3:**
 
-```java
+```
 Input: words = ["abc","ab"]
 
 Output: ""

@@ -5,9 +5,9 @@ You must rotate the matrix *in-place*. Do not allocate another 2D matrix and do 
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/e13e93ed-4fdb-49e4-f971-de1e30356600/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: matrix = [
   [1,2],
   [3,4]
@@ -21,9 +21,9 @@ Output: [
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/37d34844-e6a0-4809-0895-f15e782efe00/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: matrix = [
   [1,2,3],
   [4,5,6],

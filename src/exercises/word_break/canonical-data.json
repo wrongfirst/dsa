@@ -6,10 +6,10 @@
       "description": "Example 1",
       "property": "wordBreak",
       "input": {
-        "s": "neetcode",
+        "s": "applepie",
         "wordDict": [
-          "neet",
-          "code"
+          "apple",
+          "pie"
         ]
       },
       "expected": true

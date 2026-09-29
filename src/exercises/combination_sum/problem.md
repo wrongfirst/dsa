@@ -6,7 +6,7 @@ You may return the combinations in **any order** and the order of the numbers in
 
 **Example 1:**
 
-```java
+```
 Input:
 nums = [2,5,6,9]
 target = 9
@@ -20,7 +20,7 @@ Explanation:
 
 **Example 2:**
 
-```java
+```
 Input:
 nums = [3,4,5]
 target = 16
@@ -30,7 +30,7 @@ Output: [[3,3,3,3,4],[3,3,5,5],[4,4,4,4],[3,4,4,5]]
 
 **Example 3:**
 
-```java
+```
 Input:
 nums = [3]
 target = 5

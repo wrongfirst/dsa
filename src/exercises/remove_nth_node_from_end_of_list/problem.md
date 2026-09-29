@@ -2,7 +2,7 @@ Given the `head` of a linked list and an integer `n`, remove the `nth` node from
 
 **Example 1:**
 
-```java
+```
 Input: head = [1,2,3,4], n = 2
 
 Output: [1,2,4]
@@ -10,7 +10,7 @@ Output: [1,2,4]
 
 **Example 2:**
 
-```java
+```
 Input: head = [5], n = 1
 
 Output: []
@@ -18,7 +18,7 @@ Output: []
 
 **Example 3:**
 
-```java
+```
 Input: head = [1,2], n = 2
 
 Output: [2]

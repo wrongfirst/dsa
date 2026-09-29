@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 270" width="330" height="270">
+<rect width="100%" height="100%" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <defs>
+    <marker id="spArr2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <g transform="translate(60, 30)">
+
+    <rect x="0" y="0" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="27" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">1</text>
+
+    <rect x="70" y="0" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="97" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">2</text>
+
+    <rect x="140" y="0" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="167" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">3</text>
+
+    <rect x="0" y="70" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="27" y="103" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">4</text>
+
+    <rect x="70" y="70" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="97" y="103" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">5</text>
+
+    <rect x="140" y="70" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="167" y="103" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">6</text>
+
+    <rect x="0" y="140" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="27" y="173" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">7</text>
+
+    <rect x="70" y="140" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="97" y="173" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">8</text>
+
+    <rect x="140" y="140" width="54" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="167" y="173" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle">9</text>
+
+    <!-- Top row rightward in gaps -->
+    <line x1="56" y1="27" x2="68" y2="27" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+    <line x1="126" y1="27" x2="138" y2="27" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+
+    <!-- Right col downward in gaps -->
+    <line x1="167" y1="56" x2="167" y2="68" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+    <line x1="167" y1="126" x2="167" y2="138" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+
+    <!-- Bottom row leftward in gaps -->
+    <line x1="138" y1="167" x2="126" y2="167" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+    <line x1="68" y1="167" x2="56" y2="167" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+
+    <!-- Left col upward in gaps -->
+    <line x1="27" y1="138" x2="27" y2="126" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+
+    <!-- Middle row inward in gap -->
+    <line x1="56" y1="97" x2="68" y2="97" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#spArr2)"/>
+  </g>
+
+  <text x="165" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#b45309" text-anchor="middle">Order: [1, 2, 3, 6, 9, 8, 7, 4, 5]</text>
+
+</svg>

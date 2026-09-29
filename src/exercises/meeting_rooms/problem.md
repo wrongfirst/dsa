@@ -4,7 +4,7 @@ Given an array of meeting time interval objects consisting of start and end time
 
 **Example 1:**
 
-```java
+```
 Input: intervals = [(0,30),(5,10),(15,20)]
 
 Output: false
@@ -16,7 +16,7 @@ Explanation:
 
 **Example 2:**
 
-```java
+```
 Input: intervals = [(5,8),(9,15)]
 
 Output: true

@@ -4,7 +4,7 @@ After performing at most `k` replacements, return the length of the longest subs
 
 **Example 1:**
 
-```java
+```
 Input: s = "XYYX", k = 2
 
 Output: 4
@@ -14,7 +14,7 @@ Explanation: Either replace the 'X's with 'Y's, or replace the 'Y's with 'X's.
 
 **Example 2:**
 
-```java
+```
 Input: s = "AAABABB", k = 1
 
 Output: 5

@@ -4,9 +4,9 @@ A subtree of a binary tree `tree` is a tree that consists of a node in `tree` an
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/2991a77a-9664-46ed-528d-019e392f7400/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: root = [1,2,3,4,5], subRoot = [2,4,5]
 
 Output: true
@@ -14,9 +14,9 @@ Output: true
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/ae6114cb-23a0-457f-c441-0a82b7a58500/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: root = [1,2,3,4,5,null,null,6], subRoot = [2,4,5]
 
 Output: false

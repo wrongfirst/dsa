@@ -6,9 +6,9 @@ You may assume the output will fit in a **32-bit** integer.
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/7eddce4e-2fc4-4c3a-bb0f-9d1060243500/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: m = 3, n = 6
 
 Output: 21
@@ -16,7 +16,7 @@ Output: 21
 
 **Example 2:**
 
-```java
+```
 Input: m = 3, n = 3
 
 Output: 6

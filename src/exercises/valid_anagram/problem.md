@@ -4,7 +4,7 @@ An **anagram** is a string that contains the exact same characters as another st
 
 **Example 1:**
 
-```java
+```
 Input: s = "racecar", t = "carrace"
 
 Output: true
@@ -12,7 +12,7 @@ Output: true
 
 **Example 2:**
 
-```java
+```
 Input: s = "jar", t = "jam"
 
 Output: false

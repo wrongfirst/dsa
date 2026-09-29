@@ -6,7 +6,7 @@ Note: Intervals are *non-overlapping* if they have no common point. For example,
 
 **Example 1:**
 
-```java
+```
 Input: intervals = [[1,3],[1,5],[6,7]]
 
 Output: [[1,5],[6,7]]
@@ -14,7 +14,7 @@ Output: [[1,5],[6,7]]
 
 **Example 2:**
 
-```java
+```
 Input: intervals = [[1,2],[2,3]]
 
 Output: [[1,3]]

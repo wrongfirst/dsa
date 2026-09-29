@@ -6,7 +6,7 @@ Follow-up: Could you solve it in $O(n)$ time without using the division operatio
 
 **Example 1:**
 
-```java
+```
 Input: nums = [1,2,4,6]
 
 Output: [48,24,12,8]
@@ -14,7 +14,7 @@ Output: [48,24,12,8]
 
 **Example 2:**
 
-```java
+```
 Input: nums = [-1,0,1,2,3]
 
 Output: [0,-6,0,0,0]

@@ -1,13 +1,6 @@
 Given a node in a connected undirected graph, return a deep copy of the graph.
 
-Each node in the graph contains an integer value and a list of its neighbors.
-
-```java
-class Node {
-    public int val;
-    public List<Node> neighbors;
-}
-```
+Each node in the graph contains an integer `val` and a list of its `neighbors` (the exact `Node` class/struct definition is provided in the starter template for your language).
 
 The graph is shown in the test cases as an adjacency list. **An adjacency list** is a mapping of nodes to lists, used to represent a finite graph. Each list describes the set of neighbors of a node in the graph.
 
@@ -17,9 +10,9 @@ The input node will always be the first node in the graph and have `1` as the va
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/ca68c09d-4d0e-4d80-9c20-078c666cf900/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: adjList = [[2],[1,3],[2]]
 
 Output: [[2],[1,3],[2]]
@@ -32,9 +25,9 @@ Node 3: val = 3 and neighbors = [2].
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/96c7fb34-26e8-42e0-5f5d-61b8b8c96800/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: adjList = [[]]
 
 Output: [[]]
@@ -44,7 +37,7 @@ Explanation: The graph has one node with no neighbors.
 
 **Example 3:**
 
-```java
+```
 Input: adjList = []
 
 Output: []

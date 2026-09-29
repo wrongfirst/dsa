@@ -4,9 +4,9 @@ For the word to be present it must be possible to form it with a path in the boa
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/7c1fcf82-71c8-4750-3ddd-4ab6a666a500/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input: 
 board = [
   ["A","B","C","D"],
@@ -20,9 +20,9 @@ Output: true
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/79721392-44b6-4de7-c571-d3d1640ac100/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input: 
 board = [
   ["A","B","C","D"],

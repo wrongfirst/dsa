@@ -4,7 +4,7 @@ Return the **sorted** linked list that is the result of merging all of the indiv
 
 **Example 1:**
 
-```java
+```
 Input: lists = [[1,2,4],[1,3,5],[3,6]]
 
 Output: [1,1,2,3,3,4,5,6]
@@ -12,7 +12,7 @@ Output: [1,1,2,3,3,4,5,6]
 
 **Example 2:**
 
-```java
+```
 Input: lists = []
 
 Output: []
@@ -20,7 +20,7 @@ Output: []
 
 **Example 3:**
 
-```java
+```
 Input: lists = [[]]
 
 Output: []

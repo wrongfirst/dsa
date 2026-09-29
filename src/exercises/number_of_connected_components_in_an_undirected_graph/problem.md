@@ -4,9 +4,9 @@ Return the number of connected components in the graph.
 
 **Example 1:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/d99cd414-340e-4c6f-083b-1f00fdf9eb00/public)
+![](./assets/example_1.svg)
 
-```java
+```
 Input:
 n = 5, edges = [[0,1],[1,2],[3,4]]
 
@@ -15,9 +15,9 @@ Output: 2
 
 **Example 2:**
 
-![](https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/3f57f075-5114-473a-b198-b6da0da1cd00/public)
+![](./assets/example_2.svg)
 
-```java
+```
 Input:
 n = 5, edges = [[0,1],[1,2],[2,3],[3,4]]
 

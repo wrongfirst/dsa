@@ -6,7 +6,7 @@ A **subsequence** is a sequence that can be derived from the given sequence by d
 
 **Example 1:**
 
-```java
+```
 Input: nums = [9,1,4,2,3,3,7]
 
 Output: 4
@@ -16,7 +16,7 @@ Explanation: The longest increasing subsequence is [1,2,3,7], which has a length
 
 **Example 2:**
 
-```java
+```
 Input: nums = [0,3,1,3,2,3]
 
 Output: 4
