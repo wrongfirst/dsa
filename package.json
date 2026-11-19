@@ -7,9 +7,7 @@
     "check": "tsc --noEmit",
     "build": "npm run clean && npm run check && vite build",
     "dev": "vite",
-    "serve": "node server.mjs",
-    "gen:templates": "tsx scripts/gen-templates.ts",
-    "verify:contracts": "tsx scripts/verify-contracts.ts"
+    "serve": "node server.mjs"
   },
   "dependencies": {
     "@astral-sh/ruff-wasm-web": "^0.9.10",
@@ -46,7 +44,6 @@
     "tailwindcss": "^4.1.18",
     "terser": "^5.49.0",
     "toml": "^5.0.0",
-    "tsx": "^4.19.3",
     "typescript": "^7.0.2",
     "vite": "^8.1.5"
   }
