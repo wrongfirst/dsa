@@ -12,6 +12,8 @@ Each exercise is organized under `src/exercises/<exercise_id>/`:
 src/exercises/<exercise_id>/
 ├── canonical-data.json      # Gold-standard test cases & metadata (required)
 ├── problem.md               # Markdown problem statement & constraints (required)
+├── assets/                  # Optional local media (png, svg, jpg, webp)
+│   └── example_1.svg        # Referenced in problem.md via ![](./assets/example_1.svg)
 ├── python/
 │   ├── template.py          # Starter code shown in editor
 │   └── solution.py          # Reference solution for verification

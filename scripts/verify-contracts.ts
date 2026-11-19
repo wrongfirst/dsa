@@ -33,7 +33,7 @@ import {
 interface Violation {
   exerciseId: string;
   languageId?: string;
-  type: 'SCHEMA' | 'SIGNATURE' | 'LINT' | 'GENERATOR' | 'TEMPLATE_COMPILER' | 'SOLUTION_COMPILER';
+  type: 'SCHEMA' | 'SIGNATURE' | 'LINT' | 'GENERATOR' | 'TEMPLATE_COMPILER' | 'SOLUTION_COMPILER' | 'ASSET';
   message: string;
   file?: string;
 }
@@ -592,6 +592,25 @@ async function main() {
     // 1. Validate canonical schema
     const schemaViolations = validateCanonicalJson(exId, canonicalData, canonicalPath);
     allViolations.push(...schemaViolations);
+
+    // Validate problem.md asset references
+    const problemMdPath = path.join(exDir, 'problem.md');
+    if (fs.existsSync(problemMdPath)) {
+      const problemContent = fs.readFileSync(problemMdPath, 'utf-8');
+      const assetMatches = problemContent.matchAll(/!\[(.*?)\]\(\s*(?:\.\/)?assets\/([^\s)]+)(?:\s+["'].*?["'])?\s*\)/g);
+      for (const match of assetMatches) {
+        const assetName = match[2];
+        const assetFullPath = path.join(exDir, 'assets', assetName);
+        if (!fs.existsSync(assetFullPath)) {
+          allViolations.push({
+            exerciseId: exId,
+            type: 'ASSET',
+            message: `Referenced asset does not exist on disk: assets/${assetName}`,
+            file: problemMdPath
+          });
+        }
+      }
+    }
 
     const sig = parseCanonicalSignature(canonicalData);
     const targetSymbol = sig.name;
