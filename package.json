@@ -7,7 +7,10 @@
     "check": "tsc --noEmit",
     "build": "npm run clean && npm run check && vite build",
     "dev": "vite",
-    "serve": "node server.mjs"
+    "serve": "node server.mjs",
+    "deploy": "node scripts/deploy.ts",
+    "sync:instances": "node scripts/sync-instances.ts",
+    "prune:deployments": "node scripts/prune-deployments.ts"
   },
   "dependencies": {
     "@astral-sh/ruff-wasm-web": "^0.9.10",
@@ -45,6 +48,7 @@
     "terser": "^5.49.0",
     "toml": "^5.0.0",
     "typescript": "^7.0.2",
-    "vite": "^8.1.5"
+    "vite": "^8.1.5",
+    "wrangler": "^4.148.0"
   }
 }
